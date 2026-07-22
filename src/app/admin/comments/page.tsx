@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { MessageSquare, Trash2, ShieldCheck, AlertTriangle, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 export default function CommentsAdminPage() {
   const [comments, setComments] = useState<any[]>([]);
@@ -20,6 +21,7 @@ export default function CommentsAdminPage() {
       setComments(data);
     } catch (error) {
       console.error(error);
+      toast.error('فشل في جلب التعليقات');
     } finally {
       setLoading(false);
     }
@@ -27,24 +29,36 @@ export default function CommentsAdminPage() {
 
   const handleDismissReport = async (commentId: string) => {
     try {
-      await fetch('/api/admin/comments', {
+      const res = await fetch('/api/admin/comments', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ commentId, action: 'dismiss_report' })
       });
-      fetchComments();
+      if (res.ok) {
+        toast.success('تم تجاهل البلاغ واعتبار التعليق سليم');
+        fetchComments();
+      } else {
+        toast.error('فشل في تجاهل البلاغ');
+      }
     } catch (error) {
       console.error(error);
+      toast.error('تعذر الاتصال بالخادم');
     }
   };
 
   const handleDelete = async (commentId: string) => {
     if (!confirm('هل أنت متأكد من حذف هذا التعليق؟ لا يمكن التراجع عن هذا الإجراء.')) return;
     try {
-      await fetch(`/api/admin/comments?commentId=${commentId}`, { method: 'DELETE' });
-      fetchComments();
+      const res = await fetch(`/api/admin/comments?commentId=${commentId}`, { method: 'DELETE' });
+      if (res.ok) {
+        toast.success('تم حذف التعليق نهائياً');
+        fetchComments();
+      } else {
+        toast.error('فشل في حذف التعليق');
+      }
     } catch (error) {
       console.error(error);
+      toast.error('تعذر الاتصال بالخادم');
     }
   };
 
@@ -126,7 +140,7 @@ export default function CommentsAdminPage() {
                           </button>
                         )}
                         <Link
-                          href={`/chapters/${comment.chapter.id}`}
+                          href={`/chapters/${comment.chapter.id}#${comment.id}`}
                           target="_blank"
                           className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
                           title="عرض في الصفحة"

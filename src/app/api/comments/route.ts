@@ -16,7 +16,7 @@ export async function GET(request: Request) {
       where: { chapterId },
       include: {
         user: {
-          select: { name: true, image: true, role: true, isBanned: true }
+          select: { name: true, image: true, role: true, isBanned: true, rank: true }
         }
       },
       orderBy: { createdAt: 'desc' }
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
       },
       include: {
         user: {
-          select: { name: true, image: true, role: true }
+          select: { name: true, image: true, role: true, rank: true }
         }
       }
     });

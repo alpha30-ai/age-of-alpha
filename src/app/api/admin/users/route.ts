@@ -32,6 +32,14 @@ export async function PATCH(request: Request) {
       return NextResponse.json(user);
     }
     
+    if (action === 'rank') {
+      const user = await prisma.user.update({
+        where: { id: userId },
+        data: { rank: value }
+      });
+      return NextResponse.json(user);
+    }
+    
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update user' }, { status: 500 });

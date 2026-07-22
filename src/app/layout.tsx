@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma';
 
 import AuthProvider from '@/components/providers/AuthProvider';
 import BackgroundEffects from '@/components/layout/BackgroundEffects';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: 'عهد ألفا: ملحمة الدول المائة | Age of Alpha',
@@ -46,6 +47,17 @@ export default async function RootLayout({
       </head>
       <body className="bg-abyss text-silver-ash font-tajawal min-h-screen antialiased overflow-x-hidden">
         <BackgroundEffects />
+        <Toaster 
+          position="bottom-left"
+          toastOptions={{
+            style: {
+              background: '#111',
+              color: '#fff',
+              border: '1px solid rgba(255,255,255,0.1)',
+              fontFamily: 'Tajawal, sans-serif'
+            }
+          }}
+        />
         <AuthProvider>
           {children}
         </AuthProvider>

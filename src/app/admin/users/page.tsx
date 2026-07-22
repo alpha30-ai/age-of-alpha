@@ -1,8 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { UserCircle, Shield, ShieldAlert, Trash2, Ban, CheckCircle } from 'lucide-react';
+import { UserCircle, Shield, ShieldAlert, Trash2, Ban, CheckCircle, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
+
+const RANKS = ['مواطن', 'فارس الظلام', 'قائد الفيلق', 'ملك الألفية', 'الإمبراطور الأعظم'];
 
 export default function UsersAdminPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -19,6 +22,7 @@ export default function UsersAdminPage() {
       setUsers(data);
     } catch (error) {
       console.error(error);
+      toast.error('فشل في جلب بيانات المستخدمين');
     } finally {
       setLoading(false);
     }
@@ -26,37 +30,74 @@ export default function UsersAdminPage() {
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     try {
-      await fetch('/api/admin/users', {
+      const res = await fetch('/api/admin/users', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, action: 'role', value: newRole })
       });
-      fetchUsers();
+      if (res.ok) {
+        toast.success(`تم تغيير الصلاحية إلى ${newRole === 'ADMIN' ? 'مسؤول' : 'مستخدم'}`);
+        fetchUsers();
+      } else {
+        toast.error('فشل في تغيير الصلاحية');
+      }
     } catch (error) {
       console.error(error);
+      toast.error('تعذر الاتصال بالخادم');
+    }
+  };
+
+  const handleRankChange = async (userId: string, newRank: string) => {
+    try {
+      const res = await fetch('/api/admin/users', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, action: 'rank', value: newRank })
+      });
+      if (res.ok) {
+        toast.success(`تم ترقية المستخدم إلى ${newRank}`);
+        fetchUsers();
+      } else {
+        toast.error('فشل في تغيير اللقب');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('تعذر الاتصال بالخادم');
     }
   };
 
   const handleBanToggle = async (userId: string, currentStatus: boolean) => {
     try {
-      await fetch('/api/admin/users', {
+      const res = await fetch('/api/admin/users', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, action: 'ban', value: !currentStatus })
       });
-      fetchUsers();
+      if (res.ok) {
+        toast.success(currentStatus ? 'تم فك الحظر عن المستخدم' : 'تم حظر المستخدم بنجاح');
+        fetchUsers();
+      } else {
+        toast.error('فشل في تغيير حالة الحظر');
+      }
     } catch (error) {
       console.error(error);
+      toast.error('تعذر الاتصال بالخادم');
     }
   };
 
   const handleDelete = async (userId: string) => {
     if (!confirm('هل أنت متأكد من حذف هذا المستخدم نهائياً؟')) return;
     try {
-      await fetch(`/api/admin/users?userId=${userId}`, { method: 'DELETE' });
-      fetchUsers();
+      const res = await fetch(`/api/admin/users?userId=${userId}`, { method: 'DELETE' });
+      if (res.ok) {
+        toast.success('تم حذف المستخدم نهائياً');
+        fetchUsers();
+      } else {
+        toast.error('فشل في حذف المستخدم');
+      }
     } catch (error) {
       console.error(error);
+      toast.error('تعذر الاتصال بالخادم');
     }
   };
 
@@ -68,7 +109,7 @@ export default function UsersAdminPage() {
         </div>
         <div>
           <h1 className="text-3xl font-bold text-white font-amiri tracking-wide">إدارة المستخدمين</h1>
-          <p className="text-gray-400 mt-1">تحكم بصلاحيات وحسابات الأعضاء في الملحمة</p>
+          <p className="text-gray-400 mt-1">تحكم بصلاحيات وألقاب الأعضاء في الملحمة</p>
         </div>
       </div>
 
@@ -84,9 +125,9 @@ export default function UsersAdminPage() {
                 <tr>
                   <th className="px-6 py-4 text-gray-400 font-bold">المستخدم</th>
                   <th className="px-6 py-4 text-gray-400 font-bold">البريد الإلكتروني</th>
-                  <th className="px-6 py-4 text-gray-400 font-bold">الرتبة</th>
+                  <th className="px-6 py-4 text-gray-400 font-bold">الصلاحية</th>
+                  <th className="px-6 py-4 text-gray-400 font-bold">اللقب (الرتبة)</th>
                   <th className="px-6 py-4 text-gray-400 font-bold">الحالة</th>
-                  <th className="px-6 py-4 text-gray-400 font-bold">تاريخ الانضمام</th>
                   <th className="px-6 py-4 text-gray-400 font-bold">إجراءات</th>
                 </tr>
               </thead>
@@ -121,14 +162,22 @@ export default function UsersAdminPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4">
+                      <select
+                        value={user.rank || 'مواطن'}
+                        onChange={(e) => handleRankChange(user.id, e.target.value)}
+                        className="bg-black/50 border border-white/10 text-gray-300 text-sm rounded-lg focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] block w-full p-2"
+                      >
+                        {RANKS.map((rank) => (
+                          <option key={rank} value={rank}>{rank}</option>
+                        ))}
+                      </select>
+                    </td>
+                    <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${
                         user.isBanned ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                       }`}>
                         {user.isBanned ? 'محظور' : 'نشط'}
                       </span>
-                    </td>
-                    <td className="px-6 py-4 text-gray-500 text-sm">
-                      {new Date(user.createdAt).toLocaleDateString('ar-SA')}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">

@@ -48,6 +48,7 @@ model User {
   password      String?
   image         String?
   role          Role      @default(USER)
+  rank          String?   @default("مواطن")
   isBanned      Boolean   @default(false)
   savedChapterId String?
   createdAt     DateTime  @default(now())
