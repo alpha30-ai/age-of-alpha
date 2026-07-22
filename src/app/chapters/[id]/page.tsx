@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import AudioPlayer from '@/components/chapters/AudioPlayer';
+import CommentsSection from '@/components/chapters/CommentsSection';
 import { ArrowRight, ArrowLeft, BookOpen, Calendar, Clock } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
@@ -162,6 +163,9 @@ export default async function ChapterPage({ params }: PageProps) {
             ) : <div />}
           </div>
         </nav>
+
+        {/* Comments Section */}
+        <CommentsSection chapterId={chapter.id} />
 
       </article>
       <Footer />

@@ -1,6 +1,6 @@
 'use client';
 
-import { Flame, MessageCircle, Globe, Tv, Code2, Heart, Sparkles } from 'lucide-react';
+import { Flame, MessageCircle, Globe, Tv, Code2, Heart, Sparkles, Youtube } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
@@ -38,12 +38,18 @@ export default function Footer() {
             
             {/* Social Links Premium */}
             <div className="flex items-center gap-3 pt-4">
-              {[MessageCircle, Tv, Globe].map((Icon, idx) => (
-                <a key={idx} href="#" className="relative p-3 rounded-xl bg-[#0a0a0a] border border-white/10 hover:border-[var(--theme-primary)]/50 group transition-all duration-500 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[var(--theme-primary)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <Icon className="w-5 h-5 text-gray-500 group-hover:text-white relative z-10 transition-colors" />
-                </a>
-              ))}
+              <a href="#" className="relative p-3 rounded-xl bg-[#0a0a0a] border border-white/10 hover:border-[var(--theme-primary)]/50 group transition-all duration-500 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--theme-primary)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <MessageCircle className="w-5 h-5 text-gray-500 group-hover:text-white relative z-10 transition-colors" />
+              </a>
+              <a href="https://www.youtube.com/@AlphaStudio-H" target="_blank" rel="noopener noreferrer" className="relative p-3 rounded-xl bg-[#0a0a0a] border border-white/10 hover:border-[var(--theme-primary)]/50 group transition-all duration-500 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#FF0000]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <Youtube className="w-5 h-5 text-gray-500 group-hover:text-white relative z-10 transition-colors" />
+              </a>
+              <a href="#" className="relative p-3 rounded-xl bg-[#0a0a0a] border border-white/10 hover:border-[var(--theme-primary)]/50 group transition-all duration-500 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--theme-primary)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <Globe className="w-5 h-5 text-gray-500 group-hover:text-white relative z-10 transition-colors" />
+              </a>
             </div>
           </div>
 

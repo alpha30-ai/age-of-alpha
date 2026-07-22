@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BookOpen, Users, Film, Palette, ArrowRight, ChevronRight, ChevronLeft, Menu, X, Settings, Flame } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Users, Film, Palette, ArrowRight, ChevronRight, ChevronLeft, Menu, X, Settings, Flame, UserCircle, MessageSquare } from 'lucide-react';
 
 export default function AdminSidebar({ user }: { user?: any }) {
   const pathname = usePathname();
@@ -16,6 +16,8 @@ export default function AdminSidebar({ user }: { user?: any }) {
     { href: '/admin/characters', label: 'الشخصيات', icon: Users, color: 'text-purple-400' },
     { href: '/admin/videos', label: 'الفيديوهات', icon: Film, color: 'text-emerald-400' },
     { href: '/admin/theme', label: 'المظهر', icon: Palette, color: 'text-yellow-400' },
+    { href: '/admin/users', label: 'المستخدمين', icon: UserCircle, color: 'text-indigo-400' },
+    { href: '/admin/comments', label: 'التعليقات', icon: MessageSquare, color: 'text-pink-400' },
   ];
 
   return (

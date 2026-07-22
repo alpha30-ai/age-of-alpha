@@ -48,10 +48,12 @@ model User {
   password      String?
   image         String?
   role          Role      @default(USER)
+  isBanned      Boolean   @default(false)
   savedChapterId String?
   createdAt     DateTime  @default(now())
   accounts      Account[]
   sessions      Session[]
+  comments      Comment[]
 }
 
 model VerificationToken {
@@ -103,6 +105,19 @@ model Chapter {
   content     String   @db.Text
   imageUrl    String?
   audioUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  comments    Comment[]
+}
+
+model Comment {
+  id          String   @id @default(cuid())
+  content     String   @db.Text
+  isReported  Boolean  @default(false)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chapterId   String
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
