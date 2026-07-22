@@ -44,7 +44,7 @@ export default async function RootLayout({
         />
         {themeStyles && <style dangerouslySetInnerHTML={{ __html: themeStyles }} />}
       </head>
-      <body className="bg-abyss text-silver-ash font-tajawal min-h-screen antialiased">
+      <body className="bg-abyss text-silver-ash font-tajawal min-h-screen antialiased overflow-x-hidden">
         <BackgroundEffects />
         <AuthProvider>
           {children}

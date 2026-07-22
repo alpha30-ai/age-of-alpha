@@ -10,7 +10,7 @@ export default async function AdminVideosPage() {
 
   return (
     <div className="max-w-6xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
             <Film className="w-8 h-8 text-emerald-400" />
