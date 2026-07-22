@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  role          Role      @default(USER)
+  savedChapterId String?
+  createdAt     DateTime  @default(now())
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum OTPType {
+  VERIFY_EMAIL
+  RESET_PASSWORD
+  DELETE_ACCOUNT
+}
+
+model OTPCode {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  type      OTPType
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email, code])
+}
+
+model SiteTheme {
+  id              String @id @default("default")
+  primaryColor    String @default("#E64A19") // magma
+  secondaryColor  String @default("#A9C4EB") // milky-blue
+  backgroundColor String @default("#050505") // abyss
+  textColor       String @default("#B0BEC5") // silver-ash
+  
+  // Epic Banner Fields
+  bannerTitle       String @default("عهد ألفا")
+  bannerSubtitle    String @default("ملحمة الدول المائة")
+  bannerDescription String? @default("في عالمٍ تتصارع فيه مائة دولة على السيادة المطلقة، يقف ألفا — القائد الأعلى لإمارة الصدأ — في مواجهة قوى الظلام والمؤامرات التي تهدد بابتلاع مملكته.") @db.Text
+  bannerImageUrl    String?
+  bannerIsActive    Boolean @default(true)
+
+  updatedAt       DateTime @updatedAt
+}
+
+model Chapter {
+  id          String   @id @default(cuid())
+  chapterNum  Int      @unique
+  title       String
+  content     String   @db.Text
+  imageUrl    String?
+  audioUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model VideoMedia {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  videoUrl    String
+  thumbnail   String?
+  isHosted    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Character {
+  id          String   @id @default(cuid())
+  name        String
+  title       String?  // e.g., القائد الأعلى
+  description String   @db.Text
+  imageUrl    String?
+  faction     String?  // e.g., إمارة الصدأ
+  strength    Int      @default(50)
+  magic       Int      @default(50)
+  intelligence Int     @default(50)
+  sortOrder   Int      @default(0) // For manual ordering
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
