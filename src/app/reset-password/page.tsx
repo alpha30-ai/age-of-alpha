@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, Lock, KeyRound } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -200,5 +200,13 @@ export default function ResetPasswordPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#050505] flex items-center justify-center text-orange-500">جاري التحميل...</div>}>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }
