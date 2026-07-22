@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session: async ({ session, token }) => {
       if (session?.user && token.sub) {
-        session.user.id = token.sub;
+        (session.user as any).id = token.sub;
         
         // Fetch fresh role from DB
         const dbUser = await prisma.user.findUnique({
@@ -60,7 +60,7 @@ export const authOptions: NextAuthOptions = {
         });
         
         if (dbUser) {
-          session.user.role = dbUser.role as 'ADMIN' | 'USER';
+          (session.user as any).role = dbUser.role as 'ADMIN' | 'USER';
         }
       }
       return session;

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Flame, BookOpen, ChevronDown, Shield } from 'lucide-react';
 import GlowButton from '@/components/ui/GlowButton';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 export default function HeroSection({ theme }: { theme?: any }) {
   const [isMounted, setIsMounted] = useState(false);
@@ -11,7 +11,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -22,7 +22,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 40, damping: 15 } },
   };
