@@ -1,6 +1,6 @@
 'use client';
 
-import { Flame, MessageCircle, Globe, Tv, Code2 } from 'lucide-react';
+import { Flame, MessageCircle, Globe, Tv, Code2, Heart, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
@@ -8,99 +8,125 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-white/5 overflow-hidden bg-[#050505] text-gray-400">
-      {/* Background glow effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-[var(--theme-primary)] to-transparent opacity-30" />
+    <footer className="relative bg-[#020202] text-gray-400 overflow-hidden font-tajawal">
+      {/* Premium Gradient Top Border */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--theme-primary)] to-transparent opacity-50 shadow-[0_0_20px_var(--theme-primary)]" />
       
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8">
+      {/* Ambient Glows */}
+      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-[var(--theme-primary)]/5 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[100px] pointer-events-none -z-10" />
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-20">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 lg:gap-8 mb-16 border-b border-white/5 pb-16">
           
-          {/* Brand & Description (Spans 4 columns) */}
+          {/* Brand & Description */}
           <div className="col-span-1 md:col-span-5 space-y-6">
             <Link href="/" className="inline-flex items-center gap-3 group">
-              <div className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-[var(--theme-primary)]/5 border border-[var(--theme-primary)]/20 group-hover:border-[var(--theme-primary)]/50 transition-colors">
-                <Flame className="w-5 h-5 text-[var(--theme-primary)]" />
+              <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-[#111] to-[#050505] border border-[var(--theme-primary)]/30 group-hover:border-[var(--theme-primary)] shadow-[0_0_20px_color-mix(in_srgb,var(--theme-primary)_10%,transparent)] group-hover:shadow-[0_0_30px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] transition-all duration-500">
+                <Flame className="w-6 h-6 text-[var(--theme-primary)] group-hover:scale-110 transition-transform duration-500" />
               </div>
-              <span className="font-amiri font-bold text-2xl tracking-wide text-white">
-                عهد ألفا
-              </span>
+              <div>
+                <span className="block font-amiri font-bold text-3xl tracking-wide text-white group-hover:text-[var(--theme-primary)] transition-colors duration-500">
+                  عهد ألفا
+                </span>
+                <span className="block text-[10px] text-gray-500 tracking-[0.3em] uppercase">ملحمة الدول المائة</span>
+              </div>
             </Link>
-            <p className="text-sm leading-relaxed font-tajawal max-w-md">
-              ملحمة الفانتازيا المظلمة التي ستأخذك في رحلة إلى إمارة الصدأ. حيث تتصارع القوى العظمى في عالم لا يرحم الضعفاء. استعد لاكتشاف أسرار الدول المائة.
+            <p className="text-sm leading-loose text-gray-400 max-w-sm">
+              حيث تتصارع القوى العظمى في عالم لا يرحم الضعفاء. ملحمة الفانتازيا المظلمة التي ستأسر خيالك إلى الأبد.
             </p>
-            {/* Social Links */}
-            <div className="flex items-center gap-4 pt-2">
-              <motion.a whileHover={{ y: -2 }} href="#" className="p-2 rounded-md bg-white/5 border border-white/5 hover:text-[var(--theme-primary)] hover:border-[var(--theme-primary)]/30 transition-all duration-300">
-                <MessageCircle className="w-4 h-4" />
-              </motion.a>
-              <motion.a whileHover={{ y: -2 }} href="#" className="p-2 rounded-md bg-white/5 border border-white/5 hover:text-[var(--theme-primary)] hover:border-[var(--theme-primary)]/30 transition-all duration-300">
-                <Tv className="w-4 h-4" />
-              </motion.a>
-              <motion.a whileHover={{ y: -2 }} href="#" className="p-2 rounded-md bg-white/5 border border-white/5 hover:text-[var(--theme-primary)] hover:border-[var(--theme-primary)]/30 transition-all duration-300">
-                <Globe className="w-4 h-4" />
-              </motion.a>
+            
+            {/* Social Links Premium */}
+            <div className="flex items-center gap-3 pt-4">
+              {[MessageCircle, Tv, Globe].map((Icon, idx) => (
+                <a key={idx} href="#" className="relative p-3 rounded-xl bg-[#0a0a0a] border border-white/10 hover:border-[var(--theme-primary)]/50 group transition-all duration-500 overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-[var(--theme-primary)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <Icon className="w-5 h-5 text-gray-500 group-hover:text-white relative z-10 transition-colors" />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links (Spans 3 columns) */}
-          <div className="col-span-1 md:col-span-3 space-y-6">
-            <h3 className="font-cairo font-bold text-lg text-white">
+          {/* Quick Links */}
+          <div className="col-span-1 md:col-span-3 space-y-8 mt-2">
+            <h3 className="font-bold text-lg text-white flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[var(--theme-primary)]" />
               روابط سريعة
             </h3>
-            <div className="flex flex-col space-y-3 mt-4">
-              <Link href="/" className="hover:text-[var(--theme-primary)] transition-colors font-tajawal text-sm w-fit">
-                الرئيسية
-              </Link>
-              <Link href="/chapters" className="hover:text-[var(--theme-primary)] transition-colors font-tajawal text-sm w-fit">
-                دليل الفصول
-              </Link>
-              <Link href="/characters" className="hover:text-[var(--theme-primary)] transition-colors font-tajawal text-sm w-fit">
-                أبطال الملحمة
-              </Link>
-              <Link href="/videos" className="hover:text-[var(--theme-primary)] transition-colors font-tajawal text-sm w-fit">
-                السجلات المرئية
-              </Link>
-            </div>
+            <ul className="space-y-4">
+              {['الرئيسية', 'دليل الفصول', 'أبطال الملحمة', 'السجلات المرئية'].map((item, idx) => (
+                <li key={idx}>
+                  <Link href="#" className="group flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors w-fit">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[var(--theme-primary)] transition-colors" />
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Contact / Help (Spans 4 columns) */}
-          <div className="col-span-1 md:col-span-4 space-y-6">
-            <h3 className="font-cairo font-bold text-lg text-white">
-              انضم إلى مجتمعنا
+          {/* Newsletter Premium */}
+          <div className="col-span-1 md:col-span-4 space-y-6 mt-2">
+            <h3 className="font-bold text-lg text-white">
+              انضم إلى النخبة
             </h3>
-            <p className="font-tajawal text-sm leading-relaxed mt-4">
-              اشترك في نشرتنا السحرية لتصلك أحدث فصول الرواية قبل الجميع. لن نرسل لك أي تعويذات مزعجة!
+            <p className="text-sm leading-relaxed text-gray-400">
+              احصل على مخطوطات حصرية وتسريبات من داخل إمارة الصدأ مباشرة إلى بريدك السحري.
             </p>
-            <form className="relative mt-4">
-              <input 
-                type="email" 
-                placeholder="بريدك الإلكتروني..." 
-                className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg py-3 px-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[var(--theme-primary)]/50 focus:ring-1 focus:ring-[var(--theme-primary)]/50 transition-all font-tajawal text-sm"
-              />
-              <button 
-                type="button" 
-                className="absolute left-1 top-1 bottom-1 px-6 bg-[var(--theme-primary)] hover:opacity-90 text-black font-tajawal font-bold text-sm rounded-md transition-opacity"
-              >
-                اشتراك
-              </button>
+            <form className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--theme-primary)] to-purple-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+              <div className="relative flex p-1 bg-[#0a0a0a] rounded-xl border border-white/10">
+                <input 
+                  type="email" 
+                  placeholder="بريدك الإلكتروني..." 
+                  className="w-full bg-transparent border-none px-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-0 text-sm"
+                />
+                <button 
+                  type="button" 
+                  className="shrink-0 px-6 py-3 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white font-bold text-sm rounded-lg shadow-[0_0_15px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)] transition-all transform hover:scale-105"
+                >
+                  اشتراك
+                </button>
+              </div>
             </form>
           </div>
-
         </div>
 
         {/* Developer Badge & Copyright */}
-        <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-4">
           
-          <p className="text-xs font-tajawal">
-            © {currentYear} عهد ألفا: ملحمة الدول المائة. جميع الحقوق محفوظة.
+          <p className="text-xs text-gray-600 font-medium">
+            © {currentYear} عهد ألفا. جميع الحقوق محفوظة لورثة العرش.
           </p>
 
-          {/* Sleek Developer Tag */}
-          <div className="flex items-center gap-2 text-xs font-tajawal uppercase tracking-widest text-gray-500 hover:text-white transition-colors duration-500 group">
-            <Code2 className="w-4 h-4 text-[var(--theme-primary)] opacity-50 group-hover:opacity-100 transition-opacity" />
-            <span className="opacity-70 group-hover:opacity-100 transition-opacity">Developed By</span>
-            <span className="font-bold text-white tracking-widest">Mohamed Hashish</span>
-          </div>
+          {/* Ultra-Premium Developer Badge */}
+          <a href="https://github.com/MH_HASHISH" target="_blank" rel="noopener noreferrer" className="relative group inline-flex cursor-pointer">
+            {/* Animated Glow Behind */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-[var(--theme-primary)] via-purple-500 to-[#A9C4EB] rounded-full blur-md opacity-30 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+            
+            {/* Button Surface */}
+            <div className="relative flex items-center gap-3 px-6 py-3 bg-black/90 backdrop-blur-2xl border border-white/10 group-hover:border-[var(--theme-primary)]/50 rounded-full leading-none overflow-hidden transition-all duration-300">
+              
+              {/* Shine Effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"></div>
+              
+              {/* Icon Container */}
+              <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-white/5 border border-white/10 group-hover:bg-[var(--theme-primary)]/20 group-hover:border-[var(--theme-primary)]/50 transition-all duration-300">
+                <Code2 className="w-3.5 h-3.5 text-gray-400 group-hover:text-white transition-colors relative z-10" />
+              </div>
+              
+              {/* Text */}
+              <div className="flex items-center gap-1.5 relative z-10 font-tajawal text-xs uppercase tracking-widest mt-0.5">
+                <span className="text-gray-500 group-hover:text-gray-300 transition-colors">Crafted by</span>
+                <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300 group-hover:from-white group-hover:to-white transition-all tracking-[0.2em] ml-1">
+                  Mohamed Hashish
+                </span>
+              </div>
+              
+              {/* Heart Pulse */}
+              <Heart className="w-3.5 h-3.5 text-red-500 opacity-0 group-hover:opacity-100 group-hover:animate-bounce transition-opacity ml-1 relative z-10" />
+            </div>
+          </a>
 
         </div>
       </div>
