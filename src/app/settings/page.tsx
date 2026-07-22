@@ -46,7 +46,7 @@ export default async function SettingsPage() {
         </div>
 
         {/* Profile Update Form */}
-        <form action={updateUserProfile} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl space-y-8 relative overflow-hidden">
+        <form action={async (formData) => { "use server"; await updateUserProfile(formData); }} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl space-y-8 relative overflow-hidden">
           {/* Aesthetic Background Accents */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-magma/10 rounded-full blur-3xl -z-10 translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-milky-blue/10 rounded-full blur-3xl -z-10 -translate-x-1/2 translate-y-1/2"></div>
