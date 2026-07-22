@@ -92,44 +92,57 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Developer Badge & Copyright */}
-        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-4">
-          
-          <p className="text-xs text-gray-600 font-medium">
+        {/* Copyright */}
+        <div className="flex items-center justify-center mt-12 pt-8 border-t border-white/5">
+          <p className="text-xs text-gray-600 font-medium font-tajawal tracking-wider">
             © {currentYear} عهد ألفا. جميع الحقوق محفوظة لورثة العرش.
           </p>
-
-          {/* Ultra-Premium Developer Badge */}
-          <a href="https://github.com/MH_HASHISH" target="_blank" rel="noopener noreferrer" className="relative group inline-flex cursor-pointer">
-            {/* Animated Glow Behind */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-[var(--theme-primary)] via-purple-500 to-[#A9C4EB] rounded-full blur-md opacity-30 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
-            
-            {/* Button Surface */}
-            <div className="relative flex items-center gap-3 px-6 py-3 bg-black/90 backdrop-blur-2xl border border-white/10 group-hover:border-[var(--theme-primary)]/50 rounded-full leading-none overflow-hidden transition-all duration-300">
-              
-              {/* Shine Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"></div>
-              
-              {/* Icon Container */}
-              <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-white/5 border border-white/10 group-hover:bg-[var(--theme-primary)]/20 group-hover:border-[var(--theme-primary)]/50 transition-all duration-300">
-                <Code2 className="w-3.5 h-3.5 text-gray-400 group-hover:text-white transition-colors relative z-10" />
-              </div>
-              
-              {/* Text */}
-              <div className="flex items-center gap-1.5 relative z-10 font-tajawal text-xs uppercase tracking-widest mt-0.5">
-                <span className="text-gray-500 group-hover:text-gray-300 transition-colors">Crafted by</span>
-                <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300 group-hover:from-white group-hover:to-white transition-all tracking-[0.2em] ml-1">
-                  Mohamed Hashish
-                </span>
-              </div>
-              
-              {/* Heart Pulse */}
-              <Heart className="w-3.5 h-3.5 text-red-500 opacity-0 group-hover:opacity-100 group-hover:animate-bounce transition-opacity ml-1 relative z-10" />
-            </div>
-          </a>
-
         </div>
       </div>
+
+      {/* 
+        ========================================
+          Ultra Premium Developer Full-Width Bar
+        ======================================== 
+      */}
+      <a 
+        href="https://github.com/MH_HASHISH" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="block relative w-full overflow-hidden border-t border-white/5 bg-[#000000] group cursor-pointer"
+      >
+        {/* Animated Hover Background Shine */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--theme-primary)]/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"></div>
+        
+        {/* Laser Top Border on Hover */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--theme-primary)] to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-out shadow-[0_0_20px_var(--theme-primary)]"></div>
+
+        {/* Ambient Glow from bottom */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[300px] h-[50px] bg-[var(--theme-primary)]/20 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+        <div className="max-w-7xl mx-auto px-6 py-6 md:py-8 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 relative z-10">
+          
+          {/* Icon and Prefix */}
+          <div className="flex items-center gap-3">
+             <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 group-hover:bg-[var(--theme-primary)]/20 group-hover:border-[var(--theme-primary)]/50 transition-all duration-500 group-hover:scale-110 shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_20px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)]">
+               <Code2 className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+             </div>
+             
+             <span className="text-gray-500 font-tajawal text-xs sm:text-sm uppercase tracking-[0.3em] group-hover:text-gray-300 transition-colors">
+               Crafted & Engineered By
+             </span>
+          </div>
+
+          {/* Developer Name */}
+          <div className="flex items-center gap-3">
+            <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500 group-hover:from-white group-hover:to-white transition-all tracking-[0.3em] text-xl sm:text-2xl drop-shadow-lg">
+              MOHAMED HASHISH
+            </span>
+            <Sparkles className="w-6 h-6 text-yellow-500 opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity duration-300 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
+          </div>
+
+        </div>
+      </a>
     </footer>
   );
 }
