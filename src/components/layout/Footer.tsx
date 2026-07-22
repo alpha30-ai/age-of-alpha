@@ -106,7 +106,7 @@ export default function Footer() {
         ======================================== 
       */}
       <a 
-        href="https://github.com/MH_HASHISH" 
+        href="https://github.com/alpha30-ai" 
         target="_blank" 
         rel="noopener noreferrer"
         className="block relative w-full overflow-hidden border-t border-white/5 bg-[#000000] group cursor-pointer"
