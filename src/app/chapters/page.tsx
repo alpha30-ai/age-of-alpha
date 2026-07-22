@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer';
 import PageBanner from '@/components/ui/PageBanner';
 import ChapterCard from '@/components/chapters/ChapterCard';
 import SearchInput from '@/components/ui/SearchInput';
+import { BookOpen } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'الفصول | عهد ألفا: ملحمة الدول المائة',
