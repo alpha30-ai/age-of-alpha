@@ -24,6 +24,20 @@ export default function BackgroundEffects() {
       {mounted && (
         <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] mix-blend-screen" />
       )}
+
+      {/* Glowing Grid Background based on Theme Color */}
+      <div 
+        className="absolute inset-0 opacity-[0.25] pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, color-mix(in srgb, var(--theme-primary) 50%, transparent) 1px, transparent 1px),
+            linear-gradient(to bottom, color-mix(in srgb, var(--theme-primary) 50%, transparent) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
+          maskImage: 'radial-gradient(ellipse at center, black 0%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at center, black 0%, transparent 80%)'
+        }}
+      />
     </div>
   );
 }
