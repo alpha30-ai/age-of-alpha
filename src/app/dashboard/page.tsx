@@ -30,7 +30,7 @@ export default async function DashboardPage() {
     <DashboardClient 
       user={{
         name: user.name || "بطل مجهول",
-        email: user.email,
+        email: user.email || "",
         image: user.image || null,
         role: user.role,
         createdAt: user.createdAt,
