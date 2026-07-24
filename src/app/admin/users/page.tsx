@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { UserCircle, Shield, ShieldAlert, Trash2, Ban, CheckCircle, Crown } from 'lucide-react';
+import { UserCircle, Shield, ShieldAlert, Trash2, Ban, CheckCircle, Crown, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 
