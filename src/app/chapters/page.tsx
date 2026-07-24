@@ -54,10 +54,17 @@ export default async function ChaptersPage({ searchParams }: { searchParams: { q
         backgroundImage={bgImage}
       />
 
-      <div className="pb-20 px-4 min-h-screen">
-        <div className="max-w-7xl mx-auto">
+      <div className="pb-20 px-4 min-h-screen relative">
+        {/* Ambient background glows */}
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[var(--theme-primary)]/10 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[150px] pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           
-          <SearchInput placeholder="ابحث عن فصل باسمه أو رقمه..." />
+          <div className="relative group mb-12">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--theme-primary)]/20 to-transparent blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+            <SearchInput placeholder="ابحث عن مخطوطة باسمها أو رقمها..." />
+          </div>
 
           {chapters.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

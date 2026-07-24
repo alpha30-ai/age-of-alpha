@@ -52,18 +52,18 @@ export default async function AdminDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, i) => (
-          <div key={i} className="relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-xl shadow-xl hover:bg-white/10 transition-colors group">
-            <div className="flex items-center justify-between">
+          <div key={i} className="relative overflow-hidden rounded-2xl bg-white/5 border border-white/5 p-6 backdrop-blur-xl shadow-lg hover:shadow-2xl hover:border-white/10 transition-all duration-300 group">
+            <div className="flex items-center justify-between relative z-10">
               <div>
                 <p className="text-gray-400 text-sm font-medium mb-1">{stat.label}</p>
-                <p className="text-4xl font-bold text-white">{stat.count}</p>
+                <p className="text-4xl font-bold text-white group-hover:text-[var(--theme-primary)] transition-colors">{stat.count}</p>
               </div>
-              <div className={`p-4 rounded-xl ${stat.bg} transition-transform group-hover:scale-110`}>
-                <stat.icon className={`w-8 h-8 ${stat.color}`} />
+              <div className={`p-4 rounded-xl ${stat.bg} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-inner`}>
+                <stat.icon className={`w-8 h-8 ${stat.color} drop-shadow-md`} />
               </div>
             </div>
-            {/* Glossy shine effect */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            {/* Soft ambient glow effect instead of a sharp line */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
           </div>
         ))}
       </div>

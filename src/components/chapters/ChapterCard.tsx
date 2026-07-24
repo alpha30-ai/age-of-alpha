@@ -17,7 +17,8 @@ interface ChapterCardProps {
 export default function ChapterCard({ id, chapterNum, title, content, createdAt, audioUrl, imageUrl }: ChapterCardProps) {
   return (
     <Link href={`/chapters/${id}`} className="block group h-full">
-      <div className="relative h-full w-full bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 group-hover:border-[var(--theme-primary)]/50 shadow-lg group-hover:shadow-[0_10px_30px_-10px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] transition-all duration-500 hover:-translate-y-2 flex flex-col">
+      <div className="relative h-full w-full rounded-2xl p-[1px] bg-gradient-to-b from-white/10 to-transparent group-hover:from-[var(--theme-primary)]/50 group-hover:to-transparent transition-all duration-500 hover:-translate-y-2 shadow-lg group-hover:shadow-[0_15px_40px_-10px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)]">
+        <div className="relative h-full w-full bg-[#0a0a0a] rounded-2xl overflow-hidden flex flex-col z-10">
         
         {/* Top Image Section (16:9 ratio) */}
         <div className="relative w-full aspect-video bg-[#111] overflow-hidden border-b border-white/5">
@@ -73,6 +74,7 @@ export default function ChapterCard({ id, chapterNum, title, content, createdAt,
           </div>
         </div>
         
+        </div>
       </div>
     </Link>
   );

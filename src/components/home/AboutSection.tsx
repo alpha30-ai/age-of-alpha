@@ -49,23 +49,26 @@ export default function AboutSection({ characters = [] }: { characters?: any[] }
           
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
-            <div className="lg:col-span-5">
-              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 mb-8 shadow-inner">
+            <div className="lg:col-span-5 relative">
+              <div className="absolute -inset-10 bg-gradient-to-r from-[var(--theme-primary)]/20 to-transparent blur-3xl opacity-40 rounded-full" />
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-[var(--theme-primary)]/30 mb-8 shadow-[0_0_20px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] relative z-10">
                 <span className="w-2.5 h-2.5 rounded-full bg-[var(--theme-primary)] animate-pulse shadow-[0_0_10px_var(--theme-primary)]" />
-                <span className="text-gray-300 font-bold text-sm tracking-widest uppercase">عن الملحمة</span>
+                <span className="text-gray-200 font-bold text-sm tracking-widest uppercase">عن الملحمة</span>
               </div>
-              <h2 className="font-amiri font-bold text-5xl sm:text-6xl lg:text-7xl text-white mb-6 leading-[1.1] drop-shadow-2xl">
+              <h2 className="font-amiri font-black text-6xl sm:text-7xl lg:text-8xl text-white mb-6 leading-[1.1] drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] relative z-10">
                 ما وراء <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-l from-white to-gray-500">الدماء والرماد</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#fff] via-[var(--theme-primary)] to-[#555] drop-shadow-2xl">
+                  الدماء والرماد
+                </span>
               </h2>
-              <div className="w-32 h-1.5 bg-gradient-to-l from-[var(--theme-primary)] to-transparent rounded-full opacity-70" />
+              <div className="w-40 h-2 bg-gradient-to-l from-[var(--theme-primary)] to-transparent rounded-full shadow-[0_0_20px_var(--theme-primary)] relative z-10" />
             </div>
 
-            <div className="lg:col-span-7 font-tajawal text-xl sm:text-2xl text-gray-300 leading-[2.2] space-y-6 text-justify">
-               <p>
-                لم يُولد القائد الأعلى <span className="text-white font-black drop-shadow-lg tracking-wide">"ألفا"</span> وفي فمه ملعقة من ذهب، بل نُحتت أسطورته في زنازين الجحيم. طفلٌ سُلب من طفولته ليقع بين براثن منظمة "إيبكس" المظلمة؛ كيان سري لا يرحم، اتخذه حقلاً لتجارب قاسية لصناعة السلاح البشري المثالي.
+            <div className="lg:col-span-7 font-tajawal text-xl sm:text-2xl text-gray-300 leading-[2.2] space-y-6 text-justify relative z-10">
+               <p className="border-r-4 border-[var(--theme-primary)]/50 pr-6">
+                لم يُولد القائد الأعلى <span className="text-white font-black drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] tracking-wide text-3xl mx-2">"ألفا"</span> وفي فمه ملعقة من ذهب، بل نُحتت أسطورته في زنازين الجحيم. طفلٌ سُلب من طفولته ليقع بين براثن منظمة "إيبكس" المظلمة؛ كيان سري لا يرحم، اتخذه حقلاً لتجارب قاسية لصناعة السلاح البشري المثالي.
                </p>
-               <p className="text-lg sm:text-xl text-gray-500 font-medium">
+               <p className="text-lg sm:text-xl text-gray-400 font-medium leading-relaxed pr-6 mt-8">
                 لكنهم لم يدركوا أنهم، وبكل ندبة حفروها في جسده، كانوا يصقلون نصل فنائهم. عاد ألفا ليحصد أرواح جلاديه في انتقام بارد ومحسوب، ليؤسس على أنقاضهم إمبراطوريته التي لن تتوقف حتى يخضع العالم بأسره لقانونه.
                </p>
             </div>
