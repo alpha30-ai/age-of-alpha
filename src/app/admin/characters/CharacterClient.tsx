@@ -194,7 +194,7 @@ export default function CharacterClient({ initialCharacters }: { initialCharacte
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
         </AnimatePresence>
       </motion.div>

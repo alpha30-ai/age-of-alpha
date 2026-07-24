@@ -4,6 +4,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import PageBanner from '@/components/ui/PageBanner';
 import VideosClient from './VideosClient';
+import { Film } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'السجلات المرئية | عهد ألفا: ملحمة الدول المائة',
