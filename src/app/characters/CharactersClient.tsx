@@ -1,11 +1,26 @@
 "use client";
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, AnimatePresence } from "framer-motion";
 import { Character } from "@prisma/client";
-import { Shield, Zap, Brain } from "lucide-react";
+import { Shield, Zap, Brain, Users } from "lucide-react";
 
 export default function CharactersClient({ characters }: { characters: Character[] }) {
+  const [activeTab, setActiveTab] = useState<string>('ALL');
+
+  const tabs = [
+    { id: 'ALL', label: 'الكل' },
+    { id: 'CITIZEN', label: 'أبناء الدولة' },
+    { id: 'ALLY', label: 'تحالفات الدولة' },
+    { id: 'ENEMY', label: 'أعداء الدولة' },
+    { id: 'OTHER', label: 'أخرى' },
+  ];
+
+  const filteredCharacters = activeTab === 'ALL' 
+    ? characters 
+    : characters.filter(char => char.alliance === activeTab);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -24,6 +39,7 @@ export default function CharactersClient({ characters }: { characters: Character
       scale: 1,
       transition: { type: "spring", stiffness: 100, damping: 15 }
     },
+    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } }
   };
 
   if (characters.length === 0) {
@@ -35,16 +51,51 @@ export default function CharactersClient({ characters }: { characters: Character
   }
 
   return (
-    <motion.div 
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      {characters.map((char) => (
-        <Link href={`/characters/${char.id}`} key={char.id} className="block">
-          <motion.div
-            variants={cardVariants}
+    <div className="space-y-12">
+      {/* Tabs */}
+      <div className="flex flex-wrap justify-center gap-3">
+        {tabs.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`px-6 py-2.5 rounded-full font-cairo font-bold text-sm md:text-base transition-all duration-300 ${
+              activeTab === tab.id
+                ? 'bg-[var(--theme-primary)] text-white shadow-[0_0_20px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)] scale-105'
+                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/5'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      <motion.div 
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        layout
+      >
+        <AnimatePresence mode="popLayout">
+          {filteredCharacters.length === 0 ? (
+            <motion.div 
+              key="empty"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="col-span-full text-center py-20 text-gray-400 font-tajawal text-xl border border-dashed border-white/10 rounded-3xl"
+            >
+              لا توجد شخصيات في هذا التصنيف حالياً.
+            </motion.div>
+          ) : (
+            filteredCharacters.map((char) => (
+              <Link href={`/characters/${char.id}`} key={char.id} className="block">
+                <motion.div
+                  layout
+                  variants={cardVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
             whileHover={{ y: -8, scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className="relative w-full h-full bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 hover:border-[var(--theme-primary)]/50 shadow-lg hover:shadow-[0_10px_30px_-10px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] transition-all duration-500 flex flex-col group cursor-pointer"
@@ -95,8 +146,11 @@ export default function CharactersClient({ characters }: { characters: Character
             </div>
           </motion.div>
         </Link>
-      ))}
-    </motion.div>
+            ))
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
   );
 }
 

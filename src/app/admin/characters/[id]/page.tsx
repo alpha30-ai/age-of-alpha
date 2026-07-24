@@ -49,8 +49,19 @@ export default async function EditCharacterPage({ params }: { params: Promise<{ 
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-300">الفصيل</label>
-            <input name="faction" defaultValue={character.faction || ''} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all font-bold" placeholder="مثال: إمارة الصدأ" />
+            <input name="faction" defaultValue={character.faction || ''} className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/50 transition-all" />
           </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-300">الانتماء (حليف/عدو)</label>
+            <select name="alliance" defaultValue={character.alliance || 'CITIZEN'} className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/50 transition-all">
+              <option value="CITIZEN" className="bg-[#111]">أبناء الدولة / أبطال رئيسيين</option>
+              <option value="ALLY" className="bg-[#111]">تحالفات الدولة</option>
+              <option value="ENEMY" className="bg-[#111]">أعداء الدولة</option>
+              <option value="OTHER" className="bg-[#111]">أخرى (محايد أو غير معروف)</option>
+            </select>
+          </div>
+
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-300">ترتيب العرض (0 هو الأول)</label>
             <input name="sortOrder" type="number" defaultValue={character.sortOrder} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all font-bold" />

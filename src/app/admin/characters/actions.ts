@@ -10,6 +10,7 @@ export async function createCharacter(formData: FormData) {
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
   const faction = formData.get('faction') as string;
+  const alliance = formData.get('alliance') as string || 'CITIZEN';
   const strength = parseInt(formData.get('strength') as string) || 50;
   const magic = parseInt(formData.get('magic') as string) || 50;
   const intelligence = parseInt(formData.get('intelligence') as string) || 50;
@@ -22,6 +23,7 @@ export async function createCharacter(formData: FormData) {
       title,
       description,
       faction,
+      alliance,
       strength,
       magic,
       intelligence,
@@ -50,6 +52,7 @@ export async function updateCharacter(formData: FormData) {
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
   const faction = formData.get('faction') as string;
+  const alliance = formData.get('alliance') as string || 'CITIZEN';
   const strength = parseInt(formData.get('strength') as string) || 50;
   const magic = parseInt(formData.get('magic') as string) || 50;
   const intelligence = parseInt(formData.get('intelligence') as string) || 50;
@@ -61,6 +64,7 @@ export async function updateCharacter(formData: FormData) {
     title,
     description,
     faction,
+    alliance,
     strength,
     magic,
     intelligence,

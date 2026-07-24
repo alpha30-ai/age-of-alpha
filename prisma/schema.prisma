@@ -141,6 +141,7 @@ model Character {
   description String   @db.Text
   imageUrl    String?
   faction     String?  // e.g., إمارة الصدأ
+  alliance    String   @default("CITIZEN") // "CITIZEN" | "ALLY" | "ENEMY" | "OTHER"
   strength    Int      @default(50)
   magic       Int      @default(50)
   intelligence Int     @default(50)

@@ -12,6 +12,7 @@ interface Character {
   title: string | null;
   description: string;
   faction: string | null;
+  alliance: string;
   strength: number;
   magic: number;
   intelligence: number;
@@ -62,6 +63,15 @@ export default function CharacterClient({ initialCharacters }: { initialCharacte
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-300">الفصيل</label>
             <input name="faction" className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/50 transition-all" placeholder="مثال: إمارة الصدأ" />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-300">الانتماء (حليف/عدو)</label>
+            <select name="alliance" defaultValue="CITIZEN" className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/50 transition-all">
+              <option value="CITIZEN" className="bg-[#111]">أبناء الدولة / أبطال رئيسيين</option>
+              <option value="ALLY" className="bg-[#111]">تحالفات الدولة</option>
+              <option value="ENEMY" className="bg-[#111]">أعداء الدولة</option>
+              <option value="OTHER" className="bg-[#111]">أخرى (محايد أو غير معروف)</option>
+            </select>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-300">ترتيب العرض (0 هو الأول)</label>
