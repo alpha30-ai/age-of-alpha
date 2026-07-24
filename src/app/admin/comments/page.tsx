@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MessageSquare, Trash2, ShieldCheck, AlertTriangle, ExternalLink } from 'lucide-react';
+import { MessageSquare, Trash2, ShieldCheck, AlertTriangle, ExternalLink, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
