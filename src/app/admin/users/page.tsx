@@ -111,22 +111,48 @@ export default function UsersAdminPage() {
 
   return (
     <div className="p-6 md:p-10 max-w-7xl mx-auto font-tajawal">
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-gradient-to-l from-white/5 to-transparent p-6 rounded-3xl border border-white/10 relative overflow-hidden mb-8">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/10 blur-[100px] pointer-events-none" />
+      {/* Header & Stats Section */}
+      <div className="bg-gradient-to-br from-white/5 to-black/40 p-6 md:p-8 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl mb-8">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/10 blur-[120px] pointer-events-none" />
         
-        <div className="relative z-10">
-          <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-            <Users className="w-8 h-8 text-green-400" />
-            إدارة المستخدمين
-          </h1>
-          <p className="text-gray-400 max-w-xl">
-            إدارة حسابات القراء، ومراجعة أعدادهم، وإعطاء الصلاحيات لمن يستحق.
-          </p>
-        </div>
-        
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto relative z-10 shrink-0">
-          <div className="w-full sm:w-64">
-            <SearchInput placeholder="ابحث بالاسم أو البريد الإلكتروني..." value={searchQuery} onChange={setSearchQuery} />
+        <div className="relative z-10 flex flex-col gap-8">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div>
+              <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                <Users className="w-8 h-8 text-green-400" />
+                إدارة المستخدمين
+              </h1>
+              <p className="text-gray-400 max-w-xl text-sm">
+                إدارة حسابات القراء، ومراجعة أعدادهم، وإعطاء الصلاحيات لمن يستحق.
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-4 w-full lg:w-auto shrink-0 bg-black/20 p-2 rounded-2xl border border-white/5">
+              <div className="w-full sm:w-80">
+                <SearchInput placeholder="ابحث بالاسم أو البريد الإلكتروني..." value={searchQuery} onChange={setSearchQuery} />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
+                <Users className="w-6 h-6 text-green-400" />
+              </div>
+              <div>
+                <p className="text-gray-400 text-xs font-bold mb-1">إجمالي المستخدمين</p>
+                <p className="text-2xl font-bold text-white font-sans">{users.length}</p>
+              </div>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center">
+                <Shield className="w-6 h-6 text-yellow-400" />
+              </div>
+              <div>
+                <p className="text-gray-400 text-xs font-bold mb-1">المسؤولين (Admins)</p>
+                <p className="text-2xl font-bold text-white font-sans">{users.filter(u => u.role === 'ADMIN').length}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

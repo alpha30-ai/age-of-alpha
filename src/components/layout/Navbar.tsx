@@ -139,83 +139,126 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Full-Screen Drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0, y: -20 }}
-            animate={{ opacity: 1, height: 'auto', y: 0 }}
-            exit={{ opacity: 0, height: 0, y: -20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden absolute top-full left-0 right-0 overflow-hidden bg-black/95 backdrop-blur-3xl border-b border-white/10 shadow-2xl"
+            className="md:hidden fixed inset-0 z-40 bg-black/80 backdrop-blur-3xl flex flex-col pt-24 px-6 pb-6 overflow-y-auto"
           >
-            <div className="px-4 py-6 space-y-3">
-              {navLinks.map((link) => {
-                const Icon = link.icon;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-3 px-4 py-4 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300 font-cairo font-bold text-lg"
-                  >
-                    <Icon className="w-5 h-5 text-magma-light" />
-                    {link.label}
-                  </Link>
-                );
-              })}
-              
-              <div className="h-px bg-white/10 my-4" />
-              
-              {session ? (
-                <div className="space-y-2">
-                  {(session.user as any)?.role === 'ADMIN' && (
-                    <Link
-                      href="/admin"
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 px-4 py-4 rounded-xl text-yellow-500 hover:bg-yellow-500/10 transition-all duration-300 font-cairo font-bold"
+            {/* Background Effects inside menu */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-magma/10 blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 blur-[100px] pointer-events-none" />
+
+            <div className="relative z-10 space-y-6 flex-1 flex flex-col">
+              <div className="space-y-2">
+                {navLinks.map((link, i) => {
+                  const Icon = link.icon;
+                  return (
+                    <motion.div
+                      key={link.href}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: i * 0.1 }}
                     >
-                      <Shield className="w-5 h-5" />
-                      لوحة تحكم الإدارة
+                      <Link
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center gap-4 px-4 py-4 rounded-2xl text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300 font-cairo font-bold text-xl group"
+                      >
+                        <div className="p-2 rounded-xl bg-white/5 group-hover:bg-magma/20 group-hover:text-magma-light transition-colors">
+                          <Icon className="w-6 h-6" />
+                        </div>
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </div>
+              
+              <motion.div 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                transition={{ delay: 0.4 }}
+                className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-6" 
+              />
+              
+              <motion.div 
+                className="mt-auto space-y-3"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.5 }}
+              >
+                {session ? (
+                  <div className="bg-white/5 p-4 rounded-3xl border border-white/10 space-y-2">
+                    <div className="flex items-center gap-3 mb-4 px-2">
+                      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-magma/30">
+                        {(session.user as any)?.image ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={(session.user as any).image} alt="Avatar" className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full bg-black/50 flex items-center justify-center">
+                            <User className="w-5 h-5 text-gray-400" />
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-white font-bold font-cairo">{session.user?.name || 'مستخدم'}</p>
+                        <p className="text-xs text-gray-400">{session.user?.email}</p>
+                      </div>
+                    </div>
+
+                    {(session.user as any)?.role === 'ADMIN' && (
+                      <Link
+                        href="/admin"
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-yellow-500 hover:bg-yellow-500/10 transition-all duration-300 font-cairo font-bold bg-black/20"
+                      >
+                        <Shield className="w-5 h-5" />
+                        لوحة تحكم الإدارة
+                      </Link>
+                    )}
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-milky-blue-light hover:bg-milky-blue/10 transition-all duration-300 font-cairo font-bold bg-black/20"
+                    >
+                      <User className="w-5 h-5" />
+                      حسابي (متابعة القراءة)
                     </Link>
-                  )}
+                    <Link
+                      href="/settings"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300 font-cairo font-bold bg-black/20"
+                    >
+                      <Settings className="w-5 h-5" />
+                      إعدادات الحساب
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setIsOpen(false);
+                        signOut();
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-all duration-300 font-cairo font-bold text-right bg-black/20"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      تسجيل الخروج
+                    </button>
+                  </div>
+                ) : (
                   <Link
-                    href="/dashboard"
+                    href="/login"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-3 px-4 py-4 rounded-xl text-milky-blue-light hover:bg-milky-blue/10 transition-all duration-300 font-cairo font-bold"
+                    className="flex items-center justify-center gap-3 w-full px-4 py-4 rounded-2xl bg-gradient-to-r from-magma-dark to-magma text-white font-cairo font-bold text-xl shadow-[0_0_20px_rgba(230,74,25,0.4)]"
                   >
-                    <User className="w-5 h-5" />
-                    حسابي (متابعة القراءة)
+                    <LogIn className="w-6 h-6" />
+                    بوابة الدخول
                   </Link>
-                  <Link
-                    href="/settings"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-3 px-4 py-4 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300 font-cairo font-bold"
-                  >
-                    <Settings className="w-5 h-5" />
-                    إعدادات الحساب
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setIsOpen(false);
-                      signOut();
-                    }}
-                    className="w-full flex items-center gap-3 px-4 py-4 rounded-xl text-red-400 hover:bg-red-500/10 transition-all duration-300 font-cairo font-bold text-right"
-                  >
-                    <LogOut className="w-5 h-5" />
-                    تسجيل الخروج
-                  </button>
-                </div>
-              ) : (
-                <Link
-                  href="/login"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-center gap-3 w-full px-4 py-4 rounded-xl bg-magma/80 text-white font-cairo font-bold text-lg shadow-[0_0_20px_rgba(230,74,25,0.4)]"
-                >
-                  <LogIn className="w-5 h-5" />
-                  بوابة الدخول
-                </Link>
-              )}
+                )}
+              </motion.div>
             </div>
           </motion.div>
         )}
