@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { createCharacter, deleteCharacter } from './actions';
-import { Trash2, Plus, Swords, Brain, Zap, Shield } from 'lucide-react';
+import { Trash2, Plus, Swords, Brain, Zap, Shield, Users } from 'lucide-react';
 import FileUploadInput from '@/components/ui/FileUploadInput';
 import SearchInput from '@/components/ui/SearchInput';
 import { motion, AnimatePresence } from 'framer-motion';
