@@ -21,17 +21,17 @@ export default function ChapterCard({ id, chapterNum, title, content, createdAt,
         
         {/* Top Image Section (16:9 ratio) */}
         <div className="relative w-full aspect-video bg-[#111] overflow-hidden border-b border-white/5">
-          <div 
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-            style={{ 
-              backgroundImage: imageUrl ? `url(${imageUrl})` : 'none',
-            }}
-          >
-            {/* Fallback pattern if no image */}
-            {!imageUrl && (
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20" />
-            )}
-          </div>
+          {imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img 
+              src={imageUrl.includes('res.cloudinary.com') ? imageUrl.replace('/upload/', '/upload/c_fill,w_600,q_auto,f_auto,fl_progressive/') : imageUrl} 
+              alt={title}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20" />
+          )}
 
           {/* Gradient Overlay for Top Badges */}
           <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-black/80 to-transparent z-10" />
