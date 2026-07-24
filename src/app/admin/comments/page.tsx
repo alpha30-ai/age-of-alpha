@@ -71,19 +71,23 @@ export default function CommentsAdminPage() {
 
   return (
     <div className="p-6 md:p-10 max-w-7xl mx-auto font-tajawal">
-      <div className="flex flex-col md:flex-row items-center gap-4 mb-10 justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center">
-            <MessageSquare className="w-6 h-6 text-pink-400" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-white font-amiri tracking-wide">إدارة التعليقات والرقابة</h1>
-            <p className="text-gray-400 mt-1">راجع التعليقات، تعامل مع البلاغات، وحافظ على مجتمع الملحمة</p>
-          </div>
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-gradient-to-l from-white/5 to-transparent p-6 rounded-3xl border border-white/10 relative overflow-hidden mb-8">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[100px] pointer-events-none" />
+        
+        <div className="relative z-10">
+          <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+            <MessageSquare className="w-8 h-8 text-cyan-400" />
+            سجل التعليقات
+          </h1>
+          <p className="text-gray-400 max-w-xl">
+            مراجعة تعليقات القراء وحذف التعليقات المسيئة لضمان بيئة قراءة نظيفة.
+          </p>
         </div>
         
-        <div className="w-full max-w-md shrink-0">
-          <SearchInput placeholder="ابحث في التعليقات أو عن كاتب..." value={searchQuery} onChange={setSearchQuery} />
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto relative z-10 shrink-0">
+          <div className="w-full sm:w-64">
+            <SearchInput placeholder="ابحث في التعليقات أو اسم الكاتب..." value={searchQuery} onChange={setSearchQuery} />
+          </div>
         </div>
       </div>
 

@@ -15,28 +15,34 @@ export default function VideosAdminClient({ initialVideos }: { initialVideos: an
   );
 
   return (
-    <div className="max-w-6xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
+    <div className="max-w-7xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      
+      {/* Header Section */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-gradient-to-l from-white/5 to-transparent p-6 rounded-3xl border border-white/10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 blur-[100px] pointer-events-none" />
+        
+        <div className="relative z-10">
           <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-            <Film className="w-8 h-8 text-emerald-400" />
-            السجلات المرئية (الفيديوهات)
+            <Film className="w-8 h-8 text-blue-400" />
+            السجلات المرئية
           </h1>
-          <p className="text-gray-400">إدارة مقاطع الفيديو واليوتيوب الخاصة بعالم عهد ألفا.</p>
+          <p className="text-gray-400 max-w-xl">
+            إدارة الفيديوهات والمحتوى المرئي. أضف فيديوهات جديدة من يوتيوب أو ارفعها مباشرة.
+          </p>
         </div>
         
-        <Link 
-          href="/admin/videos/new"
-          className="flex items-center gap-2 bg-magma hover:bg-magma-light text-white px-6 py-3 rounded-xl font-bold transition-all shadow-magma/30 shrink-0"
-        >
-          <Plus className="w-5 h-5" />
-          إضافة فيديو جديد
-        </Link>
-      </div>
-
-      <div className="bg-white/5 p-4 rounded-3xl border border-white/10">
-        <div className="w-full max-w-md">
-          <SearchInput placeholder="ابحث بعنوان الفيديو أو الوصف..." value={searchQuery} onChange={setSearchQuery} />
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto relative z-10 shrink-0">
+          <div className="w-full sm:w-64">
+            <SearchInput placeholder="ابحث بعنوان أو وصف الفيديو..." value={searchQuery} onChange={setSearchQuery} />
+          </div>
+          
+          <Link 
+            href="/admin/videos/new"
+            className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-blue-600 text-white h-[52px] px-6 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] border border-white/10 shrink-0 w-full sm:w-auto"
+          >
+            <Plus className="w-5 h-5" />
+            فيديو جديد
+          </Link>
         </div>
       </div>
 

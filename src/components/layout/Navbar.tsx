@@ -29,7 +29,7 @@ export default function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 w-full left-0 z-50 transition-all duration-500 ${
         scrolled
           ? 'bg-black/60 backdrop-blur-2xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)] py-2'
           : 'bg-transparent py-4'
@@ -39,12 +39,12 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group relative z-10">
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-magma/10 border border-magma/30 group-hover:bg-magma/20 group-hover:border-magma/50 transition-all duration-500 overflow-hidden">
+          <Link href="/" className="flex items-center gap-3 group relative z-10 shrink-0">
+            <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-magma/10 border border-magma/30 group-hover:bg-magma/20 group-hover:border-magma/50 transition-all duration-500 overflow-hidden shrink-0">
               <Flame className="w-6 h-6 text-magma-light relative z-10 group-hover:scale-110 transition-transform duration-500" />
               <div className="absolute inset-0 bg-magma/30 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
-            <span className="font-amiri font-bold text-2xl tracking-wide text-white group-hover:text-magma-light transition-colors duration-500">
+            <span className="font-amiri font-bold text-2xl tracking-wide text-white group-hover:text-magma-light transition-colors duration-500 whitespace-nowrap">
               عهد ألفا
             </span>
           </Link>

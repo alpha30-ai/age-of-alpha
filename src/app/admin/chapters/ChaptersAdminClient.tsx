@@ -17,51 +17,59 @@ export default function ChaptersAdminClient({ initialChapters }: { initialChapte
   );
 
   return (
-    <div className="max-w-6xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
+    <div className="max-w-7xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      
+      {/* Header Section */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-gradient-to-l from-white/5 to-transparent p-6 rounded-3xl border border-white/10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--theme-primary)]/10 blur-[100px] pointer-events-none" />
+        
+        <div className="relative z-10">
           <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-            <BookOpen className="w-8 h-8 text-[#E64A19]" />
-            سجل المخطوطات (الفصول)
+            <BookOpen className="w-8 h-8 text-[var(--theme-primary)]" />
+            سجل المخطوطات
           </h1>
-          <p className="text-gray-400">إدارة فصول الرواية، إضافة فصول جديدة، وتعديل المخطوطات القديمة.</p>
+          <p className="text-gray-400 max-w-xl">
+            إدارة فصول الرواية والمخطوطات القديمة. يمكنك إضافة فصول جديدة، وتعديل المحتوى، وإدارة الفصول المعروضة للقراء.
+          </p>
         </div>
         
-        <Link 
-          href="/admin/chapters/new"
-          className="flex items-center gap-2 bg-magma hover:bg-magma-light text-white px-6 py-3 rounded-xl font-bold transition-all shadow-magma/30 shrink-0"
-        >
-          <Plus className="w-5 h-5" />
-          مخطوطة جديدة
-        </Link>
-      </div>
-
-      <div className="flex flex-col md:flex-row items-center gap-4 bg-white/5 p-4 rounded-3xl border border-white/10">
-        <div className="flex-1 w-full max-w-md">
-          <SearchInput placeholder="ابحث برقم أو اسم المخطوطة..." value={searchQuery} onChange={setSearchQuery} />
-        </div>
-        
-        <div className="flex bg-[#0a0a0a] border border-white/10 rounded-xl p-1 shadow-inner">
-          <button
-            onClick={() => setViewMode('grid')}
-            className={`p-2 rounded-lg transition-all duration-300 ${
-              viewMode === 'grid' 
-                ? 'bg-magma text-white shadow-lg shadow-magma/20' 
-                : 'text-gray-500 hover:text-white hover:bg-white/5'
-            }`}
-          >
-            <LayoutGrid className="w-5 h-5" />
-          </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className={`p-2 rounded-lg transition-all duration-300 ${
-              viewMode === 'list' 
-                ? 'bg-magma text-white shadow-lg shadow-magma/20' 
-                : 'text-gray-500 hover:text-white hover:bg-white/5'
-            }`}
-          >
-            <ListIcon className="w-5 h-5" />
-          </button>
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto relative z-10 shrink-0">
+          <div className="w-full sm:w-64">
+            <SearchInput placeholder="ابحث برقم أو اسم المخطوطة..." value={searchQuery} onChange={setSearchQuery} />
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <div className="flex bg-[#0a0a0a] border border-white/10 rounded-xl p-1 shadow-inner h-[52px]">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`px-3 rounded-lg transition-all duration-300 ${
+                  viewMode === 'grid' 
+                    ? 'bg-[var(--theme-primary)] text-white shadow-lg shadow-[var(--theme-primary)]/20' 
+                    : 'text-gray-500 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <LayoutGrid className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`px-3 rounded-lg transition-all duration-300 ${
+                  viewMode === 'list' 
+                    ? 'bg-[var(--theme-primary)] text-white shadow-lg shadow-[var(--theme-primary)]/20' 
+                    : 'text-gray-500 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <ListIcon className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <Link 
+              href="/admin/chapters/new"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-[var(--theme-primary)] to-orange-600 hover:from-orange-600 hover:to-[var(--theme-primary)] text-white h-[52px] px-6 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(230,74,25,0.3)] hover:shadow-[0_0_30px_rgba(230,74,25,0.5)] border border-white/10 shrink-0"
+            >
+              <Plus className="w-5 h-5" />
+              مخطوطة جديدة
+            </Link>
+          </div>
         </div>
       </div>
 

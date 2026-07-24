@@ -111,10 +111,24 @@ export default function CharacterClient({ initialCharacters }: { initialCharacte
         </button>
       </form>
 
-      {/* List */}
-      <div className="bg-white/5 p-4 rounded-3xl border border-white/10">
-        <div className="w-full max-w-md">
-          <SearchInput placeholder="ابحث باسم الشخصية، اللقب، أو الفصيل..." value={searchQuery} onChange={setSearchQuery} />
+      {/* Header and Search */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-gradient-to-l from-white/5 to-transparent p-6 rounded-3xl border border-white/10 relative overflow-hidden mb-8">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[100px] pointer-events-none" />
+        
+        <div className="relative z-10">
+          <h1 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+            <Shield className="w-6 h-6 text-purple-400" />
+            إدارة أبطال الملحمة
+          </h1>
+          <p className="text-gray-400 max-w-xl text-sm">
+            أضف شخصيات جديدة، حدد تحالفاتهم وقدراتهم، وابحث في السجل الكامل لأبطال الرواية.
+          </p>
+        </div>
+        
+        <div className="flex items-center gap-4 w-full lg:w-auto relative z-10 shrink-0">
+          <div className="w-full sm:w-80">
+            <SearchInput placeholder="ابحث باسم الشخصية، اللقب، أو الفصيل..." value={searchQuery} onChange={setSearchQuery} />
+          </div>
         </div>
       </div>
 
