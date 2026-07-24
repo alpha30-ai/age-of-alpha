@@ -17,6 +17,7 @@ export default function EditChapterPage({ params }: { params: Promise<{ id: stri
     title: '',
     content: '',
     audioUrl: '',
+    authorNote: '',
   });
 
   useEffect(() => {
@@ -33,6 +34,7 @@ export default function EditChapterPage({ params }: { params: Promise<{ id: stri
         title: data.title,
         content: data.content,
         audioUrl: data.audioUrl || '',
+        authorNote: data.authorNote || '',
       });
     } catch (err: any) {
       setError(err.message);
