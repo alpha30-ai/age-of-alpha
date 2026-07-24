@@ -43,7 +43,7 @@ export default async function ChaptersPage({ searchParams }: { searchParams: { q
   const bgImage = theme?.bannerImageUrl || 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?q=80&w=2000&auto=format&fit=crop';
 
   return (
-    <main className="bg-[#050505]">
+    <main className="bg-[#050505] overflow-x-hidden w-full max-w-[100vw] min-h-screen relative flex flex-col">
       <Navbar />
       
       <PageBanner 
@@ -53,12 +53,12 @@ export default async function ChaptersPage({ searchParams }: { searchParams: { q
         backgroundImage={bgImage}
       />
 
-      <div className="pb-20 px-4 min-h-screen relative">
+      <div className="pb-20 px-4 flex-1 relative w-full">
         {/* Ambient background glows */}
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[var(--theme-primary)]/10 rounded-full blur-[150px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute top-0 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[var(--theme-primary)]/10 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-blue-900/10 rounded-full blur-[150px] pointer-events-none" />
         
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10 w-full">
           <ChaptersClient initialChapters={chapters} initialQuery={query} />
         </div>
       </div>
