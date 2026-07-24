@@ -115,22 +115,24 @@ export default function UsersAdminPage() {
       <div className="bg-gradient-to-br from-white/5 to-black/40 p-6 md:p-8 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl mb-8">
         <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/10 blur-[120px] pointer-events-none" />
         
-        <div className="relative z-10 flex flex-col gap-8">
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
-            <div className="space-y-2">
-              <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
-                <Users className="w-8 h-8 text-green-400" />
-                إدارة المستخدمين
-              </h1>
-              <p className="text-gray-400 max-w-xl text-sm md:text-base">
-                إدارة حسابات القراء، ومراجعة أعدادهم، وإعطاء الصلاحيات لمن يستحق.
-              </p>
+        <div className="relative z-10 flex flex-col gap-6 md:gap-8">
+          <div className="space-y-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
+              <Users className="w-8 h-8 text-green-400" />
+              إدارة المستخدمين
+            </h1>
+            <p className="text-gray-400 text-sm md:text-base">
+              إدارة حسابات القراء، ومراجعة أعدادهم، وإعطاء الصلاحيات لمن يستحق.
+            </p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
+            <div className="w-full flex-1">
+              <SearchInput placeholder="ابحث بالاسم أو البريد الإلكتروني..." value={searchQuery} onChange={setSearchQuery} />
             </div>
             
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto shrink-0">
-              <div className="w-full sm:w-80">
-                <SearchInput placeholder="ابحث بالاسم أو البريد الإلكتروني..." value={searchQuery} onChange={setSearchQuery} />
-              </div>
+            <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
+               {/* Any actions can go here if needed in the future */}
             </div>
           </div>
 

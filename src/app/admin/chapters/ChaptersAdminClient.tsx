@@ -27,56 +27,55 @@ export default function ChaptersAdminClient({ initialChapters }: { initialChapte
       <div className="bg-gradient-to-br from-white/5 to-black/40 p-6 md:p-8 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--theme-primary)]/10 blur-[120px] pointer-events-none" />
         
-        <div className="relative z-10 flex flex-col gap-8">
-          {/* Top Row: Title & Actions */}
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
-            <div className="space-y-2">
-              <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
-                <BookOpen className="w-8 h-8 text-[var(--theme-primary)]" />
-                سجل المخطوطات
-              </h1>
-              <p className="text-gray-400 max-w-xl text-sm md:text-base">
-                إدارة فصول الرواية والمخطوطات القديمة. أضف فصولاً جديدة وتحكم بمحتواها.
-              </p>
+        <div className="relative z-10 flex flex-col gap-6 md:gap-8">
+          {/* Top Row: Title */}
+          <div className="space-y-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
+              <BookOpen className="w-8 h-8 text-[var(--theme-primary)]" />
+              سجل المخطوطات
+            </h1>
+            <p className="text-gray-400 text-sm md:text-base">
+              إدارة فصول الرواية والمخطوطات القديمة. أضف فصولاً جديدة وتحكم بمحتواها.
+            </p>
+          </div>
+          
+          {/* Middle Row: Search & Actions */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
+            <div className="w-full flex-1">
+              <SearchInput placeholder="ابحث برقم أو اسم المخطوطة..." value={searchQuery} onChange={setSearchQuery} />
             </div>
             
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto shrink-0">
-              <div className="w-full sm:w-72">
-                <SearchInput placeholder="ابحث برقم أو اسم المخطوطة..." value={searchQuery} onChange={setSearchQuery} />
+            <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
+              <div className="flex bg-black/40 rounded-xl p-1 shadow-inner h-[52px] w-full sm:w-auto justify-center">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`px-4 sm:px-3 rounded-lg transition-all duration-300 flex-1 sm:flex-none flex items-center justify-center ${
+                    viewMode === 'grid' 
+                      ? 'bg-[var(--theme-primary)] text-white shadow-lg shadow-[var(--theme-primary)]/20' 
+                      : 'text-gray-500 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <LayoutGrid className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`px-4 sm:px-3 rounded-lg transition-all duration-300 flex-1 sm:flex-none flex items-center justify-center ${
+                    viewMode === 'list' 
+                      ? 'bg-[var(--theme-primary)] text-white shadow-lg shadow-[var(--theme-primary)]/20' 
+                      : 'text-gray-500 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <ListIcon className="w-5 h-5" />
+                </button>
               </div>
               
-              <div className="flex items-center gap-3 w-full sm:w-auto">
-                <div className="flex bg-black/40 rounded-xl p-1 shadow-inner h-[52px] w-full sm:w-auto justify-center">
-                  <button
-                    onClick={() => setViewMode('grid')}
-                    className={`px-4 sm:px-3 rounded-lg transition-all duration-300 flex-1 sm:flex-none flex items-center justify-center ${
-                      viewMode === 'grid' 
-                        ? 'bg-[var(--theme-primary)] text-white shadow-lg shadow-[var(--theme-primary)]/20' 
-                        : 'text-gray-500 hover:text-white hover:bg-white/5'
-                    }`}
-                  >
-                    <LayoutGrid className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`px-4 sm:px-3 rounded-lg transition-all duration-300 flex-1 sm:flex-none flex items-center justify-center ${
-                      viewMode === 'list' 
-                        ? 'bg-[var(--theme-primary)] text-white shadow-lg shadow-[var(--theme-primary)]/20' 
-                        : 'text-gray-500 hover:text-white hover:bg-white/5'
-                    }`}
-                  >
-                    <ListIcon className="w-5 h-5" />
-                  </button>
-                </div>
-                
-                <Link 
-                  href="/admin/chapters/new"
-                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-[var(--theme-primary)] to-orange-600 hover:from-orange-600 hover:to-[var(--theme-primary)] text-white h-[52px] px-6 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(230,74,25,0.3)] hover:shadow-[0_0_30px_rgba(230,74,25,0.5)] border border-white/10 shrink-0 w-full sm:w-auto"
-                >
-                  <Plus className="w-5 h-5" />
-                  <span>مخطوطة جديدة</span>
-                </Link>
-              </div>
+              <Link 
+                href="/admin/chapters/new"
+                className="flex items-center justify-center gap-2 bg-gradient-to-r from-[var(--theme-primary)] to-orange-600 hover:from-orange-600 hover:to-[var(--theme-primary)] text-white h-[52px] px-6 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(230,74,25,0.3)] hover:shadow-[0_0_30px_rgba(230,74,25,0.5)] border border-white/10 shrink-0 w-full sm:w-auto"
+              >
+                <Plus className="w-5 h-5" />
+                <span>مخطوطة جديدة</span>
+              </Link>
             </div>
           </div>
 

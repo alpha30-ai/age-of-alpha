@@ -71,22 +71,24 @@ export default function CommentsAdminPage() {
 
   return (
     <div className="p-6 md:p-10 max-w-7xl mx-auto font-tajawal">
-      <div className="flex flex-col gap-8 mb-10">
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
-              <MessageSquare className="w-8 h-8 text-cyan-400" />
-              سجل التعليقات
-            </h1>
-            <p className="text-gray-400 max-w-xl text-sm md:text-base">
-              مراجعة تعليقات القراء وحذف التعليقات المسيئة لضمان بيئة قراءة نظيفة.
-            </p>
+      <div className="flex flex-col gap-6 md:gap-8 mb-10">
+        <div className="space-y-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
+            <MessageSquare className="w-8 h-8 text-cyan-400" />
+            سجل التعليقات
+          </h1>
+          <p className="text-gray-400 text-sm md:text-base">
+            مراجعة تعليقات القراء وحذف التعليقات المسيئة لضمان بيئة قراءة نظيفة.
+          </p>
+        </div>
+        
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
+          <div className="w-full flex-1">
+            <SearchInput placeholder="ابحث في التعليقات أو اسم الكاتب..." value={searchQuery} onChange={setSearchQuery} />
           </div>
           
-          <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto shrink-0">
-            <div className="w-full sm:w-80">
-              <SearchInput placeholder="ابحث في التعليقات أو اسم الكاتب..." value={searchQuery} onChange={setSearchQuery} />
-            </div>
+          <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
+             {/* Any actions can go here if needed in the future */}
           </div>
         </div>
 

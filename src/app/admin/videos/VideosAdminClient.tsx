@@ -21,31 +21,29 @@ export default function VideosAdminClient({ initialVideos }: { initialVideos: an
       <div className="bg-gradient-to-br from-white/5 to-black/40 p-6 md:p-8 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 blur-[120px] pointer-events-none" />
         
-        <div className="relative z-10 flex flex-col gap-8">
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
-            <div className="space-y-2">
-              <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
-                <Film className="w-8 h-8 text-blue-400" />
-                السجلات المرئية
-              </h1>
-              <p className="text-gray-400 max-w-xl text-sm md:text-base">
-                إدارة الفيديوهات والمحتوى المرئي. أضف فيديوهات جديدة من يوتيوب أو ارفعها مباشرة.
-              </p>
+        <div className="relative z-10 flex flex-col gap-6 md:gap-8">
+          <div className="space-y-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
+              <Film className="w-8 h-8 text-blue-400" />
+              السجلات المرئية
+            </h1>
+            <p className="text-gray-400 text-sm md:text-base">
+              إدارة الفيديوهات والمحتوى المرئي. أضف فيديوهات جديدة من يوتيوب أو ارفعها مباشرة.
+            </p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
+            <div className="w-full flex-1">
+              <SearchInput placeholder="ابحث بعنوان أو وصف الفيديو..." value={searchQuery} onChange={setSearchQuery} />
             </div>
             
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto shrink-0">
-              <div className="w-full sm:w-72">
-                <SearchInput placeholder="ابحث بعنوان أو وصف الفيديو..." value={searchQuery} onChange={setSearchQuery} />
-              </div>
-              
-              <Link 
-                href="/admin/videos/new"
-                className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-blue-600 text-white h-[52px] px-6 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] border border-white/10 shrink-0 w-full sm:w-auto"
-              >
-                <Plus className="w-5 h-5" />
-                <span>فيديو جديد</span>
-              </Link>
-            </div>
+            <Link 
+              href="/admin/videos/new"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-blue-600 text-white h-[52px] px-6 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] border border-white/10 shrink-0 w-full sm:w-auto"
+            >
+              <Plus className="w-5 h-5" />
+              <span>فيديو جديد</span>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
