@@ -61,6 +61,8 @@ export const authOptions: NextAuthOptions = {
         
         if (dbUser) {
           (session.user as any).role = dbUser.role as 'ADMIN' | 'USER';
+          (session.user as any).image = dbUser.image;
+          session.user.name = dbUser.name;
         }
       }
       return session;

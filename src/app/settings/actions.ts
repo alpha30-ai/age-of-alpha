@@ -35,8 +35,7 @@ export async function updateUserProfile(formData: FormData) {
       data: dataToUpdate,
     });
     
-    revalidatePath('/settings');
-    revalidatePath('/admin');
+    revalidatePath('/', 'layout');
     return { success: true };
   } catch (error) {
     console.error('Failed to update user profile:', error);
