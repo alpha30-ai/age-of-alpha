@@ -6,60 +6,70 @@ import { Search } from 'lucide-react';
 
 interface SearchInputProps {
   placeholder?: string;
+  value?: string;
+  onChange?: (val: string) => void;
 }
 
-function SearchInputContent({ placeholder }: SearchInputProps) {
+function SearchInputContent({ placeholder, value, onChange }: SearchInputProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
   
-  const [query, setQuery] = useState(initialQuery);
+  // If controlled (value/onChange provided), use them. Otherwise use local state.
+  const isControlled = value !== undefined && onChange !== undefined;
+  const [internalQuery, setInternalQuery] = useState(initialQuery);
+  const query = isControlled ? value : internalQuery;
 
   useEffect(() => {
+    if (isControlled) return;
+
     const timeoutId = setTimeout(() => {
-      // Avoid pushing on initial mount if query hasn't changed
-      if (query !== initialQuery) {
+      if (internalQuery !== initialQuery) {
         const current = new URLSearchParams(Array.from(searchParams.entries()));
-        
-        if (query) {
-          current.set('q', query);
-        } else {
-          current.delete('q');
-        }
+        if (internalQuery) current.set('q', internalQuery);
+        else current.delete('q');
         
         const search = current.toString();
         const queryStr = search ? `?${search}` : '';
-        
         router.push(`${window.location.pathname}${queryStr}`);
       }
     }, 500);
-
     return () => clearTimeout(timeoutId);
-  }, [query, router, searchParams, initialQuery]);
+  }, [internalQuery, router, searchParams, initialQuery, isControlled]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isControlled) {
+      onChange(e.target.value);
+    } else {
+      setInternalQuery(e.target.value);
+    }
+  };
 
   return (
-    <div className="relative group w-full max-w-md mx-auto mb-10">
-      <div className="absolute inset-0 bg-gradient-to-r from-[var(--theme-primary)] to-purple-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-      <div className="relative flex items-center bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden transition-all focus-within:border-[var(--theme-primary)]/50 focus-within:shadow-[0_0_15px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)]">
-        <div className="pl-4 pr-4 text-gray-500 group-focus-within:text-[var(--theme-primary)] transition-colors">
+    <div className="w-full max-w-2xl mx-auto mb-10 flex flex-col items-center gap-8 bg-[#0a0a0a]/60 p-8 rounded-3xl border border-white/5 backdrop-blur-md shadow-2xl relative overflow-hidden">
+      {/* Glow effect for the filter box */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[var(--theme-primary)]/50 to-transparent" />
+      
+      <div className="relative w-full">
+        <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
           <Search className="w-5 h-5" />
         </div>
         <input
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleChange}
           placeholder={placeholder}
-          className="w-full bg-transparent py-4 pr-2 pl-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-0 font-tajawal text-sm"
+          className="w-full bg-[#111] border border-white/10 rounded-2xl py-4 pr-12 pl-4 text-white focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/50 focus:border-[var(--theme-primary)] transition-all font-tajawal text-lg shadow-inner placeholder-gray-500"
         />
       </div>
     </div>
   );
 }
 
-export default function SearchInput({ placeholder = 'ابحث هنا...' }: SearchInputProps) {
+export default function SearchInput({ placeholder = 'ابحث هنا...', value, onChange }: SearchInputProps) {
   return (
-    <Suspense fallback={<div className="w-full max-w-md mx-auto h-14 bg-white/5 border border-white/10 rounded-xl mb-10 animate-pulse"></div>}>
-      <SearchInputContent placeholder={placeholder} />
+    <Suspense fallback={<div className="w-full max-w-2xl mx-auto h-24 bg-white/5 border border-white/10 rounded-3xl mb-10 animate-pulse"></div>}>
+      <SearchInputContent placeholder={placeholder} value={value} onChange={onChange} />
     </Suspense>
   );
 }

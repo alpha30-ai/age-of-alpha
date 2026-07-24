@@ -6,6 +6,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { ArrowRight, ArrowLeft, Film, Calendar, Clapperboard } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
+import VideoCommentsSection from '@/components/videos/VideoCommentsSection';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -145,6 +146,9 @@ export default async function VideoPage({ params }: PageProps) {
               </div>
             </div>
           )}
+
+          {/* Comments Section */}
+          <VideoCommentsSection videoId={video.id} />
 
           {/* Navigation */}
           <nav className="mt-16 pt-10 border-t border-white/10">
