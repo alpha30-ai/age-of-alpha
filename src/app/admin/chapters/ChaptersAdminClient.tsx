@@ -103,11 +103,6 @@ export default function ChaptersAdminClient({ initialChapters }: { initialChapte
             </Link>
           </div>
         </div>
-      </div> text-white font-sans">#{latestChapter}</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {filteredChapters.length === 0 ? (
