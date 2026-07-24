@@ -159,19 +159,19 @@ export default function CharacterClient({ initialCharacters }: { initialCharacte
       </div>
 
       {/* Standalone Search & Actions Toolbar */}
-      <div className="bg-black/40 border border-white/10 p-4 rounded-3xl backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] sticky top-[88px] z-30 mb-8">
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
-          <div className="w-full flex-1">
+      <div className="bg-black/40 border border-white/10 p-3 md:p-4 rounded-3xl backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] sticky top-[72px] md:top-[88px] z-30 mb-8">
+        <div className="flex flex-row items-center gap-2 md:gap-4 w-full">
+          <div className="w-full flex-1 min-w-0">
             <SearchInput placeholder="ابحث باسم الشخصية، اللقب، أو الفصيل..." value={searchQuery} onChange={setSearchQuery} />
           </div>
           
-          <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0">
              {/* Any actions can go here if needed in the future */}
           </div>
         </div>
       </div>
 
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         <AnimatePresence>
         {filteredCharacters.map(char => (
           <motion.div 
@@ -180,71 +180,82 @@ export default function CharacterClient({ initialCharacters }: { initialCharacte
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             key={char.id} 
-            className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-xl group hover:bg-white/10 transition-colors relative"
+            className="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-6 hover:border-purple-500/50 transition-colors group relative overflow-hidden flex flex-col"
           >
-            <div className="absolute top-2 right-2 z-10 bg-black/80 backdrop-blur-md border border-white/10 text-white px-2 py-1 rounded-md text-xs font-bold">
-              ترتيب: {char.sortOrder}
-            </div>
-            {char.imageUrl ? (
-              <div className="h-48 w-full bg-gray-800 relative">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={char.imageUrl} alt={char.name} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent"></div>
-              </div>
-            ) : (
-              <div className="h-48 w-full bg-gradient-to-br from-purple-900/50 to-blue-900/50 flex items-center justify-center">
-                <Shield className="w-16 h-16 text-white/20" />
-              </div>
-            )}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-3xl -mr-10 -mt-10 pointer-events-none" />
             
-            <div className="p-6 relative">
-              <div className="flex justify-between items-start mb-2">
-                <div>
-                  <h3 className="text-xl font-bold text-white">{char.name}</h3>
-                  {char.title && <p className="text-sm text-purple-400">{char.title}</p>}
+            <div className="flex justify-between items-start mb-4 relative z-10">
+              <div className="flex gap-3 items-center">
+                <div 
+                  className="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-[#111] bg-cover bg-center border border-white/10 shrink-0"
+                  style={{ backgroundImage: char.imageUrl ? `url(${char.imageUrl})` : 'none' }}
+                >
+                  {!char.imageUrl && (
+                    <div className="w-full h-full flex items-center justify-center opacity-30">
+                      <Users className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                    </div>
+                  )}
                 </div>
-                <div className="flex gap-2">
-                  <Link
-                    href={`/admin/characters/${char.id}`}
-                    className="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white transition-all"
-                    title="تعديل"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                  </Link>
-                  <button 
-                    disabled={loading}
-                    onClick={() => handleDelete(char.id)}
-                    className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all disabled:opacity-50"
-                    title="حذف"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                <div>
+                  <h3 className="font-bold text-lg md:text-xl text-white group-hover:text-purple-400 transition-colors">{char.name}</h3>
+                  {char.title && <p className="text-gray-400 text-xs md:text-sm">{char.title}</p>}
                 </div>
               </div>
               
+              <div className="flex items-center gap-2 shrink-0">
+                <Link 
+                  href={`/admin/characters/${char.id}`}
+                  className="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors border border-blue-500/20"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </Link>
+                <button 
+                  disabled={loading}
+                  onClick={() => handleDelete(char.id)}
+                  className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors border border-red-500/20 disabled:opacity-50"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2 mb-4 relative z-10">
+              <span className={`text-[10px] md:text-xs px-2 md:px-3 py-1 rounded-full border ${
+                char.alliance === 'CITIZEN' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
+                char.alliance === 'ENEMY' ? 'bg-red-500/10 text-red-400 border-red-500/20' :
+                char.alliance === 'ALLY' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                'bg-gray-500/10 text-gray-400 border-gray-500/20'
+              }`}>
+                {char.alliance === 'CITIZEN' ? 'أبناء الدولة' :
+                 char.alliance === 'ENEMY' ? 'عدو' :
+                 char.alliance === 'ALLY' ? 'حليف' : 'أخرى'}
+              </span>
               {char.faction && (
-                <span className="inline-block px-3 py-1 bg-white/10 rounded-full text-xs text-gray-300 mb-4 border border-white/5">
+                <span className="text-[10px] md:text-xs px-2 md:px-3 py-1 rounded-full bg-white/5 text-gray-300 border border-white/10">
                   {char.faction}
                 </span>
               )}
-              
-              <p className="text-gray-400 text-sm mb-6 line-clamp-2">{char.description}</p>
-              
-              <div className="grid grid-cols-3 gap-2">
-                <div className="text-center p-2 rounded-xl bg-black/30 border border-white/5">
-                  <Swords className="w-4 h-4 text-red-400 mx-auto mb-1" />
-                  <span className="text-xs text-white font-bold">{char.strength}</span>
-                </div>
-                <div className="text-center p-2 rounded-xl bg-black/30 border border-white/5">
-                  <Zap className="w-4 h-4 text-blue-400 mx-auto mb-1" />
-                  <span className="text-xs text-white font-bold">{char.magic}</span>
-                </div>
-                <div className="text-center p-2 rounded-xl bg-black/30 border border-white/5">
-                  <Brain className="w-4 h-4 text-emerald-400 mx-auto mb-1" />
-                  <span className="text-xs text-white font-bold">{char.intelligence}</span>
-                </div>
+            </div>
+
+            <p className="text-gray-500 text-xs md:text-sm line-clamp-2 relative z-10 flex-1">
+              {char.description}
+            </p>
+
+            {/* Quick Stats */}
+            <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-white/10 relative z-10">
+              <div className="text-center p-2 rounded-xl bg-black/30 border border-white/5">
+                <Swords className="w-3 h-3 md:w-4 md:h-4 text-red-400 mx-auto mb-1" />
+                <p className="text-white font-bold font-sans text-xs md:text-sm">{char.strength}</p>
+              </div>
+              <div className="text-center p-2 rounded-xl bg-black/30 border border-white/5">
+                <Zap className="w-3 h-3 md:w-4 md:h-4 text-blue-400 mx-auto mb-1" />
+                <p className="text-white font-bold font-sans text-xs md:text-sm">{char.magic}</p>
+              </div>
+              <div className="text-center p-2 rounded-xl bg-black/30 border border-white/5">
+                <Brain className="w-3 h-3 md:w-4 md:h-4 text-emerald-400 mx-auto mb-1" />
+                <p className="text-white font-bold font-sans text-xs md:text-sm">{char.intelligence}</p>
               </div>
             </div>
           </motion.div>

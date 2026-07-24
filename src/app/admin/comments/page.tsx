@@ -110,13 +110,13 @@ export default function CommentsAdminPage() {
       </div>
 
       {/* Standalone Search & Actions Toolbar */}
-      <div className="bg-black/40 border border-white/10 p-4 rounded-3xl backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] sticky top-[88px] z-30 mb-8">
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
-          <div className="w-full flex-1">
+      <div className="bg-black/40 border border-white/10 p-3 md:p-4 rounded-3xl backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] sticky top-[72px] md:top-[88px] z-30 mb-8">
+        <div className="flex flex-row items-center gap-2 md:gap-4 w-full">
+          <div className="w-full flex-1 min-w-0">
             <SearchInput placeholder="ابحث في التعليقات أو اسم الكاتب..." value={searchQuery} onChange={setSearchQuery} />
           </div>
           
-          <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0">
              {/* Any actions can go here if needed in the future */}
           </div>
         </div>
@@ -129,14 +129,14 @@ export default function CommentsAdminPage() {
       ) : (
         <div className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden shadow-xl">
           <div className="overflow-x-auto">
-            <table className="w-full text-right">
-              <thead className="bg-black/50 border-b border-white/10">
+            <table className="w-full text-right min-w-[800px]">
+              <thead className="bg-black/50 border-b border-white/10 whitespace-nowrap">
                 <tr>
-                  <th className="px-6 py-4 text-gray-400 font-bold w-1/3">التعليق</th>
-                  <th className="px-6 py-4 text-gray-400 font-bold">الكاتب</th>
-                  <th className="px-6 py-4 text-gray-400 font-bold">الفصل</th>
-                  <th className="px-6 py-4 text-gray-400 font-bold">حالة البلاغ</th>
-                  <th className="px-6 py-4 text-gray-400 font-bold text-left">إجراءات</th>
+                  <th className="px-4 md:px-6 py-4 text-gray-400 font-bold w-[35%]">التعليق</th>
+                  <th className="px-4 md:px-6 py-4 text-gray-400 font-bold">الكاتب</th>
+                  <th className="px-4 md:px-6 py-4 text-gray-400 font-bold">الفصل</th>
+                  <th className="px-4 md:px-6 py-4 text-gray-400 font-bold">حالة البلاغ</th>
+                  <th className="px-4 md:px-6 py-4 text-gray-400 font-bold text-left">إجراءات</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -148,22 +148,22 @@ export default function CommentsAdminPage() {
                     key={comment.id} 
                     className={`hover:bg-white/5 transition-colors ${comment.isReported ? 'bg-red-500/5' : ''}`}
                   >
-                    <td className="px-6 py-4">
-                      <p className="text-gray-300 text-sm leading-relaxed line-clamp-3">
+                    <td className="px-4 md:px-6 py-4">
+                      <p className="text-gray-300 text-sm leading-relaxed max-w-sm md:max-w-md line-clamp-3">
                         {comment.content}
                       </p>
-                      <span className="text-xs text-gray-500 mt-2 block">
+                      <span className="text-[10px] md:text-xs text-gray-500 mt-2 block whitespace-nowrap">
                         {new Date(comment.createdAt).toLocaleString('ar-SA')}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="font-bold text-white text-sm">{comment.user.name}</div>
-                      <div className="text-gray-500 text-xs">{comment.user.email}</div>
+                    <td className="px-4 md:px-6 py-4 whitespace-nowrap">
+                      <div className="font-bold text-white text-sm md:text-base">{comment.user.name}</div>
+                      <div className="text-gray-500 text-xs md:text-sm">{comment.user.email}</div>
                     </td>
-                    <td className="px-6 py-4 text-gray-300 text-sm">
+                    <td className="px-4 md:px-6 py-4 text-gray-300 text-sm whitespace-nowrap">
                       الفصل {comment.chapter.chapterNum}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                       {comment.isReported ? (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-500/10 text-red-400 border border-red-500/20">
                           <AlertTriangle className="w-3 h-3" />
@@ -176,7 +176,7 @@ export default function CommentsAdminPage() {
                         </span>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-left">
+                    <td className="px-4 md:px-6 py-4 text-left whitespace-nowrap">
                       <div className="flex items-center justify-end gap-2">
                         {comment.isReported && (
                           <button

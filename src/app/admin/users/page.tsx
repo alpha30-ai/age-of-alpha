@@ -150,13 +150,13 @@ export default function UsersAdminPage() {
       </div>
 
       {/* Standalone Search & Actions Toolbar */}
-      <div className="bg-black/40 border border-white/10 p-4 rounded-3xl backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] sticky top-[88px] z-30 mb-8">
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
-          <div className="w-full flex-1">
+      <div className="bg-black/40 border border-white/10 p-3 md:p-4 rounded-3xl backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] sticky top-[72px] md:top-[88px] z-30 mb-8">
+        <div className="flex flex-row items-center gap-2 md:gap-4 w-full">
+          <div className="w-full flex-1 min-w-0">
             <SearchInput placeholder="ابحث بالاسم أو البريد الإلكتروني..." value={searchQuery} onChange={setSearchQuery} />
           </div>
           
-          <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0">
              {/* Any actions can go here if needed in the future */}
           </div>
         </div>
@@ -169,15 +169,15 @@ export default function UsersAdminPage() {
       ) : (
         <div className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden shadow-xl">
           <div className="overflow-x-auto">
-            <table className="w-full text-right">
-              <thead className="bg-black/50 border-b border-white/10">
+            <table className="w-full text-right min-w-[800px]">
+              <thead className="bg-black/50 border-b border-white/10 whitespace-nowrap">
                 <tr>
-                  <th className="px-6 py-4 text-gray-400 font-bold">المستخدم</th>
-                  <th className="px-6 py-4 text-gray-400 font-bold">البريد الإلكتروني</th>
-                  <th className="px-6 py-4 text-gray-400 font-bold">الصلاحية</th>
-                  <th className="px-6 py-4 text-gray-400 font-bold">اللقب (الرتبة)</th>
-                  <th className="px-6 py-4 text-gray-400 font-bold">الحالة</th>
-                  <th className="px-6 py-4 text-gray-400 font-bold">إجراءات</th>
+                  <th className="px-4 md:px-6 py-4 text-gray-400 font-bold">المستخدم</th>
+                  <th className="px-4 md:px-6 py-4 text-gray-400 font-bold">البريد الإلكتروني</th>
+                  <th className="px-4 md:px-6 py-4 text-gray-400 font-bold">الصلاحية</th>
+                  <th className="px-4 md:px-6 py-4 text-gray-400 font-bold">اللقب (الرتبة)</th>
+                  <th className="px-4 md:px-6 py-4 text-gray-400 font-bold">الحالة</th>
+                  <th className="px-4 md:px-6 py-4 text-gray-400 font-bold">إجراءات</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -189,20 +189,21 @@ export default function UsersAdminPage() {
                     key={user.id} 
                     className="hover:bg-white/5 transition-colors"
                   >
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
+                    <td className="px-4 md:px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2 md:gap-3">
                         {user.image ? (
-                          <img src={user.image} alt={user.name} className="w-10 h-10 rounded-full border border-white/10" />
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={user.image} alt={user.name} className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/10 object-cover shrink-0" />
                         ) : (
-                          <div className="w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
+                          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-sm md:text-base shrink-0">
                             {user.name?.charAt(0) || 'U'}
                           </div>
                         )}
-                        <span className="font-bold text-white">{user.name || 'مستخدم مجهول'}</span>
+                        <span className="font-bold text-white text-sm md:text-base">{user.name || 'مستخدم مجهول'}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-400">{user.email}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 md:px-6 py-4 text-gray-400 text-sm md:text-base whitespace-nowrap">{user.email}</td>
+                    <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${
                         user.role === 'ADMIN' ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
                       }`}>
@@ -210,25 +211,25 @@ export default function UsersAdminPage() {
                         {user.role}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                       <select
                         value={user.rank || 'مواطن'}
                         onChange={(e) => handleRankChange(user.id, e.target.value)}
-                        className="bg-black/50 border border-white/10 text-gray-300 text-sm rounded-lg focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] block w-full p-2"
+                        className="bg-black/50 border border-white/10 text-gray-300 text-xs md:text-sm rounded-lg focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] block w-full p-1.5 md:p-2 cursor-pointer min-w-[120px]"
                       >
                         {RANKS.map((rank) => (
                           <option key={rank} value={rank}>{rank}</option>
                         ))}
                       </select>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${
                         user.isBanned ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                       }`}>
                         {user.isBanned ? 'محظور' : 'نشط'}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleRoleChange(user.id, user.role === 'ADMIN' ? 'USER' : 'ADMIN')}
