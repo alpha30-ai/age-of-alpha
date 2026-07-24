@@ -16,8 +16,8 @@ interface ChapterCardProps {
 
 export default function ChapterCard({ id, chapterNum, title, content, createdAt, audioUrl, imageUrl }: ChapterCardProps) {
   return (
-    <Link href={`/chapters/${id}`} className="block group">
-      <div className="relative w-full bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 group-hover:border-[var(--theme-primary)]/50 shadow-lg group-hover:shadow-[0_10px_30px_-10px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] transition-all duration-500 hover:-translate-y-2 flex flex-col">
+    <Link href={`/chapters/${id}`} className="block group h-full">
+      <div className="relative h-full w-full bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 group-hover:border-[var(--theme-primary)]/50 shadow-lg group-hover:shadow-[0_10px_30px_-10px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] transition-all duration-500 hover:-translate-y-2 flex flex-col">
         
         {/* Top Image Section (16:9 ratio) */}
         <div className="relative w-full aspect-video bg-[#111] overflow-hidden border-b border-white/5">
@@ -52,7 +52,7 @@ export default function ChapterCard({ id, chapterNum, title, content, createdAt,
         {/* Bottom Content Section */}
         <div className="p-5 flex-1 flex flex-col justify-between bg-gradient-to-b from-[#0a0a0a] to-[#050505] relative z-20">
           <div>
-            <h3 className="font-cairo font-bold text-xl md:text-2xl text-gray-100 group-hover:text-[var(--theme-primary)] transition-colors duration-300 mb-2 leading-tight">
+            <h3 className="font-cairo font-bold text-xl md:text-2xl text-gray-100 group-hover:text-[var(--theme-primary)] transition-colors duration-300 mb-2 leading-tight line-clamp-2">
               {title}
             </h3>
 
