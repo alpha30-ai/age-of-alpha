@@ -29,27 +29,27 @@ export default function ChaptersAdminClient({ initialChapters }: { initialChapte
         
         <div className="relative z-10 flex flex-col gap-8">
           {/* Top Row: Title & Actions */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div>
-              <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
+            <div className="space-y-2">
+              <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
                 <BookOpen className="w-8 h-8 text-[var(--theme-primary)]" />
                 سجل المخطوطات
               </h1>
-              <p className="text-gray-400 max-w-xl text-sm">
+              <p className="text-gray-400 max-w-xl text-sm md:text-base">
                 إدارة فصول الرواية والمخطوطات القديمة. أضف فصولاً جديدة وتحكم بمحتواها.
               </p>
             </div>
             
-            <div className="flex items-center flex-wrap gap-4 w-full lg:w-auto shrink-0 bg-black/20 p-2 rounded-2xl border border-white/5">
-              <div className="flex-1 sm:w-64">
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto shrink-0">
+              <div className="w-full sm:w-72">
                 <SearchInput placeholder="ابحث برقم أو اسم المخطوطة..." value={searchQuery} onChange={setSearchQuery} />
               </div>
               
-              <div className="flex items-center gap-2">
-                <div className="flex bg-black/40 rounded-xl p-1 shadow-inner h-[52px]">
+              <div className="flex items-center gap-3 w-full sm:w-auto">
+                <div className="flex bg-black/40 rounded-xl p-1 shadow-inner h-[52px] w-full sm:w-auto justify-center">
                   <button
                     onClick={() => setViewMode('grid')}
-                    className={`px-3 rounded-lg transition-all duration-300 ${
+                    className={`px-4 sm:px-3 rounded-lg transition-all duration-300 flex-1 sm:flex-none flex items-center justify-center ${
                       viewMode === 'grid' 
                         ? 'bg-[var(--theme-primary)] text-white shadow-lg shadow-[var(--theme-primary)]/20' 
                         : 'text-gray-500 hover:text-white hover:bg-white/5'
@@ -59,7 +59,7 @@ export default function ChaptersAdminClient({ initialChapters }: { initialChapte
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
-                    className={`px-3 rounded-lg transition-all duration-300 ${
+                    className={`px-4 sm:px-3 rounded-lg transition-all duration-300 flex-1 sm:flex-none flex items-center justify-center ${
                       viewMode === 'list' 
                         ? 'bg-[var(--theme-primary)] text-white shadow-lg shadow-[var(--theme-primary)]/20' 
                         : 'text-gray-500 hover:text-white hover:bg-white/5'
@@ -71,19 +71,19 @@ export default function ChaptersAdminClient({ initialChapters }: { initialChapte
                 
                 <Link 
                   href="/admin/chapters/new"
-                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-[var(--theme-primary)] to-orange-600 hover:from-orange-600 hover:to-[var(--theme-primary)] text-white h-[52px] px-6 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(230,74,25,0.3)] hover:shadow-[0_0_30px_rgba(230,74,25,0.5)] border border-white/10 shrink-0"
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-[var(--theme-primary)] to-orange-600 hover:from-orange-600 hover:to-[var(--theme-primary)] text-white h-[52px] px-6 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(230,74,25,0.3)] hover:shadow-[0_0_30px_rgba(230,74,25,0.5)] border border-white/10 shrink-0 w-full sm:w-auto"
                 >
                   <Plus className="w-5 h-5" />
-                  <span className="hidden sm:inline">مخطوطة جديدة</span>
+                  <span>مخطوطة جديدة</span>
                 </Link>
               </div>
             </div>
           </div>
 
           {/* Bottom Row: Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[var(--theme-primary)]/20 flex items-center justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4 hover:bg-white/10 transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-[var(--theme-primary)]/20 flex items-center justify-center shrink-0">
                 <BookOpen className="w-6 h-6 text-[var(--theme-primary)]" />
               </div>
               <div>
@@ -91,8 +91,8 @@ export default function ChaptersAdminClient({ initialChapters }: { initialChapte
                 <p className="text-2xl font-bold text-white font-sans">{totalChapters}</p>
               </div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-orange-500/20 flex items-center justify-center">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4 hover:bg-white/10 transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-orange-500/20 flex items-center justify-center shrink-0">
                 <LayoutGrid className="w-6 h-6 text-orange-400" />
               </div>
               <div>

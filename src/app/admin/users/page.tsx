@@ -116,27 +116,27 @@ export default function UsersAdminPage() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/10 blur-[120px] pointer-events-none" />
         
         <div className="relative z-10 flex flex-col gap-8">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div>
-              <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
+            <div className="space-y-2">
+              <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
                 <Users className="w-8 h-8 text-green-400" />
                 إدارة المستخدمين
               </h1>
-              <p className="text-gray-400 max-w-xl text-sm">
+              <p className="text-gray-400 max-w-xl text-sm md:text-base">
                 إدارة حسابات القراء، ومراجعة أعدادهم، وإعطاء الصلاحيات لمن يستحق.
               </p>
             </div>
             
-            <div className="flex items-center gap-4 w-full lg:w-auto shrink-0 bg-black/20 p-2 rounded-2xl border border-white/5">
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto shrink-0">
               <div className="w-full sm:w-80">
                 <SearchInput placeholder="ابحث بالاسم أو البريد الإلكتروني..." value={searchQuery} onChange={setSearchQuery} />
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4 hover:bg-white/10 transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center shrink-0">
                 <Users className="w-6 h-6 text-green-400" />
               </div>
               <div>
@@ -144,8 +144,8 @@ export default function UsersAdminPage() {
                 <p className="text-2xl font-bold text-white font-sans">{users.length}</p>
               </div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4 hover:bg-white/10 transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center shrink-0">
                 <Shield className="w-6 h-6 text-yellow-400" />
               </div>
               <div>

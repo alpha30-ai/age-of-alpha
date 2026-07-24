@@ -71,46 +71,42 @@ export default function CommentsAdminPage() {
 
   return (
     <div className="p-6 md:p-10 max-w-7xl mx-auto font-tajawal">
-      <div className="bg-gradient-to-br from-white/5 to-black/40 p-6 md:p-8 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl mb-8">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 blur-[120px] pointer-events-none" />
-        
-        <div className="relative z-10 flex flex-col gap-8">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div>
-              <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-                <MessageSquare className="w-8 h-8 text-cyan-400" />
-                سجل التعليقات
-              </h1>
-              <p className="text-gray-400 max-w-xl text-sm">
-                مراجعة تعليقات القراء وحذف التعليقات المسيئة لضمان بيئة قراءة نظيفة.
-              </p>
-            </div>
-            
-            <div className="flex items-center gap-4 w-full lg:w-auto shrink-0 bg-black/20 p-2 rounded-2xl border border-white/5">
-              <div className="w-full sm:w-80">
-                <SearchInput placeholder="ابحث في التعليقات أو اسم الكاتب..." value={searchQuery} onChange={setSearchQuery} />
-              </div>
+      <div className="flex flex-col gap-8 mb-10">
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
+              <MessageSquare className="w-8 h-8 text-cyan-400" />
+              سجل التعليقات
+            </h1>
+            <p className="text-gray-400 max-w-xl text-sm md:text-base">
+              مراجعة تعليقات القراء وحذف التعليقات المسيئة لضمان بيئة قراءة نظيفة.
+            </p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto shrink-0">
+            <div className="w-full sm:w-80">
+              <SearchInput placeholder="ابحث في التعليقات أو اسم الكاتب..." value={searchQuery} onChange={setSearchQuery} />
             </div>
           </div>
+        </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
-                <MessageSquare className="w-6 h-6 text-cyan-400" />
-              </div>
-              <div>
-                <p className="text-gray-400 text-xs font-bold mb-1">إجمالي التعليقات</p>
-                <p className="text-2xl font-bold text-white font-sans">{comments.length}</p>
-              </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4 hover:bg-white/10 transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center shrink-0">
+              <MessageSquare className="w-6 h-6 text-cyan-400" />
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-                <CheckCircle className="w-6 h-6 text-emerald-400" />
-              </div>
-              <div>
-                <p className="text-gray-400 text-xs font-bold mb-1">تمت مراجعتها</p>
-                <p className="text-2xl font-bold text-white font-sans">{comments.filter(c => c.isApproved).length}</p>
-              </div>
+            <div>
+              <p className="text-gray-400 text-xs font-bold mb-1">إجمالي التعليقات</p>
+              <p className="text-2xl font-bold text-white font-sans">{comments.length}</p>
+            </div>
+          </div>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4 hover:bg-white/10 transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0">
+              <CheckCircle className="w-6 h-6 text-emerald-400" />
+            </div>
+            <div>
+              <p className="text-gray-400 text-xs font-bold mb-1">تمت مراجعتها</p>
+              <p className="text-2xl font-bold text-white font-sans">{comments.filter(c => c.isApproved).length}</p>
             </div>
           </div>
         </div>
