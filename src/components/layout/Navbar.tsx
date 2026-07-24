@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, Flame, BookOpen, Film, Shield, LogOut, LogIn, User, Settings, Users } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Flame, Menu, X, BookOpen, Users, Video, Info, User, LogIn, LogOut, Settings, Shield, Film } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
 
 export default function Navbar() {
@@ -147,8 +148,16 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden fixed inset-0 z-40 bg-black/80 backdrop-blur-3xl flex flex-col pt-24 px-6 pb-6 overflow-y-auto"
+            className="md:hidden fixed inset-0 z-40 bg-black/80 backdrop-blur-3xl flex flex-col pt-16 px-6 pb-6 overflow-y-auto"
           >
+            {/* Close Button */}
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="absolute top-6 left-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white z-50 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
             {/* Background Effects inside menu */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-magma/10 blur-[100px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 blur-[100px] pointer-events-none" />
