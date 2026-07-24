@@ -169,6 +169,35 @@ export default async function ChapterPage({ params }: PageProps) {
           <div className="w-16 h-px bg-gradient-to-l from-transparent to-white" />
         </div>
 
+        {/* Author Note Section */}
+        {chapter.authorNote && (
+          <div className="mt-16 mb-20 relative group animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+            {/* Ambient Background Glow */}
+            <div className="absolute inset-0 bg-[var(--theme-primary)]/5 rounded-3xl blur-xl group-hover:bg-[var(--theme-primary)]/10 transition-colors duration-500" />
+            
+            <div className="relative bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl">
+              {/* Top Accent Line */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-gradient-to-r from-transparent via-[var(--theme-primary)] to-transparent opacity-50" />
+              
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-full bg-[var(--theme-primary)]/10 border border-[var(--theme-primary)]/30 flex items-center justify-center shadow-[0_0_15px_rgba(var(--theme-primary-rgb),0.2)]">
+                  <span className="text-2xl">✍️</span>
+                </div>
+                <div>
+                  <h3 className="font-cairo font-bold text-2xl text-white">تلميحات وملاحظات الكاتب</h3>
+                  <p className="text-[var(--theme-primary)] text-sm font-bold opacity-80">معلومات حصرية</p>
+                </div>
+              </div>
+              
+              <div className="prose prose-invert max-w-none">
+                <div className="font-tajawal text-xl leading-relaxed text-gray-300 whitespace-pre-line text-justify border-r-2 border-[var(--theme-primary)]/30 pr-6">
+                  {chapter.authorNote}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Navigation */}
         <nav className="mt-20 pt-10 border-t border-white/10">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

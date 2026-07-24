@@ -18,11 +18,13 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   }
 }
 
+import { revalidatePath } from 'next/cache';
+
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;
   try {
     const body = await request.json();
-    const { chapterNum, title, content, audioUrl } = body;
+    const { chapterNum, title, content, authorNote, audioUrl } = body;
 
     const chapter = await prisma.chapter.update({
       where: { id },
@@ -30,9 +32,15 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         ...(chapterNum && { chapterNum: parseInt(chapterNum) }),
         ...(title && { title }),
         ...(content && { content }),
+        ...(authorNote !== undefined && { authorNote }),
         audioUrl: audioUrl || null,
       },
     });
+
+    revalidatePath("/");
+    revalidatePath("/admin/chapters");
+    revalidatePath("/chapters");
+    revalidatePath(`/chapters/${chapter.id}`);
 
     return NextResponse.json(chapter);
   } catch (error) {

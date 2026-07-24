@@ -144,6 +144,19 @@ export default function EditChapterPage({ params }: { params: Promise<{ id: stri
 
           <div>
             <label className="block text-sm font-cairo font-bold text-silver-ash-light mb-2">
+              تلميحات الكاتب (اختياري)
+            </label>
+            <textarea
+              value={form.authorNote}
+              onChange={(e) => setForm({ ...form, authorNote: e.target.value })}
+              rows={4}
+              placeholder="أضف ملاحظات أو تلميحات تظهر للقراء في نهاية الفصل..."
+              className="w-full bg-abyss-lighter border border-stone rounded-lg px-4 py-3 text-silver-ash focus:border-magma focus:outline-none transition-colors resize-y font-tajawal"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-cairo font-bold text-silver-ash-light mb-2">
               رابط المقطع الصوتي (اختياري)
             </label>
             <input

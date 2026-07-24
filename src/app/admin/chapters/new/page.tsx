@@ -38,13 +38,24 @@ export default function NewChapterPage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="content" className="block text-sm font-bold text-gray-300">المحتوى الكامل (يدعم فواصل الأسطر)</label>
+          <label htmlFor="content" className="block text-sm font-bold text-gray-300">محتوى المخطوطة</label>
           <textarea 
             id="content" 
             name="content" 
             required
             rows={15}
-            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-gray-200 focus:outline-none focus:border-[var(--theme-primary)]/50 focus:shadow-[0_0_15px_rgba(var(--theme-primary-rgb),0.2)] transition-all resize-y leading-loose" 
+            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-gray-200 focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all resize-y font-tajawal text-lg leading-loose" 
+          ></textarea>
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="authorNote" className="block text-sm font-bold text-gray-300">تلميحات الكاتب (اختياري)</label>
+          <textarea 
+            id="authorNote" 
+            name="authorNote" 
+            rows={4}
+            placeholder="أضف ملاحظات أو تلميحات تظهر للقراء في نهاية الفصل..."
+            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-gray-200 focus:outline-none focus:border-emerald-500/50 transition-all resize-y font-tajawal text-lg" 
           ></textarea>
         </div>
 

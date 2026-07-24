@@ -104,6 +104,7 @@ model Chapter {
   chapterNum  Int      @unique
   title       String
   content     String   @db.Text
+  authorNote  String?  @db.Text
   imageUrl    String?
   audioUrl    String?
   createdAt   DateTime @default(now())

@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: 'اقرأ جميع فصول رواية عهد ألفا: ملحمة الدول المائة.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function ChaptersPage({ searchParams }: { searchParams: { q?: string } }) {
   let chapters: any[] = [];
   let theme: any = null;

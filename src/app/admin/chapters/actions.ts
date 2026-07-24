@@ -10,6 +10,7 @@ export async function createChapter(formData: FormData) {
   const chapterNum = parseInt(formData.get("chapterNum") as string);
   const title = formData.get("title") as string;
   const content = formData.get("content") as string;
+  const authorNote = formData.get("authorNote") as string || null;
   const imageUrl = formData.get("imageUrl") as string || null;
   const audioUrl = formData.get("audioUrl") as string || null;
 
@@ -20,6 +21,7 @@ export async function createChapter(formData: FormData) {
       chapterNum,
       title,
       content,
+      authorNote,
       imageUrl,
       audioUrl,
     },
@@ -27,6 +29,7 @@ export async function createChapter(formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/admin/chapters");
+  revalidatePath("/chapters"); // Fix: Refresh public chapters page
   redirect("/admin/chapters");
 }
 
@@ -35,6 +38,7 @@ export async function updateChapter(formData: FormData) {
   const chapterNum = parseInt(formData.get("chapterNum") as string);
   const title = formData.get("title") as string;
   const content = formData.get("content") as string;
+  const authorNote = formData.get("authorNote") as string || null;
   const imageUrl = formData.get("imageUrl") as string || null;
   const audioUrl = formData.get("audioUrl") as string || null;
 
@@ -46,6 +50,7 @@ export async function updateChapter(formData: FormData) {
       chapterNum,
       title,
       content,
+      authorNote,
       imageUrl,
       audioUrl,
     },
@@ -53,7 +58,8 @@ export async function updateChapter(formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/admin/chapters");
-  revalidatePath(`/chapters/${chapterNum}`);
+  revalidatePath("/chapters"); // Fix: Refresh public chapters page
+  revalidatePath(`/chapters/${chapterNum}`); // Or by ID
   redirect("/admin/chapters");
 }
 
