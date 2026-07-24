@@ -6,6 +6,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import AudioPlayer from '@/components/chapters/AudioPlayer';
 import CommentsSection from '@/components/chapters/CommentsSection';
+import ReadingTools from '@/components/chapters/ReadingTools';
 import { ArrowRight, ArrowLeft, BookOpen, Calendar, Clock } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
@@ -62,6 +63,7 @@ export default async function ChapterPage({ params }: PageProps) {
   return (
     <main className="bg-[#050505] min-h-screen text-gray-300">
       <Navbar />
+      <ReadingTools />
       
       {/* Ambient Top Glow */}
       <div className="absolute top-0 left-0 right-0 h-[50vh] bg-gradient-to-b from-[var(--theme-primary)]/10 to-transparent pointer-events-none" />
@@ -120,17 +122,51 @@ export default async function ChapterPage({ params }: PageProps) {
           </div>
         )}
 
+        <div className="flex justify-center items-center gap-4 mb-12 opacity-70 mt-8">
+          <div className="w-32 h-px bg-gradient-to-r from-transparent to-[var(--theme-primary)]" />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-[var(--theme-primary)] animate-pulse">
+            <path d="M12 2L15 8L22 9L17 14L18 21L12 17L6 21L7 14L2 9L9 8L12 2Z" fill="currentColor" opacity="0.8"/>
+          </svg>
+          <div className="w-32 h-px bg-gradient-to-l from-transparent to-[var(--theme-primary)]" />
+        </div>
+
         {/* Chapter Content (Reading Mode) */}
-        <div className="prose prose-invert max-w-none text-right">
-          <div className="font-tajawal text-xl md:text-2xl leading-[2.2] md:leading-[2.4] text-gray-300">
-            {chapter.content.split('\n').map((paragraph: string, index: number) => (
-              paragraph.trim() && (
+        <div className="prose prose-invert max-w-none text-right relative">
+          <div id="chapter-reader-content" className="font-tajawal text-[1.5rem] leading-[2.4] text-gray-300 transition-all duration-300">
+            {chapter.content.split('\n').map((paragraph: string, index: number) => {
+              if (!paragraph.trim()) return null;
+              
+              // Apply Drop Cap style to the first word of the first paragraph
+              if (index === 0) {
+                const firstWord = paragraph.trim().split(' ')[0];
+                const restOfParagraph = paragraph.trim().substring(firstWord.length);
+                return (
+                  <p key={index} className="mb-8 text-justify text-gray-200">
+                    <span className="float-right text-6xl md:text-7xl font-amiri font-bold text-[var(--theme-primary)] ml-4 mt-2 mb-2 leading-none drop-shadow-[0_0_15px_rgba(230,74,25,0.4)] border-b-2 border-[var(--theme-primary)]">
+                      {firstWord[0]}
+                    </span>
+                    <span className="font-bold text-white text-2xl">{firstWord.substring(1)}</span>
+                    {restOfParagraph}
+                  </p>
+                );
+              }
+
+              return (
                 <p key={index} className="mb-8 text-justify">
                   {paragraph}
                 </p>
-              )
-            ))}
+              );
+            })}
           </div>
+        </div>
+
+        {/* Decorative Divider End */}
+        <div className="flex justify-center items-center gap-4 mt-16 mb-8 opacity-30">
+          <div className="w-16 h-px bg-gradient-to-r from-transparent to-white" />
+          <div className="w-2 h-2 rounded-full bg-white rotate-45" />
+          <div className="w-2 h-2 rounded-full bg-[var(--theme-primary)] rotate-45" />
+          <div className="w-2 h-2 rounded-full bg-white rotate-45" />
+          <div className="w-16 h-px bg-gradient-to-l from-transparent to-white" />
         </div>
 
         {/* Navigation */}
