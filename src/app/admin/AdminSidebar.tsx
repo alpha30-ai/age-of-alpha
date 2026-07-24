@@ -39,15 +39,15 @@ export default function AdminSidebar({ user }: { user?: any }) {
           ${isCollapsed ? 'md:w-20' : 'md:w-72'}
         `}
       >
-        <div className={`p-6 flex items-center justify-between border-b border-white/5 ${isCollapsed ? 'justify-center' : ''}`}>
-          {!isCollapsed && (
-            <div className="flex items-center gap-2">
-              <Flame className="w-8 h-8 text-magma animate-pulse" />
-              <h2 className="text-2xl font-bold text-white tracking-wide text-magma truncate">
+        <div className={`p-6 flex items-center justify-between border-b border-white/5 ${isCollapsed ? 'justify-center p-4' : ''}`}>
+          <div className="flex items-center gap-2">
+            <Flame className="w-8 h-8 text-[var(--theme-primary)] drop-shadow-[0_0_10px_rgba(230,74,25,0.5)] shrink-0" />
+            {!isCollapsed && (
+              <h2 className="text-2xl font-bold text-white tracking-wide truncate">
                 عهد ألفا
               </h2>
-            </div>
-          )}
+            )}
+          </div>
           <Link href="/" className={`text-gray-400 hover:text-white transition-colors ${isCollapsed ? 'hidden' : ''}`} title="العودة للموقع">
             <ArrowRight className="w-5 h-5" />
           </Link>
