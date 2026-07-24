@@ -12,16 +12,16 @@ interface ChapterCardProps {
   createdAt: Date;
   audioUrl?: string | null;
   imageUrl?: string | null;
+  isList?: boolean;
 }
 
-export default function ChapterCard({ id, chapterNum, title, content, createdAt, audioUrl, imageUrl }: ChapterCardProps) {
+export default function ChapterCard({ id, chapterNum, title, content, createdAt, audioUrl, imageUrl, isList = false }: ChapterCardProps) {
   return (
-    <Link href={`/chapters/${id}`} className="block group h-full">
-      <div className="relative h-full w-full rounded-2xl p-[1px] bg-gradient-to-b from-white/10 to-transparent group-hover:from-[var(--theme-primary)]/50 group-hover:to-transparent transition-all duration-500 hover:-translate-y-2 shadow-lg group-hover:shadow-[0_15px_40px_-10px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)]">
-        <div className="relative h-full w-full bg-[#0a0a0a] rounded-2xl overflow-hidden flex flex-col z-10">
+    <Link href={`/chapters/${id}`} className="block h-full group">
+      <div className={`relative bg-[#0a0a0a] rounded-3xl overflow-hidden border border-white/10 shadow-2xl transition-all duration-500 hover:border-[var(--theme-primary)] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] ${isList ? 'flex flex-col sm:flex-row' : 'flex flex-col h-full'}`}>
         
-        {/* Top Image Section (16:9 ratio) */}
-        <div className="relative w-full aspect-video bg-[#111] overflow-hidden border-b border-white/5">
+        {/* Image Section */}
+        <div className={`relative bg-[#111] overflow-hidden ${isList ? 'sm:w-64 sm:aspect-square flex-shrink-0' : 'w-full aspect-video border-b border-white/5'}`}>
           {imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img 
@@ -73,9 +73,7 @@ export default function ChapterCard({ id, chapterNum, title, content, createdAt,
             </div>
           </div>
         </div>
-        
         </div>
-      </div>
     </Link>
   );
 }

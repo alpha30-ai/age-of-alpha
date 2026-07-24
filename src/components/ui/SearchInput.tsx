@@ -46,12 +46,10 @@ function SearchInputContent({ placeholder, value, onChange }: SearchInputProps) 
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto mb-10 flex flex-col items-center gap-8 bg-[#0a0a0a]/60 p-8 rounded-3xl border border-white/5 backdrop-blur-md shadow-2xl relative overflow-hidden">
-      {/* Glow effect for the filter box */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[var(--theme-primary)]/50 to-transparent" />
-      
-      <div className="relative w-full">
-        <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+    <div className="w-full max-w-2xl mx-auto mb-8 relative group">
+      <div className="absolute inset-0 bg-gradient-to-r from-[var(--theme-primary)] to-purple-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+      <div className="relative flex items-center bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden transition-all focus-within:border-[var(--theme-primary)]/50 focus-within:shadow-[0_0_15px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)]">
+        <div className="pl-4 pr-4 text-gray-500 group-focus-within:text-[var(--theme-primary)] transition-colors">
           <Search className="w-5 h-5" />
         </div>
         <input
@@ -59,7 +57,7 @@ function SearchInputContent({ placeholder, value, onChange }: SearchInputProps) 
           value={query}
           onChange={handleChange}
           placeholder={placeholder}
-          className="w-full bg-[#111] border border-white/10 rounded-2xl py-4 pr-12 pl-4 text-white focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/50 focus:border-[var(--theme-primary)] transition-all font-tajawal text-lg shadow-inner placeholder-gray-500"
+          className="w-full bg-transparent py-4 pr-2 pl-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-0 font-tajawal text-lg"
         />
       </div>
     </div>

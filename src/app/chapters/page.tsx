@@ -3,8 +3,7 @@ import prisma from '@/lib/prisma';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import PageBanner from '@/components/ui/PageBanner';
-import ChapterCard from '@/components/chapters/ChapterCard';
-import SearchInput from '@/components/ui/SearchInput';
+import ChaptersClient from './ChaptersClient';
 import { BookOpen } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -60,36 +59,7 @@ export default async function ChaptersPage({ searchParams }: { searchParams: { q
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[150px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto relative z-10">
-          
-          <div className="relative group mb-12">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--theme-primary)]/20 to-transparent blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-            <SearchInput placeholder="ابحث عن مخطوطة باسمها أو رقمها..." />
-          </div>
-
-          {chapters.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {chapters.map((chapter) => (
-                <ChapterCard
-                  key={chapter.id}
-                  id={chapter.id}
-                  chapterNum={chapter.chapterNum}
-                  title={chapter.title}
-                  content={chapter.content}
-                  createdAt={chapter.createdAt}
-                  audioUrl={chapter.audioUrl}
-                  imageUrl={chapter.imageUrl}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-24 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-xl">
-              <BookOpen className="w-16 h-16 text-gray-500 mx-auto mb-6" />
-              <p className="text-white text-xl font-bold font-cairo">
-                {query ? "لم يتم العثور على أي مخطوطات تطابق بحثك" : "لم تُنشر أي مخطوطات بعد"}
-              </p>
-              {!query && <p className="text-gray-400 mt-3">تأكد من اتصال قاعدة البيانات وتشغيل البيانات التجريبية</p>}
-            </div>
-          )}
+          <ChaptersClient initialChapters={chapters} initialQuery={query} />
         </div>
       </div>
       <Footer />

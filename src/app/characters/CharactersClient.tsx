@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { motion, Variants, AnimatePresence } from "framer-motion";
 import { Character } from "@prisma/client";
 import SearchInput from '@/components/ui/SearchInput';
+import ViewToggle from '@/components/ui/ViewToggle';
 import { Shield, Zap, Brain, Users } from "lucide-react";
 
 export default function CharactersClient({ characters }: { characters: Character[] }) {
   const [activeTab, setActiveTab] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const tabs = [
     { id: 'ALL', label: 'الكل' },
@@ -59,39 +61,49 @@ export default function CharactersClient({ characters }: { characters: Character
     <div className="space-y-12">
       
       {/* Search & Filters */}
-      <div className="flex flex-col items-center gap-8 bg-[#0a0a0a]/60 p-8 rounded-3xl border border-white/5 backdrop-blur-md shadow-2xl relative overflow-hidden">
-        {/* Glow effect for the filter box */}
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[var(--theme-primary)]/50 to-transparent" />
-        
-        {/* Search Input */}
-        <div className="w-full">
-          <SearchInput 
-            value={searchQuery} 
-            onChange={setSearchQuery} 
-            placeholder="ابحث عن شخصية بالاسم أو اللقب..." 
-          />
+      <div className="space-y-6">
+        <div className="flex flex-col md:flex-row items-center gap-4">
+          <div className="flex-1 w-full">
+            <SearchInput 
+              value={searchQuery} 
+              onChange={setSearchQuery} 
+              placeholder="ابحث عن شخصية بالاسم أو اللقب..." 
+            />
+          </div>
+          <div className="shrink-0 hidden md:block mb-8">
+            <ViewToggle storageKey="characters-view-mode" defaultView="grid" onViewChange={setViewMode} />
+          </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 w-full">
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`px-6 py-2.5 rounded-full font-cairo font-bold text-sm md:text-base transition-all duration-300 ${
-              activeTab === tab.id
-                ? 'bg-[var(--theme-primary)] text-white shadow-[0_0_20px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)] scale-105'
-                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/5'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+        <div className="md:hidden flex justify-end mb-6 -mt-10">
+          <ViewToggle storageKey="characters-view-mode" defaultView="grid" onViewChange={setViewMode} />
+        </div>
+
+        {/* Tabs - Scrollable on mobile */}
+        <div className="flex justify-center w-full">
+          <div className="flex overflow-x-auto gap-3 pb-4 max-w-full no-scrollbar snap-x snap-mandatory px-4 sm:px-0">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`snap-center shrink-0 whitespace-nowrap px-6 py-2.5 rounded-full font-cairo font-bold text-sm md:text-base transition-all duration-300 ${
+                  activeTab === tab.id
+                    ? 'bg-[var(--theme-primary)] text-white shadow-[0_0_20px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)] scale-105'
+                    : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/5'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       <motion.div 
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        className={viewMode === 'grid' 
+          ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          : "flex flex-col gap-6 max-w-4xl mx-auto"
+        }
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -110,7 +122,7 @@ export default function CharactersClient({ characters }: { characters: Character
             </motion.div>
           ) : (
             filteredCharacters.map((char) => (
-              <Link href={`/characters/${char.id}`} key={char.id} className="block">
+              <Link href={`/characters/${char.id}`} key={char.id} className={`block ${viewMode === 'list' ? 'w-full' : ''}`}>
                 <motion.div
                   layout
                   variants={cardVariants}
@@ -119,10 +131,10 @@ export default function CharactersClient({ characters }: { characters: Character
                   exit="exit"
             whileHover={{ y: -8, scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="relative w-full h-full bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 hover:border-[var(--theme-primary)]/50 shadow-lg hover:shadow-[0_10px_30px_-10px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] transition-all duration-500 flex flex-col group cursor-pointer"
+            className={`relative h-full bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 hover:border-[var(--theme-primary)]/50 shadow-lg hover:shadow-[0_10px_30px_-10px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] transition-all duration-500 flex group cursor-pointer ${viewMode === 'list' ? 'flex-col sm:flex-row' : 'flex-col w-full'}`}
           >
-            {/* Card Header (Image & Gradient 4:3) */}
-            <div className="relative w-full aspect-[4/3] bg-[#111] overflow-hidden border-b border-white/5">
+            {/* Card Header (Image & Gradient) */}
+            <div className={`relative bg-[#111] overflow-hidden border-b sm:border-b-0 sm:border-l border-white/5 ${viewMode === 'list' ? 'sm:w-64 sm:aspect-square flex-shrink-0' : 'w-full aspect-[4/3]'}`}>
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                 style={{ 

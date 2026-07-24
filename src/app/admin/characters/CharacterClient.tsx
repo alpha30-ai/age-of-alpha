@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { createCharacter, deleteCharacter } from './actions';
 import { Trash2, Plus, Swords, Brain, Zap, Shield } from 'lucide-react';
 import FileUploadInput from '@/components/ui/FileUploadInput';
+import SearchInput from '@/components/ui/SearchInput';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Character {
   id: string;
@@ -22,6 +24,7 @@ interface Character {
 
 export default function CharacterClient({ initialCharacters }: { initialCharacters: Character[] }) {
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleDelete = async (id: string) => {
     if (!confirm('هل أنت متأكد من حذف هذه الشخصية؟')) return;
@@ -29,6 +32,12 @@ export default function CharacterClient({ initialCharacters }: { initialCharacte
     await deleteCharacter(id);
     setLoading(false);
   };
+
+  const filteredCharacters = initialCharacters.filter(char => 
+    char.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (char.title && char.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (char.faction && char.faction.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
   return (
     <div className="space-y-8">
@@ -103,9 +112,23 @@ export default function CharacterClient({ initialCharacters }: { initialCharacte
       </form>
 
       {/* List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {initialCharacters.map(char => (
-          <div key={char.id} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-xl group hover:bg-white/10 transition-colors relative">
+      <div className="bg-white/5 p-4 rounded-3xl border border-white/10">
+        <div className="w-full max-w-md">
+          <SearchInput placeholder="ابحث باسم الشخصية، اللقب، أو الفصيل..." value={searchQuery} onChange={setSearchQuery} />
+        </div>
+      </div>
+
+      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <AnimatePresence>
+        {filteredCharacters.map(char => (
+          <motion.div 
+            layout
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            key={char.id} 
+            className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-xl group hover:bg-white/10 transition-colors relative"
+          >
             <div className="absolute top-2 right-2 z-10 bg-black/80 backdrop-blur-md border border-white/10 text-white px-2 py-1 rounded-md text-xs font-bold">
               ترتيب: {char.sortOrder}
             </div>
@@ -173,12 +196,13 @@ export default function CharacterClient({ initialCharacters }: { initialCharacte
             </div>
           </div>
         ))}
-        {initialCharacters.length === 0 && (
-          <div className="col-span-full p-12 text-center border border-dashed border-white/20 rounded-2xl text-gray-400">
-            لا توجد شخصيات مضافة حتى الآن.
-          </div>
-        )}
-      </div>
+        </AnimatePresence>
+      </motion.div>
+      {filteredCharacters.length === 0 && (
+        <div className="p-12 text-center border border-dashed border-white/20 rounded-2xl text-gray-400">
+          لم يتم العثور على شخصيات.
+        </div>
+      )}
     </div>
   );
 }

@@ -10,15 +10,16 @@ interface VideoCardProps {
   description?: string | null;
   videoUrl: string;
   thumbnail?: string | null;
+  isList?: boolean;
 }
 
-export default function VideoCard({ id, title, description, thumbnail }: VideoCardProps) {
+export default function VideoCard({ id, title, description, thumbnail, isList = false }: VideoCardProps) {
   return (
-    <Link href={`/videos/${id}`} className="block group">
-      <div className="relative w-full bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 group-hover:border-[var(--theme-primary)]/50 shadow-lg group-hover:shadow-[0_10px_30px_-10px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] transition-all duration-500 hover:-translate-y-2 flex flex-col">
+    <Link href={`/videos/${id}`} className="block group h-full">
+      <div className={`relative bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 group-hover:border-[var(--theme-primary)]/50 shadow-lg group-hover:shadow-[0_10px_30px_-10px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] transition-all duration-500 hover:-translate-y-2 ${isList ? 'flex flex-col sm:flex-row' : 'flex flex-col h-full'}`}>
         
-        {/* Top Video Thumbnail Section (16:9 ratio) */}
-        <div className="relative w-full aspect-video bg-[#111] overflow-hidden border-b border-white/5">
+        {/* Top Video Thumbnail Section */}
+        <div className={`relative bg-[#111] overflow-hidden ${isList ? 'sm:w-72 sm:aspect-video flex-shrink-0 border-b sm:border-b-0 sm:border-l border-white/5' : 'w-full aspect-video border-b border-white/5'}`}>
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
             style={{ 

@@ -5,11 +5,14 @@ import { UserCircle, Shield, ShieldAlert, Trash2, Ban, CheckCircle, Crown } from
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 
+import SearchInput from '@/components/ui/SearchInput';
+
 const RANKS = ['مواطن', 'فارس الظلام', 'قائد الفيلق', 'ملك الألفية', 'الإمبراطور الأعظم'];
 
 export default function UsersAdminPage() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetchUsers();
@@ -101,15 +104,25 @@ export default function UsersAdminPage() {
     }
   };
 
+  const filteredUsers = users.filter(u => 
+    u.name?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    u.email?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="p-6 md:p-10 max-w-7xl mx-auto font-tajawal">
-      <div className="flex items-center gap-4 mb-10">
-        <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-          <UserCircle className="w-6 h-6 text-indigo-400" />
+      <div className="flex flex-col md:flex-row items-center gap-4 mb-10 justify-between">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
+            <UserCircle className="w-6 h-6 text-indigo-400" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-white font-amiri tracking-wide">إدارة المستخدمين</h1>
+            <p className="text-gray-400 mt-1">تحكم بصلاحيات وألقاب الأعضاء في الملحمة</p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-3xl font-bold text-white font-amiri tracking-wide">إدارة المستخدمين</h1>
-          <p className="text-gray-400 mt-1">تحكم بصلاحيات وألقاب الأعضاء في الملحمة</p>
+        <div className="w-full max-w-md shrink-0">
+          <SearchInput placeholder="ابحث بالاسم أو البريد..." value={searchQuery} onChange={setSearchQuery} />
         </div>
       </div>
 
@@ -132,7 +145,7 @@ export default function UsersAdminPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
-                {users.map((user, index) => (
+                {filteredUsers.map((user, index) => (
                   <motion.tr 
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}

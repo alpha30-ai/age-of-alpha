@@ -3,10 +3,7 @@ import prisma from '@/lib/prisma';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import PageBanner from '@/components/ui/PageBanner';
-import VideoCard from '@/components/videos/VideoCard';
-import { Film } from 'lucide-react';
-
-import SearchInput from '@/components/ui/SearchInput';
+import VideosClient from './VideosClient';
 
 export const metadata: Metadata = {
   title: 'السجلات المرئية | عهد ألفا: ملحمة الدول المائة',
@@ -54,30 +51,7 @@ export default async function VideosPage({ searchParams }: { searchParams: { q?:
 
       <div className="pb-20 px-4 min-h-screen">
         <div className="max-w-7xl mx-auto">
-          
-          <SearchInput placeholder="ابحث عن فيديو..." />
-
-          {videos.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {videos.map((video) => (
-                <VideoCard
-                  key={video.id}
-                  id={video.id}
-                  title={video.title}
-                  description={video.description}
-                  videoUrl={video.videoUrl}
-                  thumbnail={video.thumbnail}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-24 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-xl">
-              <Film className="w-16 h-16 text-gray-500 mx-auto mb-6" />
-              <p className="text-white text-xl font-bold font-cairo">
-                {query ? "لم يتم العثور على أي فيديو يطابق بحثك" : "لا توجد سجلات مرئية بعد"}
-              </p>
-            </div>
-          )}
+          <VideosClient initialVideos={videos} initialQuery={query} />
         </div>
       </div>
       <Footer />
