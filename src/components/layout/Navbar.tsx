@@ -30,7 +30,7 @@ export default function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-      className={`fixed top-0 w-full left-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 inset-x-0 w-full z-50 transition-all duration-500 ${
         scrolled
           ? 'bg-black/60 backdrop-blur-2xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)] py-2'
           : 'bg-transparent py-4'
