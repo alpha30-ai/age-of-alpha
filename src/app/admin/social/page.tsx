@@ -156,61 +156,77 @@ export default function SocialPublishAdminPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 animate-fade-in pb-20">
-      <div className="flex flex-col gap-2 border-b border-white/10 pb-6">
-        <h1 className="text-3xl font-amiri font-bold text-white flex items-center gap-3">
-          <Share2 className="w-8 h-8 text-magma" />
-          أدوات النشر والتسويق الشاملة
-        </h1>
-        <p className="text-gray-400 font-tajawal text-lg">
-          توليد وإدارة المحتوى التسويقي لمنصات التواصل الاجتماعي للفصول، الشخصيات، والفيديوهات!
-        </p>
+    <div className="max-w-6xl mx-auto space-y-8 md:space-y-12 animate-fade-in pb-24 px-2 md:px-0">
+      
+      {/* Header Section */}
+      <div className="relative overflow-hidden stone-card rounded-3xl p-6 md:p-10 border border-white/10 shadow-2xl">
+        <div className="absolute top-0 left-0 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-magma/10 rounded-full blur-3xl translate-y-1/2 translate-x-1/2"></div>
+        
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="flex items-center gap-5">
+            <div className="p-4 bg-gradient-to-br from-rose-900/50 to-magma/20 rounded-2xl border border-rose-500/20 shadow-inner">
+              <Share2 className="w-10 h-10 text-rose-400" />
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-amiri font-bold text-white mb-2">أدوات النشر والتسويق</h1>
+              <p className="text-gray-400 font-tajawal text-base md:text-lg max-w-lg">
+                توليد وإدارة المحتوى التسويقي لمنصات التواصل الاجتماعي للفصول، الشخصيات، والفيديوهات بلمسة ذكاء اصطناعي.
+              </p>
+            </div>
+          </div>
+          <div className="hidden md:flex items-center justify-center p-4 bg-white/5 rounded-2xl border border-white/5 backdrop-blur-sm">
+            <Wand2 className="w-8 h-8 text-magma animate-pulse" />
+          </div>
+        </div>
       </div>
 
       {message && (
-        <div className={`p-4 rounded-xl border flex items-center gap-3 ${
+        <div className={`p-5 rounded-2xl border flex items-start md:items-center gap-4 shadow-lg ${
           message.type === 'success' 
             ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
             : 'bg-red-500/10 border-red-500/30 text-red-400'
         }`}>
-          {message.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <AlertTriangle className="w-5 h-5" />}
-          <p className="font-bold">{message.text}</p>
+          {message.type === 'success' ? <CheckCircle className="w-6 h-6 shrink-0 mt-0.5 md:mt-0" /> : <AlertTriangle className="w-6 h-6 shrink-0 mt-0.5 md:mt-0" />}
+          <p className="font-bold text-lg">{message.text}</p>
         </div>
       )}
 
       {/* Target Type Tabs */}
-      <div className="flex gap-2 p-1 bg-white/5 rounded-2xl w-full max-w-lg mx-auto">
+      <div className="flex flex-col md:flex-row gap-3 p-2 bg-[#111] border border-white/5 rounded-3xl w-full max-w-2xl mx-auto shadow-2xl">
         <button
           onClick={() => setTargetType('CHAPTER')}
-          className={`flex-1 flex justify-center items-center gap-2 py-3 rounded-xl font-bold transition-all ${targetType === 'CHAPTER' ? 'bg-magma text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+          className={`flex-1 flex justify-center items-center gap-3 py-4 rounded-2xl font-bold transition-all duration-300 ${targetType === 'CHAPTER' ? 'bg-magma text-white shadow-[0_0_20px_rgba(230,74,25,0.3)] scale-[1.02]' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
         >
-          <BookOpen className="w-4 h-4" /> الفصول
+          <BookOpen className="w-5 h-5" /> الفصول
         </button>
         <button
           onClick={() => setTargetType('CHARACTER')}
-          className={`flex-1 flex justify-center items-center gap-2 py-3 rounded-xl font-bold transition-all ${targetType === 'CHARACTER' ? 'bg-purple-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+          className={`flex-1 flex justify-center items-center gap-3 py-4 rounded-2xl font-bold transition-all duration-300 ${targetType === 'CHARACTER' ? 'bg-purple-600 text-white shadow-[0_0_20px_rgba(147,51,234,0.3)] scale-[1.02]' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
         >
-          <Users className="w-4 h-4" /> الشخصيات
+          <Users className="w-5 h-5" /> الشخصيات
         </button>
         <button
           onClick={() => setTargetType('VIDEO')}
-          className={`flex-1 flex justify-center items-center gap-2 py-3 rounded-xl font-bold transition-all ${targetType === 'VIDEO' ? 'bg-emerald-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+          className={`flex-1 flex justify-center items-center gap-3 py-4 rounded-2xl font-bold transition-all duration-300 ${targetType === 'VIDEO' ? 'bg-emerald-600 text-white shadow-[0_0_20px_rgba(5,150,105,0.3)] scale-[1.02]' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
         >
-          <Film className="w-4 h-4" /> الفيديوهات
+          <Film className="w-5 h-5" /> الفيديوهات
         </button>
       </div>
 
       {/* Controls */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="stone-card rounded-2xl p-6">
-          <label className="block text-sm font-bold text-gray-400 mb-2">اختر المحتوى:</label>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+        
+        {/* Select Target */}
+        <div className="stone-card rounded-3xl p-6 md:p-8 border border-white/5 hover:border-white/10 transition-colors">
+          <label className="block text-base md:text-lg font-bold text-gray-300 mb-4">اختر المحتوى المستهدف:</label>
           {items.length === 0 ? (
-            <div className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-gray-500">لا يوجد محتوى حالياً...</div>
+            <div className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-gray-500 text-center">لا يوجد محتوى حالياً...</div>
           ) : (
             <select 
               value={selectedTargetId}
               onChange={(e) => setSelectedTargetId(e.target.value)}
-              className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-magma transition-colors"
+              className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-magma transition-colors text-lg shadow-inner appearance-none cursor-pointer"
             >
               {items.map(item => (
                 <option key={item.id} value={item.id}>{getItemLabel(item)}</option>
@@ -219,29 +235,30 @@ export default function SocialPublishAdminPage() {
           )}
         </div>
 
-        <div className="stone-card rounded-2xl p-6">
-          <label className="block text-sm font-bold text-gray-400 mb-2">منصة النشر:</label>
-          <div className="flex gap-4">
+        {/* Select Platform */}
+        <div className="stone-card rounded-3xl p-6 md:p-8 border border-white/5 hover:border-white/10 transition-colors">
+          <label className="block text-base md:text-lg font-bold text-gray-300 mb-4">منصة النشر:</label>
+          <div className="flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => setPlatform('YOUTUBE')}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition-all ${
+              className={`flex-1 flex items-center justify-center gap-3 py-4 rounded-2xl font-bold transition-all duration-300 ${
                 platform === 'YOUTUBE' 
-                  ? 'bg-red-600 text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]' 
-                  : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                  ? 'bg-red-600 text-white shadow-[0_0_25px_rgba(220,38,38,0.5)] scale-[1.02]' 
+                  : 'bg-[#0a0a0a] border border-white/10 text-gray-400 hover:text-white'
               }`}
             >
-              <Video className="w-5 h-5" />
+              <Video className="w-6 h-6" />
               يوتيوب
             </button>
             <button
               onClick={() => setPlatform('FACEBOOK')}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition-all ${
+              className={`flex-1 flex items-center justify-center gap-3 py-4 rounded-2xl font-bold transition-all duration-300 ${
                 platform === 'FACEBOOK' 
-                  ? 'bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]' 
-                  : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                  ? 'bg-blue-600 text-white shadow-[0_0_25px_rgba(37,99,235,0.5)] scale-[1.02]' 
+                  : 'bg-[#0a0a0a] border border-white/10 text-gray-400 hover:text-white'
               }`}
             >
-              <Globe className="w-5 h-5" />
+              <Globe className="w-6 h-6" />
               فيسبوك
             </button>
           </div>
@@ -249,78 +266,86 @@ export default function SocialPublishAdminPage() {
       </div>
 
       {/* Generate & Save Actions */}
-      <div className="flex justify-end gap-4">
+      <div className="flex flex-col sm:flex-row justify-end gap-4">
         <button
           onClick={handleGenerate}
           disabled={isGenerating || isLoadingSettings || !selectedTargetId}
-          className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-6 py-3 rounded-xl font-bold transition-all disabled:opacity-50 shadow-lg"
+          className="flex-1 sm:flex-none flex items-center justify-center gap-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-8 py-4 rounded-2xl font-bold transition-all disabled:opacity-50 shadow-lg hover:shadow-purple-500/30"
         >
-          {isGenerating ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5" />}
-          توليد بالذكاء الاصطناعي ✨
+          {isGenerating ? <Loader2 className="w-6 h-6 animate-spin" /> : <Wand2 className="w-6 h-6" />}
+          <span className="text-lg">توليد بالذكاء الاصطناعي ✨</span>
         </button>
         <button
           onClick={handleSave}
           disabled={isSaving || isLoadingSettings}
-          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3 rounded-xl font-bold transition-all disabled:opacity-50 shadow-lg"
+          className="flex-1 sm:flex-none flex items-center justify-center gap-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white px-10 py-4 rounded-2xl font-bold transition-all disabled:opacity-50 shadow-lg hover:shadow-emerald-500/30"
         >
-          {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-          حفظ التعديلات
+          {isSaving ? <Loader2 className="w-6 h-6 animate-spin" /> : <Save className="w-6 h-6" />}
+          <span className="text-lg">حفظ الإعدادات</span>
         </button>
       </div>
 
       {/* Editors */}
-      <div className="space-y-6">
+      <div className="space-y-6 md:space-y-8">
+        
         {/* Title */}
-        <div className="stone-card rounded-2xl p-6 relative group">
-          <button onClick={() => copyToClipboard(title)} className="absolute top-4 left-4 p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors opacity-0 group-hover:opacity-100"><Copy className="w-4 h-4"/></button>
-          <label className="block text-sm font-bold text-gray-400 mb-2">عنوان الفيديو / المنشور:</label>
+        <div className="stone-card rounded-3xl p-6 md:p-8 relative group border border-white/5">
+          <button onClick={() => copyToClipboard(title)} className="absolute top-6 left-6 p-3 bg-white/5 hover:bg-white/10 rounded-xl text-gray-400 hover:text-white transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100"><Copy className="w-5 h-5"/></button>
+          <label className="block text-lg font-bold text-gray-300 mb-4">عنوان الفيديو / المنشور:</label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="مثال: هل استيقظ ألفا أخيراً؟ - أحداث صادمة في إمارة الصدأ | عهد ألفا"
-            className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-magma transition-colors text-lg font-bold"
+            className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-magma transition-colors text-lg md:text-xl font-bold shadow-inner"
           />
         </div>
 
         {/* Description */}
-        <div className="stone-card rounded-2xl p-6 relative group">
-          <button onClick={() => copyToClipboard(description)} className="absolute top-4 left-4 p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors opacity-0 group-hover:opacity-100"><Copy className="w-4 h-4"/></button>
-          <label className="block text-sm font-bold text-gray-400 mb-2">وصف احترافي (Description):</label>
+        <div className="stone-card rounded-3xl p-6 md:p-8 relative group border border-white/5">
+          <button onClick={() => copyToClipboard(description)} className="absolute top-6 left-6 p-3 bg-white/5 hover:bg-white/10 rounded-xl text-gray-400 hover:text-white transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100"><Copy className="w-5 h-5"/></button>
+          <label className="block text-lg font-bold text-gray-300 mb-4">وصف احترافي (Description):</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            rows={5}
-            className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-magma transition-colors leading-relaxed"
+            rows={6}
+            className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-magma transition-colors text-base md:text-lg leading-relaxed shadow-inner"
           />
         </div>
 
         {/* Hashtags */}
-        <div className="stone-card rounded-2xl p-6 relative group">
-          <button onClick={() => copyToClipboard(hashtags)} className="absolute top-4 left-4 p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors opacity-0 group-hover:opacity-100"><Copy className="w-4 h-4"/></button>
-          <label className="block text-sm font-bold text-gray-400 mb-2">الهاشتاجات (Hashtags):</label>
+        <div className="stone-card rounded-3xl p-6 md:p-8 relative group border border-white/5">
+          <button onClick={() => copyToClipboard(hashtags)} className="absolute top-6 left-6 p-3 bg-white/5 hover:bg-white/10 rounded-xl text-gray-400 hover:text-white transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100"><Copy className="w-5 h-5"/></button>
+          <label className="block text-lg font-bold text-gray-300 mb-4">الهاشتاجات (Hashtags):</label>
           <input
             type="text"
             value={hashtags}
             onChange={(e) => setHashtags(e.target.value)}
-            className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-blue-400 focus:outline-none focus:border-magma transition-colors"
+            className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-5 text-blue-400 focus:outline-none focus:border-magma transition-colors text-lg shadow-inner"
           />
         </div>
 
         {/* Thumbnail Prompt */}
-        <div className="stone-card rounded-2xl p-6 border-l-4 border-l-purple-500 relative group">
-          <button onClick={() => copyToClipboard(thumbnailPrompt)} className="absolute top-4 left-4 p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors opacity-0 group-hover:opacity-100"><Copy className="w-4 h-4"/></button>
-          <div className="flex items-center gap-2 mb-2">
-            <Palette className="w-5 h-5 text-purple-400" />
-            <label className="block text-sm font-bold text-purple-400">البرومبت البصري للصورة المصغرة (Thumbnail Prompt for AI):</label>
+        <div className="stone-card rounded-3xl p-6 md:p-8 border-l-4 border-l-purple-500 relative group overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 to-transparent pointer-events-none"></div>
+          <button onClick={() => copyToClipboard(thumbnailPrompt)} className="absolute top-6 left-6 p-3 bg-white/5 hover:bg-white/10 rounded-xl text-purple-300 hover:text-white transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 z-10"><Copy className="w-5 h-5"/></button>
+          
+          <div className="relative z-10 flex flex-col gap-2 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-purple-500/20 rounded-lg">
+                <Palette className="w-6 h-6 text-purple-400" />
+              </div>
+              <label className="block text-xl font-bold text-purple-300">البرومبت البصري للصورة المصغرة (Thumbnail Prompt):</label>
+            </div>
+            <p className="text-sm md:text-base text-gray-400 pr-12">انسخ هذا النص وضعه في Midjourney أو DALL-E لتوليد صورة مصغرة سينمائية.</p>
           </div>
-          <p className="text-xs text-gray-500 mb-3">انسخ هذا النص وضعه في Midjourney أو DALL-E لتوليد صورة مصغرة احترافية.</p>
+          
           <textarea
             value={thumbnailPrompt}
             onChange={(e) => setThumbnailPrompt(e.target.value)}
             dir="ltr"
-            rows={4}
-            className="w-full bg-black/50 border border-purple-500/30 rounded-xl px-4 py-3 text-purple-300 focus:outline-none focus:border-purple-500 transition-colors font-mono text-sm leading-relaxed"
+            rows={5}
+            className="relative z-10 w-full bg-[#050505] border border-purple-500/30 rounded-2xl px-6 py-5 text-purple-300 focus:outline-none focus:border-purple-500 transition-colors font-mono text-base md:text-lg leading-relaxed shadow-inner"
           />
         </div>
       </div>

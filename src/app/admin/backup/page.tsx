@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { DownloadCloud, UploadCloud, AlertTriangle, CheckCircle, Loader2 } from 'lucide-react';
+import { DownloadCloud, UploadCloud, AlertTriangle, CheckCircle, Loader2, Server, Database, SaveAll } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function BackupAdminPage() {
@@ -76,74 +76,103 @@ export default function BackupAdminPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 animate-fade-in pb-20">
-      <div className="flex flex-col gap-2 border-b border-white/10 pb-6">
-        <h1 className="text-3xl font-amiri font-bold text-white flex items-center gap-3">
-          <DownloadCloud className="w-8 h-8 text-magma" />
-          النسخ الاحتياطي والاستعادة
-        </h1>
-        <p className="text-gray-400 font-tajawal text-lg">
-          احفظ بيانات الموقع بالكامل أو قم باستعادتها في أي وقت.
-        </p>
+    <div className="max-w-5xl mx-auto space-y-6 md:space-y-10 animate-fade-in pb-24 px-2 md:px-0">
+      
+      {/* Header Section */}
+      <div className="relative overflow-hidden stone-card rounded-3xl p-6 md:p-10 border border-white/10 shadow-2xl">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="flex items-center gap-5">
+            <div className="p-4 bg-gradient-to-br from-blue-900/50 to-blue-600/20 rounded-2xl border border-blue-500/20 shadow-inner">
+              <Database className="w-10 h-10 text-blue-400" />
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-amiri font-bold text-white mb-2">النسخ الاحتياطي (Backup)</h1>
+              <p className="text-gray-400 font-tajawal text-base md:text-lg max-w-lg">
+                مركز التحكم في البيانات. احفظ جميع فصولك، شخصياتك، وفيديوهاتك بنقرة واحدة، واستعدها في أي وقت بأمان تام.
+              </p>
+            </div>
+          </div>
+          <div className="hidden md:flex items-center justify-center p-4 bg-white/5 rounded-2xl border border-white/5 backdrop-blur-sm">
+            <Server className="w-8 h-8 text-gray-500 animate-pulse" />
+          </div>
+        </div>
       </div>
 
       {message && (
-        <div className={`p-4 rounded-xl border flex items-center gap-3 ${
+        <div className={`p-5 rounded-2xl border flex items-start md:items-center gap-4 shadow-lg ${
           message.type === 'success' 
             ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
             : 'bg-red-500/10 border-red-500/30 text-red-400'
         }`}>
-          {message.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <AlertTriangle className="w-5 h-5" />}
-          <p className="font-bold">{message.text}</p>
+          {message.type === 'success' ? <CheckCircle className="w-6 h-6 shrink-0 mt-0.5 md:mt-0" /> : <AlertTriangle className="w-6 h-6 shrink-0 mt-0.5 md:mt-0" />}
+          <p className="font-bold text-lg">{message.text}</p>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Action Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        
         {/* Export Card */}
-        <div className="stone-card rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-4">
-          <div className="w-20 h-20 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/30">
-            <DownloadCloud className="w-10 h-10 text-blue-400" />
+        <div className="group relative stone-card rounded-3xl p-6 md:p-10 flex flex-col items-center justify-center text-center gap-6 border border-white/10 hover:border-blue-500/30 transition-all duration-500 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          
+          <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-br from-blue-900/40 to-blue-500/10 flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform duration-500 shadow-[0_0_30px_rgba(59,130,246,0.1)]">
+            <DownloadCloud className="w-12 h-12 text-blue-400" />
           </div>
-          <h3 className="text-2xl font-bold text-white font-amiri">تصدير الفصول والإعدادات</h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            قم بتحميل نسخة كاملة من جميع الفصول، الشخصيات، إعدادات النشر، والمظهر في ملف JSON واحد للحفاظ عليها.
-          </p>
+          
+          <div className="relative z-10 space-y-3">
+            <h3 className="text-2xl font-bold text-white font-amiri">تصدير قاعدة البيانات</h3>
+            <p className="text-gray-400 text-sm md:text-base leading-relaxed px-4">
+              قم بإنشاء وتنزيل ملف مشفر (JSON) يحتوي على نسخة كاملة من جميع محتويات الموقع الحالية.
+            </p>
+          </div>
+          
           <button 
             onClick={handleExport}
             disabled={isExporting || isImporting}
-            className="mt-4 flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-full font-bold transition-all disabled:opacity-50"
+            className="relative z-10 mt-2 w-full md:w-auto flex justify-center items-center gap-3 bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-600 hover:to-blue-400 text-white px-10 py-4 rounded-2xl font-bold transition-all disabled:opacity-50 shadow-lg hover:shadow-blue-500/25"
           >
-            {isExporting ? <Loader2 className="w-5 h-5 animate-spin" /> : <DownloadCloud className="w-5 h-5" />}
-            تصدير الآن (Export)
+            {isExporting ? <Loader2 className="w-6 h-6 animate-spin" /> : <SaveAll className="w-6 h-6" />}
+            <span className="text-lg">تصدير الآن (Export)</span>
           </button>
         </div>
 
         {/* Import Card */}
-        <div className="stone-card rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-4">
-          <div className="w-20 h-20 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/30">
-            <UploadCloud className="w-10 h-10 text-emerald-400" />
+        <div className="group relative stone-card rounded-3xl p-6 md:p-10 flex flex-col items-center justify-center text-center gap-6 border border-white/10 hover:border-emerald-500/30 transition-all duration-500 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          
+          <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-br from-emerald-900/40 to-emerald-500/10 flex items-center justify-center border border-emerald-500/20 group-hover:scale-110 transition-transform duration-500 shadow-[0_0_30px_rgba(16,185,129,0.1)]">
+            <UploadCloud className="w-12 h-12 text-emerald-400" />
           </div>
-          <h3 className="text-2xl font-bold text-white font-amiri">استيراد واستعادة (Import)</h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            استعد جميع الفصول والإعدادات من ملف نسخة احتياطية سابق. سيتم تحديث البيانات الحالية واستعادة المفقود.
-          </p>
-          <div className="mt-4 relative">
+          
+          <div className="relative z-10 space-y-3">
+            <h3 className="text-2xl font-bold text-white font-amiri">استعادة النظام</h3>
+            <p className="text-gray-400 text-sm md:text-base leading-relaxed px-4">
+              قم برفع ملف النسخة الاحتياطية لاستعادة الموقع لحالته السابقة. سيتم دمج وتحديث البيانات تلقائياً.
+            </p>
+          </div>
+          
+          <div className="relative z-10 mt-2 w-full md:w-auto">
             <input 
               type="file" 
               accept=".json" 
               onChange={handleImport}
               disabled={isExporting || isImporting}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed z-20"
             />
-            <div className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3 rounded-full font-bold transition-all opacity-90 hover:opacity-100">
-              {isImporting ? <Loader2 className="w-5 h-5 animate-spin" /> : <UploadCloud className="w-5 h-5" />}
-              استيراد ملف (Import)
+            <div className="flex justify-center items-center gap-3 bg-gradient-to-r from-emerald-700 to-emerald-500 text-white px-10 py-4 rounded-2xl font-bold transition-all shadow-lg hover:shadow-emerald-500/25">
+              {isImporting ? <Loader2 className="w-6 h-6 animate-spin" /> : <UploadCloud className="w-6 h-6" />}
+              <span className="text-lg">استيراد ملف (Import)</span>
             </div>
           </div>
-          <p className="text-xs text-red-400 font-bold mt-2">
-            تحذير: هذه العملية قد تستبدل البيانات الموجودة حالياً!
-          </p>
+          
+          <div className="relative z-10 flex items-center gap-2 bg-red-500/10 border border-red-500/20 px-4 py-2 rounded-lg mt-2">
+            <AlertTriangle className="w-4 h-4 text-red-400" />
+            <p className="text-xs text-red-300 font-bold">هذه العملية قد تستبدل البيانات الموجودة!</p>
+          </div>
         </div>
+
       </div>
     </div>
   );
