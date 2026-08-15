@@ -111,6 +111,7 @@ model Chapter {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   comments    Comment[]
+  socialSettings SocialPublishSetting[]
 }
 
 model Comment {
@@ -162,4 +163,19 @@ model Character {
   sortOrder   Int      @default(0) // For manual ordering
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model SocialPublishSetting {
+  id              String   @id @default(cuid())
+  chapterId       String
+  chapter         Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  platform        String   // "YOUTUBE" | "FACEBOOK"
+  title           String
+  description     String   @db.Text
+  hashtags        String   @db.Text
+  thumbnailPrompt String   @db.Text
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([chapterId, platform])
 }
