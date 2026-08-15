@@ -53,7 +53,7 @@ export async function POST(request: Request) {
       '}';
 
     const cleanApiKey = systemSettings.geminiApiKey.trim();
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
     
     const geminiRes = await fetch(apiUrl, {
       method: 'POST',
