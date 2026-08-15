@@ -75,30 +75,55 @@ export async function POST(request: Request) {
       return { res, data };
     }
 
-    let { res: geminiRes, data: geminiData } = await attemptFetch('gemini-flash-latest');
+    let { res: geminiRes, data: geminiData } = await attemptFetch('gemini-1.5-flash');
 
-    // If high demand, fallback to pro model
-    if (!geminiRes.ok && geminiData.error?.message?.toLowerCase().includes('high demand')) {
-      console.log('High demand on flash-latest, falling back to pro-latest...');
-      const fallbackResult = await attemptFetch('gemini-1.5-pro-latest');
-      geminiRes = fallbackResult.res;
-      geminiData = fallbackResult.data;
+    // If high demand or not found, fallback to pro model
+    if (!geminiRes.ok) {
+      const errMsg = geminiData.error?.message?.toLowerCase() || '';
+      if (errMsg.includes('high demand') || errMsg.includes('not found') || errMsg.includes('not supported')) {
+        console.log('Falling back to gemini-1.5-pro...');
+        const fallbackResult = await attemptFetch('gemini-1.5-pro');
+        geminiRes = fallbackResult.res;
+        geminiData = fallbackResult.data;
+      }
     }
     
     if (!geminiRes.ok) {
+      console.error('Gemini API Error details:', geminiData);
       throw new Error(geminiData.error?.message || 'فشل الاتصال بـ Gemini API');
     }
 
-    const text = geminiData.candidates[0].content.parts[0].text;
-    
-    // Extract JSON block in case model added markdown wrapping
-    let rawJson = text;
-    const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/```\n([\s\S]*?)\n```/);
-    if (jsonMatch) {
-      rawJson = jsonMatch[1];
+    if (!geminiData.candidates || geminiData.candidates.length === 0) {
+      console.error('Gemini returned no candidates. Full response:', geminiData);
+      throw new Error('لم يقم الذكاء الاصطناعي بتوليد أي محتوى. قد يكون ذلك بسبب سياسات الأمان أو مشكلة في الخوادم.');
+    }
+
+    const text = geminiData.candidates[0].content?.parts?.[0]?.text || '';
+    if (!text) {
+      throw new Error('الاستجابة كانت فارغة من النص.');
     }
     
-    const parsed = JSON.parse(rawJson);
+    // Extract JSON block in case model added markdown wrapping
+    let rawJson = text.trim();
+    const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/```\n([\s\S]*?)\n```/);
+    if (jsonMatch) {
+      rawJson = jsonMatch[1].trim();
+    }
+    
+    // Sometimes the model outputs extra characters before or after the {}
+    const firstBrace = rawJson.indexOf('{');
+    const lastBrace = rawJson.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace >= firstBrace) {
+      rawJson = rawJson.substring(firstBrace, lastBrace + 1);
+    }
+
+    let parsed;
+    try {
+      parsed = JSON.parse(rawJson);
+    } catch (parseError) {
+      console.error('Failed to parse JSON:', rawJson);
+      throw new Error('لم يكن التنسيق المسترد JSON صالحاً. برجاء المحاولة مرة أخرى.');
+    }
 
     return NextResponse.json({ success: true, data: parsed });
 
