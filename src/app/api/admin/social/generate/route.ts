@@ -41,9 +41,6 @@ export async function POST(request: Request) {
       promptContext = "فيديو من رواية عهد ألفا. العنوان: " + targetData.title + ". الوصف: " + (targetData.description || 'لا يوجد');
     }
 
-    const genAI = new GoogleGenerativeAI(systemSettings.geminiApiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
     const systemPrompt = "أنت خبير تسويق عبقري لرواية دارك فانتسي تسمى عهد ألفا.\n" +
       "بناء على المحتوى التالي، قم بإنشاء إعدادات نشر لمنصة " + (platform === 'YOUTUBE' ? 'يوتيوب' : 'فيسبوك') + ".\n" +
       "المحتوى:\n" + promptContext + "\n\n" +
@@ -55,9 +52,26 @@ export async function POST(request: Request) {
       '  "thumbnailPrompt": "وصف بصري دقيق باللغة الإنجليزية لتوليد صورة مصغرة (Thumbnail) تناسب المشهد أو الشخصية، ركز على الإضاءة، الطابع السينمائي، دارك فانتسي."\n' +
       '}';
 
-    const result = await model.generateContent(systemPrompt);
-    const response = await result.response;
-    const text = response.text();
+    const cleanApiKey = systemSettings.geminiApiKey.trim();
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cleanApiKey}`;
+    
+    const geminiRes = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: systemPrompt }] }]
+      })
+    });
+
+    const geminiData = await geminiRes.json();
+    
+    if (!geminiRes.ok) {
+      throw new Error(geminiData.error?.message || 'فشل الاتصال بـ Gemini API');
+    }
+
+    const text = geminiData.candidates[0].content.parts[0].text;
     
     // Extract JSON block in case model added markdown wrapping
     let rawJson = text;
