@@ -6,6 +6,7 @@ import { Settings2, Key, Server, Loader2, CheckCircle, AlertTriangle, Cloud, Bra
 export default function SystemSettingsPage() {
   const [settings, setSettings] = useState({
     openAiApiKey: '',
+    geminiApiKey: '',
     cloudinaryCloudName: '',
     cloudinaryApiKey: '',
     cloudinaryApiSecret: '',
@@ -22,6 +23,7 @@ export default function SystemSettingsPage() {
         if (data.success && data.data) {
           setSettings({
             openAiApiKey: data.data.openAiApiKey || '',
+            geminiApiKey: data.data.geminiApiKey || '',
             cloudinaryCloudName: data.data.cloudinaryCloudName || '',
             cloudinaryApiKey: data.data.cloudinaryApiKey || '',
             cloudinaryApiSecret: data.data.cloudinaryApiSecret || '',
@@ -87,30 +89,40 @@ export default function SystemSettingsPage() {
         </div>
       )}
 
-      {/* OpenAI Settings */}
+      {/* Gemini Settings */}
       <div className="stone-card rounded-2xl overflow-hidden border border-white/5">
-        <div className="bg-gradient-to-r from-purple-900/40 to-transparent p-6 border-b border-white/5 flex items-center gap-3">
-          <div className="p-3 bg-purple-500/20 rounded-xl">
-            <BrainCircuit className="w-6 h-6 text-purple-400" />
+        <div className="bg-gradient-to-r from-blue-900/40 to-transparent p-6 border-b border-white/5 flex items-center gap-3">
+          <div className="p-3 bg-blue-500/20 rounded-xl">
+            <BrainCircuit className="w-6 h-6 text-blue-400" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-white font-amiri">الذكاء الاصطناعي (OpenAI)</h3>
-            <p className="text-sm text-gray-400">لإنشاء الملخصات التسويقية والبرومبت البصري.</p>
+            <h3 className="text-xl font-bold text-white font-amiri">الذكاء الاصطناعي المجاني (Google Gemini)</h3>
+            <p className="text-sm text-gray-400">لإنشاء الملخصات التسويقية والبرومبت البصري مجاناً وبدقة فائقة.</p>
           </div>
         </div>
         
         <div className="p-6 space-y-4">
+          <div className="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl mb-4">
+            <p className="text-blue-300 text-sm">
+              للحصول على مفتاح مجاني، سجل دخولك بحساب Google واذهب إلى: <br/>
+              <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-blue-400 font-bold underline hover:text-blue-200 inline-block mt-2">
+                Google AI Studio (اضغط هنا)
+              </a>
+              <br/>
+              ثم اضغط على "Create API key".
+            </p>
+          </div>
           <div>
-            <label className="block text-sm font-bold text-gray-400 mb-2">OpenAI API Key:</label>
+            <label className="block text-sm font-bold text-gray-400 mb-2">Gemini API Key:</label>
             <div className="relative">
               <Key className="absolute right-4 top-3.5 w-5 h-5 text-gray-500" />
               <input
                 type="password"
-                name="openAiApiKey"
-                value={settings.openAiApiKey}
+                name="geminiApiKey"
+                value={settings.geminiApiKey || ''}
                 onChange={handleChange}
-                placeholder="sk-proj-...................................."
-                className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl pr-12 pl-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                placeholder="AIzaSy...................................."
+                className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl pr-12 pl-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
                 dir="ltr"
               />
             </div>

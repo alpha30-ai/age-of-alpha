@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import prisma from '@/lib/prisma';
 
 export async function POST(request: Request) {
@@ -9,84 +9,69 @@ export async function POST(request: Request) {
   if (!session || (session.user as any)?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
   }
-
   try {
-    const systemSettings = await prisma.systemSettings.findUnique({ where: { id: 'default' } });
-    const apiKey = systemSettings?.openAiApiKey || process.env.OPENAI_API_KEY;
-
-    if (!apiKey) {
-      return NextResponse.json({ 
-        error: 'لم يتم العثور على مفتاح OpenAI. يرجى إضافته من صفحة إعدادات النظام أولاً.' 
-      }, { status: 400 });
-    }
-
     const body = await request.json();
     const { targetType, targetId, platform } = body;
 
     if (!targetType || !targetId || !platform) {
-      return NextResponse.json({ error: 'بيانات ناقصة (نوع المحتوى أو المعرف)' }, { status: 400 });
+      return NextResponse.json({ error: 'بيانات غير مكتملة' }, { status: 400 });
     }
 
-    let contentName = '';
-    let contentDetails = '';
-    let typeName = '';
+    // Get settings
+    const systemSettings = await prisma.systemSettings.findUnique({ where: { id: 'default' } });
+    
+    if (!systemSettings?.geminiApiKey) {
+      return NextResponse.json({ error: 'مفتاح Gemini API Key غير متوفر في إعدادات النظام' }, { status: 400 });
+    }
+
+    let targetData: any = null;
+    let promptContext = '';
 
     if (targetType === 'CHAPTER') {
-      const chapter = await prisma.chapter.findUnique({ where: { id: targetId } });
-      if (!chapter) return NextResponse.json({ error: 'الفصل غير موجود' }, { status: 404 });
-      typeName = 'فصل من الرواية';
-      contentName = `الفصل ${chapter.chapterNum}: ${chapter.title}`;
-      contentDetails = chapter.content.substring(0, 1500);
+      targetData = await prisma.chapter.findUnique({ where: { id: targetId } });
+      if (!targetData) return NextResponse.json({ error: 'الفصل غير موجود' }, { status: 404 });
+      promptContext = "فصل رواية عهد ألفا رقم " + targetData.chapterNum + " بعنوان " + targetData.title + ". المحتوى: " + targetData.content.substring(0, 1500);
     } else if (targetType === 'CHARACTER') {
-      const character = await prisma.character.findUnique({ where: { id: targetId } });
-      if (!character) return NextResponse.json({ error: 'الشخصية غير موجودة' }, { status: 404 });
-      typeName = 'شخصية من الرواية';
-      contentName = `الشخصية: ${character.name} (${character.title || ''})`;
-      contentDetails = `الفصيل: ${character.faction}\nالوصف:\n${character.description}`;
+      targetData = await prisma.character.findUnique({ where: { id: targetId } });
+      if (!targetData) return NextResponse.json({ error: 'الشخصية غير موجودة' }, { status: 404 });
+      promptContext = "شخصية من رواية عهد ألفا. الاسم: " + targetData.name + ". الدور: " + targetData.role + ". السلاح: " + targetData.weapon + ". الوصف: " + targetData.description;
     } else if (targetType === 'VIDEO') {
-      const video = await prisma.videoMedia.findUnique({ where: { id: targetId } });
-      if (!video) return NextResponse.json({ error: 'الفيديو غير موجود' }, { status: 404 });
-      typeName = 'فيديو دعائي / ملخص';
-      contentName = `الفيديو: ${video.title}`;
-      contentDetails = `الوصف الحالي للفيديو:\n${video.description || 'لا يوجد وصف.'}`;
-    } else {
-      return NextResponse.json({ error: 'نوع المحتوى غير مدعوم' }, { status: 400 });
+      targetData = await prisma.videoMedia.findUnique({ where: { id: targetId } });
+      if (!targetData) return NextResponse.json({ error: 'الفيديو غير موجود' }, { status: 404 });
+      promptContext = "فيديو من رواية عهد ألفا. العنوان: " + targetData.title + ". الوصف: " + (targetData.description || 'لا يوجد');
     }
 
-    const openai = new OpenAI({ apiKey });
+    const genAI = new GoogleGenerativeAI(systemSettings.geminiApiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const promptText = `
-أنت خبير تسويق رقمي وصانع محتوى محترف.
-لدينا منصة ملحمية من فئة الدارك فانتسي (Dark Fantasy) تسمى "عهد ألفا".
-أحتاج منك إنشاء تفاصيل النشر لمنصة ${platform === 'YOUTUBE' ? 'يوتيوب (فيديو طويل أو شورت)' : 'فيسبوك (منشور جذاب)'} لهذا العنصر (${typeName}):
+    const systemPrompt = "أنت خبير تسويق عبقري لرواية دارك فانتسي تسمى عهد ألفا.\n" +
+      "بناء على المحتوى التالي، قم بإنشاء إعدادات نشر لمنصة " + (platform === 'YOUTUBE' ? 'يوتيوب' : 'فيسبوك') + ".\n" +
+      "المحتوى:\n" + promptContext + "\n\n" +
+      "يجب أن يكون ردك بصيغة JSON حصراً، يحتوي على:\n" +
+      '{\n' +
+      '  "title": "عنوان جذاب جدا ومثير",\n' +
+      '  "description": "وصف احترافي يشوق المتابعين مع دعوة للاشتراك",\n' +
+      '  "hashtags": "#عهد_ألفا #رواية_خيال وغيرها",\n' +
+      '  "thumbnailPrompt": "وصف بصري دقيق باللغة الإنجليزية لتوليد صورة مصغرة (Thumbnail) تناسب المشهد أو الشخصية، ركز على الإضاءة، الطابع السينمائي، دارك فانتسي."\n' +
+      '}';
 
-الاسم/العنوان: ${contentName}
-التفاصيل/المحتوى:
-${contentDetails}
+    const result = await model.generateContent(systemPrompt);
+    const response = await result.response;
+    const text = response.text();
+    
+    // Extract JSON block in case model added markdown wrapping
+    let rawJson = text;
+    const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/```\n([\s\S]*?)\n```/);
+    if (jsonMatch) {
+      rawJson = jsonMatch[1];
+    }
+    
+    const parsed = JSON.parse(rawJson);
 
-المطلوب إرجاعه بصيغة JSON فقط بالهيكل التالي (بدون أي نصوص إضافية):
-{
-  "title": "عنوان جذاب جداً ومثير للفضول يناسب المنصة، باللغة العربية",
-  "description": "وصف مشوق للفيديو/المنشور باللغة العربية، بأسلوب غامض وملحمي.",
-  "hashtags": "مجموعة من الهاشتاجات العربية والإنجليزية المناسبة، مفصولة بمسافات",
-  "thumbnailPrompt": "برومبت باللغة الإنجليزية مخصص لـ Midjourney لتوليد صورة مصغرة (Thumbnail). يجب أن يكون الوصف دقيقاً، سينمائياً، واقعي بنمط الأنمي (Anime Realism, Dark Fantasy, Epic Lighting)، ويصف المشهد أو الشخصية بدقة."
-}
-`;
+    return NextResponse.json({ success: true, data: parsed });
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: promptText }],
-      response_format: { type: "json_object" },
-    });
-
-    const responseContent = completion.choices[0].message.content;
-    if (!responseContent) throw new Error('فشل توليد النص من الذكاء الاصطناعي');
-
-    const result = JSON.parse(responseContent);
-
-    return NextResponse.json({ success: true, data: result });
   } catch (error: any) {
-    console.error('AI Generation Error:', error);
-    return NextResponse.json({ error: 'حدث خطأ أثناء الاتصال بالذكاء الاصطناعي: ' + error.message }, { status: 500 });
+    console.error('Gemini Generate Error:', error);
+    return NextResponse.json({ error: 'حدث خطأ أثناء التوليد. تأكد من صحة مفتاح Gemini' }, { status: 500 });
   }
 }

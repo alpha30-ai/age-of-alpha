@@ -195,6 +195,7 @@ model SocialPublishSetting {
 model SystemSettings {
   id                    String   @id @default("default")
   openAiApiKey          String?  @db.Text
+  geminiApiKey          String?  @db.Text
   cloudinaryCloudName   String?
   cloudinaryApiKey      String?
   cloudinaryApiSecret   String?

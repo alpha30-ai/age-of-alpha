@@ -28,12 +28,13 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { openAiApiKey, cloudinaryCloudName, cloudinaryApiKey, cloudinaryApiSecret } = body;
+    const { openAiApiKey, geminiApiKey, cloudinaryCloudName, cloudinaryApiKey, cloudinaryApiSecret } = body;
 
     const settings = await prisma.systemSettings.upsert({
       where: { id: 'default' },
       update: {
         openAiApiKey,
+        geminiApiKey,
         cloudinaryCloudName,
         cloudinaryApiKey,
         cloudinaryApiSecret,
@@ -41,6 +42,7 @@ export async function POST(request: Request) {
       create: {
         id: 'default',
         openAiApiKey,
+        geminiApiKey,
         cloudinaryCloudName,
         cloudinaryApiKey,
         cloudinaryApiSecret,
