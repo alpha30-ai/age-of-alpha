@@ -20,6 +20,7 @@ export default function AdminSidebar({ user }: { user?: any }) {
     { href: '/admin/comments', label: 'التعليقات', icon: MessageSquare, color: 'text-pink-400' },
     { href: '/admin/social', label: 'النشر والتسويق', icon: Share2, color: 'text-rose-400' },
     { href: '/admin/backup', label: 'النسخ الاحتياطي', icon: Settings, color: 'text-gray-400' },
+    { href: '/admin/settings/system', label: 'إعدادات النظام', icon: Flame, color: 'text-red-500' },
   ];
 
   return (

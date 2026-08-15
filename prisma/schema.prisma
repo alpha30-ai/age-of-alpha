@@ -135,6 +135,7 @@ model VideoMedia {
   isHosted    Boolean  @default(false)
   createdAt   DateTime @default(now())
   comments    VideoComment[]
+  socialSettings SocialPublishSetting[]
 }
 
 model VideoComment {
@@ -163,12 +164,23 @@ model Character {
   sortOrder   Int      @default(0) // For manual ordering
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  socialSettings SocialPublishSetting[]
 }
 
 model SocialPublishSetting {
   id              String   @id @default(cuid())
-  chapterId       String
-  chapter         Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  
+  targetType      String   // "CHAPTER" | "CHARACTER" | "VIDEO"
+  
+  chapterId       String?
+  chapter         Chapter?  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  
+  characterId     String?
+  character       Character? @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  
+  videoId         String?
+  video           VideoMedia? @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
   platform        String   // "YOUTUBE" | "FACEBOOK"
   title           String
   description     String   @db.Text
@@ -177,5 +189,14 @@ model SocialPublishSetting {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  @@unique([chapterId, platform])
+  @@unique([targetType, chapterId, characterId, videoId, platform])
+}
+
+model SystemSettings {
+  id                    String   @id @default("default")
+  openAiApiKey          String?  @db.Text
+  cloudinaryCloudName   String?
+  cloudinaryApiKey      String?
+  cloudinaryApiSecret   String?
+  updatedAt             DateTime @updatedAt
 }

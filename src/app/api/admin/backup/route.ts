@@ -11,20 +11,32 @@ export async function GET() {
 
   try {
     const siteTheme = await prisma.siteTheme.findUnique({ where: { id: 'default' } });
+    const systemSettings = await prisma.systemSettings.findUnique({ where: { id: 'default' } });
     const chapters = await prisma.chapter.findMany({
       include: {
         socialSettings: true,
       }
     });
-    const characters = await prisma.character.findMany();
+    const characters = await prisma.character.findMany({
+      include: {
+        socialSettings: true,
+      }
+    });
+    const videos = await prisma.videoMedia.findMany({
+      include: {
+        socialSettings: true,
+      }
+    });
 
     const backupData = {
-      version: '1.0',
+      version: '1.1',
       timestamp: new Date().toISOString(),
       data: {
         siteTheme,
+        systemSettings,
         chapters,
         characters,
+        videos,
       }
     };
 
@@ -48,7 +60,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'بيانات غير صالحة' }, { status: 400 });
     }
 
-    const { siteTheme, chapters, characters } = backupData.data;
+    const { siteTheme, systemSettings, chapters, characters, videos } = backupData.data;
 
     // Restore SiteTheme
     if (siteTheme) {
@@ -62,12 +74,22 @@ export async function POST(request: Request) {
       });
     }
 
+    // Restore SystemSettings
+    if (systemSettings) {
+      await prisma.systemSettings.upsert({
+        where: { id: 'default' },
+        update: systemSettings,
+        create: {
+          ...systemSettings,
+          id: 'default',
+        }
+      });
+    }
+
     // Restore Chapters
     if (chapters && Array.isArray(chapters)) {
       for (const chapter of chapters) {
-        // Extract socialSettings so we can handle them separately
         const { socialSettings, comments, id, ...chapterData } = chapter;
-        
         await prisma.chapter.upsert({
           where: { chapterNum: chapter.chapterNum },
           update: chapterData,
@@ -76,15 +98,16 @@ export async function POST(request: Request) {
             id,
           }
         });
-
-        // Restore social settings if any
         if (socialSettings && Array.isArray(socialSettings)) {
           for (const setting of socialSettings) {
             const { id: settingId, ...settingData } = setting;
             await prisma.socialPublishSetting.upsert({
               where: {
-                chapterId_platform: {
+                targetType_chapterId_characterId_videoId_platform: {
+                  targetType: settingData.targetType,
                   chapterId: settingData.chapterId,
+                  characterId: settingData.characterId,
+                  videoId: settingData.videoId,
                   platform: settingData.platform,
                 }
               },
@@ -102,7 +125,7 @@ export async function POST(request: Request) {
     // Restore Characters
     if (characters && Array.isArray(characters)) {
       for (const char of characters) {
-        const { id, ...charData } = char;
+        const { socialSettings, id, ...charData } = char;
         await prisma.character.upsert({
           where: { id },
           update: charData,
@@ -111,6 +134,63 @@ export async function POST(request: Request) {
             id,
           }
         });
+        if (socialSettings && Array.isArray(socialSettings)) {
+          for (const setting of socialSettings) {
+            const { id: settingId, ...settingData } = setting;
+            await prisma.socialPublishSetting.upsert({
+              where: {
+                targetType_chapterId_characterId_videoId_platform: {
+                  targetType: settingData.targetType,
+                  chapterId: settingData.chapterId,
+                  characterId: settingData.characterId,
+                  videoId: settingData.videoId,
+                  platform: settingData.platform,
+                }
+              },
+              update: settingData,
+              create: {
+                ...settingData,
+                id: settingId,
+              }
+            });
+          }
+        }
+      }
+    }
+    
+    // Restore Videos
+    if (videos && Array.isArray(videos)) {
+      for (const vid of videos) {
+        const { socialSettings, comments, id, ...vidData } = vid;
+        await prisma.videoMedia.upsert({
+          where: { id },
+          update: vidData,
+          create: {
+            ...vidData,
+            id,
+          }
+        });
+        if (socialSettings && Array.isArray(socialSettings)) {
+          for (const setting of socialSettings) {
+            const { id: settingId, ...settingData } = setting;
+            await prisma.socialPublishSetting.upsert({
+              where: {
+                targetType_chapterId_characterId_videoId_platform: {
+                  targetType: settingData.targetType,
+                  chapterId: settingData.chapterId,
+                  characterId: settingData.characterId,
+                  videoId: settingData.videoId,
+                  platform: settingData.platform,
+                }
+              },
+              update: settingData,
+              create: {
+                ...settingData,
+                id: settingId,
+              }
+            });
+          }
+        }
       }
     }
 

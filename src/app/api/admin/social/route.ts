@@ -10,20 +10,24 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url);
-  const chapterId = searchParams.get('chapterId');
+  const targetType = searchParams.get('targetType');
+  const targetId = searchParams.get('targetId');
   const platform = searchParams.get('platform');
 
-  if (!chapterId || !platform) {
+  if (!targetType || !targetId || !platform) {
     return NextResponse.json({ error: 'معلمات ناقصة' }, { status: 400 });
   }
 
   try {
-    const setting = await prisma.socialPublishSetting.findUnique({
+    const setting = await prisma.socialPublishSetting.findFirst({
       where: {
-        chapterId_platform: {
-          chapterId,
-          platform
-        }
+        targetType,
+        platform,
+        OR: [
+          { chapterId: targetId },
+          { characterId: targetId },
+          { videoId: targetId },
+        ]
       }
     });
 
@@ -41,34 +45,48 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { chapterId, platform, title, description, hashtags, thumbnailPrompt } = body;
+    const { targetType, targetId, platform, title, description, hashtags, thumbnailPrompt } = body;
 
-    if (!chapterId || !platform || !title || !description || !hashtags || !thumbnailPrompt) {
+    if (!targetType || !targetId || !platform || !title || !description || !hashtags || !thumbnailPrompt) {
       return NextResponse.json({ error: 'جميع الحقول مطلوبة' }, { status: 400 });
     }
 
-    const setting = await prisma.socialPublishSetting.upsert({
+    // Since Prisma @@unique requires the exact object, we use findFirst and then update/create
+    const existing = await prisma.socialPublishSetting.findFirst({
       where: {
-        chapterId_platform: {
-          chapterId,
-          platform
-        }
-      },
-      update: {
-        title,
-        description,
-        hashtags,
-        thumbnailPrompt,
-      },
-      create: {
-        chapterId,
+        targetType,
         platform,
-        title,
-        description,
-        hashtags,
-        thumbnailPrompt,
+        OR: [
+          { chapterId: targetId },
+          { characterId: targetId },
+          { videoId: targetId },
+        ]
       }
     });
+
+    const dataPayload = {
+      targetType,
+      platform,
+      title,
+      description,
+      hashtags,
+      thumbnailPrompt,
+      chapterId: targetType === 'CHAPTER' ? targetId : null,
+      characterId: targetType === 'CHARACTER' ? targetId : null,
+      videoId: targetType === 'VIDEO' ? targetId : null,
+    };
+
+    let setting;
+    if (existing) {
+      setting = await prisma.socialPublishSetting.update({
+        where: { id: existing.id },
+        data: dataPayload,
+      });
+    } else {
+      setting = await prisma.socialPublishSetting.create({
+        data: dataPayload,
+      });
+    }
 
     return NextResponse.json({ success: true, data: setting });
   } catch (error) {

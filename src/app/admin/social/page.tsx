@@ -1,18 +1,21 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Share2, Video, Globe, Wand2, Save, Loader2, CheckCircle, AlertTriangle, Copy, Palette } from 'lucide-react';
+import { Share2, Video, Globe, Wand2, Save, Loader2, CheckCircle, AlertTriangle, Copy, Palette, BookOpen, Users, Film } from 'lucide-react';
 
-type Chapter = {
+type Entity = {
   id: string;
-  title: string;
-  chapterNum: number;
+  name?: string; // Character
+  title?: string; // Chapter / Video
+  chapterNum?: number; // Chapter
 };
 
 export default function SocialPublishAdminPage() {
-  const [chapters, setChapters] = useState<Chapter[]>([]);
-  const [selectedChapter, setSelectedChapter] = useState<string>('');
+  const [targetType, setTargetType] = useState<'CHAPTER' | 'CHARACTER' | 'VIDEO'>('CHAPTER');
   const [platform, setPlatform] = useState<'YOUTUBE' | 'FACEBOOK'>('YOUTUBE');
+  
+  const [items, setItems] = useState<Entity[]>([]);
+  const [selectedTargetId, setSelectedTargetId] = useState<string>('');
   
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -25,26 +28,43 @@ export default function SocialPublishAdminPage() {
   
   const [message, setMessage] = useState<{type: 'success'|'error', text: string}|null>(null);
 
-  // Fetch chapters on load
+  // Fetch items based on targetType
   useEffect(() => {
-    fetch('/api/chapters')
+    let url = '';
+    if (targetType === 'CHAPTER') url = '/api/chapters';
+    else if (targetType === 'CHARACTER') url = '/api/characters';
+    else if (targetType === 'VIDEO') url = '/api/videos';
+
+    fetch(url)
       .then(res => res.json())
       .then(data => {
-        if (data.chapters) {
-          setChapters(data.chapters.sort((a: any, b: any) => b.chapterNum - a.chapterNum));
-          if (data.chapters.length > 0) {
-            setSelectedChapter(data.chapters[0].id);
-          }
+        // Fix for previous bug: API directly returns array now or we handle both
+        const arrayData = Array.isArray(data) ? data : data.chapters || data.characters || data.videos || [];
+        
+        if (targetType === 'CHAPTER') {
+          arrayData.sort((a: any, b: any) => b.chapterNum - a.chapterNum);
+        }
+        setItems(arrayData);
+        if (arrayData.length > 0) {
+          setSelectedTargetId(arrayData[0].id);
+        } else {
+          setSelectedTargetId('');
         }
       });
-  }, []);
+  }, [targetType]);
 
-  // Fetch existing settings when chapter or platform changes
+  // Fetch existing settings when selection changes
   useEffect(() => {
-    if (!selectedChapter) return;
+    if (!selectedTargetId) {
+      setTitle('');
+      setDescription('');
+      setHashtags('');
+      setThumbnailPrompt('');
+      return;
+    }
     
     setIsLoadingSettings(true);
-    fetch(`/api/admin/social?chapterId=${selectedChapter}&platform=${platform}`)
+    fetch(`/api/admin/social?targetType=${targetType}&targetId=${selectedTargetId}&platform=${platform}`)
       .then(res => res.json())
       .then(data => {
         if (data.success && data.data) {
@@ -61,10 +81,10 @@ export default function SocialPublishAdminPage() {
       })
       .catch(() => setMessage({ type: 'error', text: 'فشل في جلب الإعدادات السابقة' }))
       .finally(() => setIsLoadingSettings(false));
-  }, [selectedChapter, platform]);
+  }, [selectedTargetId, targetType, platform]);
 
   const handleGenerate = async () => {
-    if (!selectedChapter) return;
+    if (!selectedTargetId) return;
     
     setIsGenerating(true);
     setMessage(null);
@@ -72,7 +92,7 @@ export default function SocialPublishAdminPage() {
       const res = await fetch('/api/admin/social/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chapterId: selectedChapter, platform })
+        body: JSON.stringify({ targetType, targetId: selectedTargetId, platform })
       });
       const data = await res.json();
       
@@ -92,7 +112,7 @@ export default function SocialPublishAdminPage() {
   };
 
   const handleSave = async () => {
-    if (!selectedChapter || !title || !description || !hashtags || !thumbnailPrompt) {
+    if (!selectedTargetId || !title || !description || !hashtags || !thumbnailPrompt) {
       setMessage({ type: 'error', text: 'يرجى التأكد من ملء جميع الحقول أو توليدها.' });
       return;
     }
@@ -104,7 +124,8 @@ export default function SocialPublishAdminPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          chapterId: selectedChapter,
+          targetType,
+          targetId: selectedTargetId,
           platform,
           title,
           description,
@@ -125,7 +146,13 @@ export default function SocialPublishAdminPage() {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    // Could add a small toast here
+  };
+
+  const getItemLabel = (item: Entity) => {
+    if (targetType === 'CHAPTER') return `الفصل ${item.chapterNum}: ${item.title}`;
+    if (targetType === 'CHARACTER') return `الشخصية: ${item.name}`;
+    if (targetType === 'VIDEO') return `الفيديو: ${item.title}`;
+    return item.title || item.name || '';
   };
 
   return (
@@ -133,10 +160,10 @@ export default function SocialPublishAdminPage() {
       <div className="flex flex-col gap-2 border-b border-white/10 pb-6">
         <h1 className="text-3xl font-amiri font-bold text-white flex items-center gap-3">
           <Share2 className="w-8 h-8 text-magma" />
-          أدوات النشر والتسويق
+          أدوات النشر والتسويق الشاملة
         </h1>
         <p className="text-gray-400 font-tajawal text-lg">
-          توليد وإدارة عناوين وأوصاف الفيديوهات والصور المصغرة لمنصات التواصل الاجتماعي باستخدام الذكاء الاصطناعي.
+          توليد وإدارة المحتوى التسويقي لمنصات التواصل الاجتماعي للفصول، الشخصيات، والفيديوهات!
         </p>
       </div>
 
@@ -151,19 +178,45 @@ export default function SocialPublishAdminPage() {
         </div>
       )}
 
+      {/* Target Type Tabs */}
+      <div className="flex gap-2 p-1 bg-white/5 rounded-2xl w-full max-w-lg mx-auto">
+        <button
+          onClick={() => setTargetType('CHAPTER')}
+          className={`flex-1 flex justify-center items-center gap-2 py-3 rounded-xl font-bold transition-all ${targetType === 'CHAPTER' ? 'bg-magma text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+        >
+          <BookOpen className="w-4 h-4" /> الفصول
+        </button>
+        <button
+          onClick={() => setTargetType('CHARACTER')}
+          className={`flex-1 flex justify-center items-center gap-2 py-3 rounded-xl font-bold transition-all ${targetType === 'CHARACTER' ? 'bg-purple-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+        >
+          <Users className="w-4 h-4" /> الشخصيات
+        </button>
+        <button
+          onClick={() => setTargetType('VIDEO')}
+          className={`flex-1 flex justify-center items-center gap-2 py-3 rounded-xl font-bold transition-all ${targetType === 'VIDEO' ? 'bg-emerald-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+        >
+          <Film className="w-4 h-4" /> الفيديوهات
+        </button>
+      </div>
+
       {/* Controls */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="stone-card rounded-2xl p-6">
-          <label className="block text-sm font-bold text-gray-400 mb-2">اختر الفصل:</label>
-          <select 
-            value={selectedChapter}
-            onChange={(e) => setSelectedChapter(e.target.value)}
-            className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-magma transition-colors"
-          >
-            {chapters.map(c => (
-              <option key={c.id} value={c.id}>الفصل {c.chapterNum}: {c.title}</option>
-            ))}
-          </select>
+          <label className="block text-sm font-bold text-gray-400 mb-2">اختر المحتوى:</label>
+          {items.length === 0 ? (
+            <div className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-gray-500">لا يوجد محتوى حالياً...</div>
+          ) : (
+            <select 
+              value={selectedTargetId}
+              onChange={(e) => setSelectedTargetId(e.target.value)}
+              className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-magma transition-colors"
+            >
+              {items.map(item => (
+                <option key={item.id} value={item.id}>{getItemLabel(item)}</option>
+              ))}
+            </select>
+          )}
         </div>
 
         <div className="stone-card rounded-2xl p-6">
@@ -199,7 +252,7 @@ export default function SocialPublishAdminPage() {
       <div className="flex justify-end gap-4">
         <button
           onClick={handleGenerate}
-          disabled={isGenerating || isLoadingSettings || !selectedChapter}
+          disabled={isGenerating || isLoadingSettings || !selectedTargetId}
           className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-6 py-3 rounded-xl font-bold transition-all disabled:opacity-50 shadow-lg"
         >
           {isGenerating ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5" />}
