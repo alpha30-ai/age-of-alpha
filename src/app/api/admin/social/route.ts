@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma';
 
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
-  if (!session || session.user?.role !== 'ADMIN') {
+  if (!session || (session.user as any)?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
   }
 
@@ -35,7 +35,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
-  if (!session || session.user?.role !== 'ADMIN') {
+  if (!session || (session.user as any)?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
   }
 

@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
-  if (!session || session.user?.role !== 'ADMIN') {
+  if (!session || (session.user as any)?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
   }
 
@@ -37,7 +37,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
-  if (!session || session.user?.role !== 'ADMIN') {
+  if (!session || (session.user as any)?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
   }
 
