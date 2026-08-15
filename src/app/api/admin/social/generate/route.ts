@@ -77,10 +77,10 @@ export async function POST(request: Request) {
 
     let { res: geminiRes, data: geminiData } = await attemptFetch('gemini-flash-latest');
 
-    // If high demand, fallback to 8b model
+    // If high demand, fallback to pro model
     if (!geminiRes.ok && geminiData.error?.message?.toLowerCase().includes('high demand')) {
-      console.log('High demand on flash-latest, falling back to flash-8b...');
-      const fallbackResult = await attemptFetch('gemini-1.5-flash-8b');
+      console.log('High demand on flash-latest, falling back to pro-latest...');
+      const fallbackResult = await attemptFetch('gemini-1.5-pro-latest');
       geminiRes = fallbackResult.res;
       geminiData = fallbackResult.data;
     }
