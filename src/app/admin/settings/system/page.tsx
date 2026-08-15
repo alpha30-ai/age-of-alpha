@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Settings2, Key, Server, Loader2, CheckCircle, AlertTriangle, Cloud, BrainCircuit } from 'lucide-react';
+import { Settings2, Key, Server, Loader2, Cloud, BrainCircuit } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function SystemSettingsPage() {
   const [settings, setSettings] = useState({
@@ -14,7 +15,6 @@ export default function SystemSettingsPage() {
   
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [message, setMessage] = useState<{type: 'success'|'error', text: string}|null>(null);
 
   useEffect(() => {
     fetch('/api/admin/settings/system')
@@ -39,7 +39,7 @@ export default function SystemSettingsPage() {
 
   const handleSave = async () => {
     setIsSaving(true);
-    setMessage(null);
+    const toastId = toast.loading('جاري حفظ الإعدادات... 💾');
     try {
       const res = await fetch('/api/admin/settings/system', {
         method: 'POST',
@@ -50,9 +50,9 @@ export default function SystemSettingsPage() {
       
       if (!res.ok) throw new Error(data.error);
       
-      setMessage({ type: 'success', text: 'تم حفظ مفاتيح النظام بنجاح!' });
+      toast.success('تم حفظ مفاتيح النظام بنجاح! 🎉', { id: toastId });
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message });
+      toast.error(error.message, { id: toastId });
     } finally {
       setIsSaving(false);
     }
@@ -77,17 +77,6 @@ export default function SystemSettingsPage() {
           تحكم في مفاتيح الذكاء الاصطناعي وخوادم رفع الصور من مكان واحد. هذه البيانات مشفرة وآمنة تماماً.
         </p>
       </div>
-
-      {message && (
-        <div className={`p-4 rounded-xl border flex items-center gap-3 ${
-          message.type === 'success' 
-            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
-            : 'bg-red-500/10 border-red-500/30 text-red-400'
-        }`}>
-          {message.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <AlertTriangle className="w-5 h-5" />}
-          <p className="font-bold">{message.text}</p>
-        </div>
-      )}
 
       {/* Gemini Settings */}
       <div className="stone-card rounded-2xl overflow-hidden border border-white/5">

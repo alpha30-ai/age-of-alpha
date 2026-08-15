@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Share2, Video, Globe, Wand2, Save, Loader2, CheckCircle, AlertTriangle, Copy, Palette, BookOpen, Users, Film } from 'lucide-react';
+import { Share2, Video, Globe, Wand2, Save, Loader2, Copy, Palette, BookOpen, Users, Film } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 type Entity = {
   id: string;
@@ -25,8 +26,6 @@ export default function SocialPublishAdminPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoadingSettings, setIsLoadingSettings] = useState(false);
-  
-  const [message, setMessage] = useState<{type: 'success'|'error', text: string}|null>(null);
 
   // Fetch items based on targetType
   useEffect(() => {
@@ -79,7 +78,7 @@ export default function SocialPublishAdminPage() {
           setThumbnailPrompt('');
         }
       })
-      .catch(() => setMessage({ type: 'error', text: 'فشل في جلب الإعدادات السابقة' }))
+      .catch(() => toast.error('فشل في جلب الإعدادات السابقة'))
       .finally(() => setIsLoadingSettings(false));
   }, [selectedTargetId, targetType, platform]);
 
@@ -87,7 +86,7 @@ export default function SocialPublishAdminPage() {
     if (!selectedTargetId) return;
     
     setIsGenerating(true);
-    setMessage(null);
+    const toastId = toast.loading('جاري توليد المحتوى بالذكاء الاصطناعي... ⏳');
     try {
       const res = await fetch('/api/admin/social/generate', {
         method: 'POST',
@@ -103,9 +102,9 @@ export default function SocialPublishAdminPage() {
       setHashtags(data.data.hashtags);
       setThumbnailPrompt(data.data.thumbnailPrompt);
       
-      setMessage({ type: 'success', text: 'تم التوليد بنجاح! لا تنس الحفظ.' });
+      toast.success('تم التوليد بنجاح الإبداع! ✨ لا تنس الحفظ.', { id: toastId, duration: 5000 });
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message });
+      toast.error(error.message, { id: toastId, duration: 6000 });
     } finally {
       setIsGenerating(false);
     }
@@ -113,12 +112,12 @@ export default function SocialPublishAdminPage() {
 
   const handleSave = async () => {
     if (!selectedTargetId || !title || !description || !hashtags || !thumbnailPrompt) {
-      setMessage({ type: 'error', text: 'يرجى التأكد من ملء جميع الحقول أو توليدها.' });
+      toast.error('يرجى التأكد من ملء جميع الحقول أو توليدها أولاً.');
       return;
     }
     
     setIsSaving(true);
-    setMessage(null);
+    const toastId = toast.loading('جاري حفظ البيانات... 💾');
     try {
       const res = await fetch('/api/admin/social', {
         method: 'POST',
@@ -136,9 +135,9 @@ export default function SocialPublishAdminPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       
-      setMessage({ type: 'success', text: 'تم حفظ إعدادات النشر بنجاح!' });
+      toast.success('تم حفظ إعدادات النشر بنجاح! 🎉', { id: toastId });
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message });
+      toast.error(error.message, { id: toastId });
     } finally {
       setIsSaving(false);
     }
@@ -146,6 +145,7 @@ export default function SocialPublishAdminPage() {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+    toast.success('تم نسخ النص!');
   };
 
   const getItemLabel = (item: Entity) => {
@@ -180,17 +180,6 @@ export default function SocialPublishAdminPage() {
           </div>
         </div>
       </div>
-
-      {message && (
-        <div className={`p-5 rounded-2xl border flex items-start md:items-center gap-4 shadow-lg ${
-          message.type === 'success' 
-            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
-            : 'bg-red-500/10 border-red-500/30 text-red-400'
-        }`}>
-          {message.type === 'success' ? <CheckCircle className="w-6 h-6 shrink-0 mt-0.5 md:mt-0" /> : <AlertTriangle className="w-6 h-6 shrink-0 mt-0.5 md:mt-0" />}
-          <p className="font-bold text-lg">{message.text}</p>
-        </div>
-      )}
 
       {/* Target Type Tabs */}
       <div className="flex flex-col md:flex-row gap-3 p-2 bg-[#111] border border-white/5 rounded-3xl w-full max-w-2xl mx-auto shadow-2xl">

@@ -1,18 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { DownloadCloud, UploadCloud, AlertTriangle, CheckCircle, Loader2, Server, Database, SaveAll } from 'lucide-react';
+import { DownloadCloud, UploadCloud, AlertTriangle, Loader2, Server, Database, SaveAll } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export default function BackupAdminPage() {
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   const router = useRouter();
 
   const handleExport = async () => {
     setIsExporting(true);
-    setMessage(null);
+    const toastId = toast.loading('جاري تجهيز النسخة الاحتياطية... 📦');
     try {
       const res = await fetch('/api/admin/backup');
       if (!res.ok) throw new Error('فشل في تصدير البيانات');
@@ -28,9 +28,9 @@ export default function BackupAdminPage() {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
       
-      setMessage({ type: 'success', text: 'تم تصدير النسخة الاحتياطية بنجاح!' });
+      toast.success('تم تصدير النسخة الاحتياطية بنجاح! 🎉', { id: toastId });
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message || 'حدث خطأ أثناء التصدير' });
+      toast.error(error.message || 'حدث خطأ أثناء التصدير', { id: toastId });
     } finally {
       setIsExporting(false);
     }
@@ -42,9 +42,9 @@ export default function BackupAdminPage() {
 
     const reader = new FileReader();
     reader.onload = async (event) => {
+      const toastId = toast.loading('جاري قراءة واستعادة النسخة الاحتياطية... ⚙️');
       try {
         setIsImporting(true);
-        setMessage(null);
         
         const content = event.target?.result as string;
         const backupData = JSON.parse(content);
@@ -63,10 +63,10 @@ export default function BackupAdminPage() {
         
         if (!res.ok) throw new Error(result.error || 'فشل في استعادة البيانات');
         
-        setMessage({ type: 'success', text: 'تمت استعادة البيانات بنجاح!' });
+        toast.success('تمت استعادة البيانات بنجاح! 🚀', { id: toastId });
         router.refresh();
       } catch (error: any) {
-        setMessage({ type: 'error', text: error.message || 'حدث خطأ أثناء الاستيراد' });
+        toast.error(error.message || 'حدث خطأ أثناء الاستيراد', { id: toastId });
       } finally {
         setIsImporting(false);
         if (e.target) e.target.value = '';
@@ -98,17 +98,6 @@ export default function BackupAdminPage() {
           </div>
         </div>
       </div>
-
-      {message && (
-        <div className={`p-5 rounded-2xl border flex items-start md:items-center gap-4 shadow-lg ${
-          message.type === 'success' 
-            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
-            : 'bg-red-500/10 border-red-500/30 text-red-400'
-        }`}>
-          {message.type === 'success' ? <CheckCircle className="w-6 h-6 shrink-0 mt-0.5 md:mt-0" /> : <AlertTriangle className="w-6 h-6 shrink-0 mt-0.5 md:mt-0" />}
-          <p className="font-bold text-lg">{message.text}</p>
-        </div>
-      )}
 
       {/* Action Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">

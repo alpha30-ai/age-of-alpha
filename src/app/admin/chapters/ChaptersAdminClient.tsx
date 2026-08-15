@@ -1,15 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from "next/link";
-import { Plus, Edit2, Trash2, BookOpen, LayoutGrid, List as ListIcon } from "lucide-react";
+import { Plus, Edit2, Trash2, BookOpen, LayoutGrid, List as ListIcon, Download, Upload, Loader2 } from "lucide-react";
 import { deleteChapter } from "./actions";
 import SearchInput from '@/components/ui/SearchInput';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export default function ChaptersAdminClient({ initialChapters }: { initialChapters: any[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid'); // Default to grid
+  const [isExporting, setIsExporting] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const filteredChapters = initialChapters.filter(ch => 
     ch.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -19,6 +25,65 @@ export default function ChaptersAdminClient({ initialChapters }: { initialChapte
   // Calculate stats
   const totalChapters = initialChapters.length;
   const latestChapter = totalChapters > 0 ? Math.max(...initialChapters.map(c => c.chapterNum)) : 0;
+
+  const handleExport = () => {
+    setIsExporting(true);
+    const toastId = toast.loading('جاري تصدير الفصول... 📦');
+    try {
+      const dataStr = JSON.stringify(initialChapters, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `chapters_backup_${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast.success('تم تصدير الفصول بنجاح! 🎉', { id: toastId });
+    } catch (error) {
+      toast.error('حدث خطأ أثناء تصدير الفصول', { id: toastId });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const toastId = toast.loading('جاري استيراد الفصول... ⚙️');
+      try {
+        setIsImporting(true);
+        const content = event.target?.result as string;
+        const data = JSON.parse(content);
+        
+        const res = await fetch('/api/admin/chapters/import', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.error || 'فشل في الاستيراد');
+
+        toast.success(`تم استيراد ${result.count} فصل بنجاح! 🚀`, { id: toastId });
+        router.refresh();
+      } catch (error: any) {
+        toast.error(error.message || 'حدث خطأ أثناء الاستيراد', { id: toastId });
+      } finally {
+        setIsImporting(false);
+        if (e.target) e.target.value = ''; // Reset input
+      }
+    };
+    reader.readAsText(file);
+  };
 
   return (
     <div className="max-w-7xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -65,12 +130,12 @@ export default function ChaptersAdminClient({ initialChapters }: { initialChapte
 
       {/* Standalone Search & Actions Toolbar */}
       <div className="bg-black/40 border border-white/10 p-3 md:p-4 rounded-3xl backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] sticky top-[72px] md:top-[88px] z-30">
-        <div className="flex flex-row items-center gap-2 md:gap-4 w-full">
+        <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4 w-full">
           <div className="w-full flex-1 min-w-0">
             <SearchInput placeholder="ابحث برقم أو اسم المخطوطة..." value={searchQuery} onChange={setSearchQuery} />
           </div>
           
-          <div className="flex items-center gap-2 md:gap-3 shrink-0">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0 flex-wrap justify-center">
             <div className="flex bg-black/60 rounded-xl p-1 shadow-inner h-[48px] md:h-[52px]">
               <button
                 onClick={() => setViewMode('grid')}
@@ -94,6 +159,25 @@ export default function ChaptersAdminClient({ initialChapters }: { initialChapte
               </button>
             </div>
             
+            <button 
+              onClick={handleExport}
+              disabled={isExporting}
+              className="flex items-center justify-center gap-2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 h-[48px] md:h-[52px] px-3 md:px-4 rounded-xl font-bold transition-all border border-blue-500/20 shrink-0"
+              title="تصدير الفصول"
+            >
+              {isExporting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Download className="w-5 h-5" />}
+            </button>
+
+            <button 
+              onClick={handleImportClick}
+              disabled={isImporting}
+              className="flex items-center justify-center gap-2 bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-400 h-[48px] md:h-[52px] px-3 md:px-4 rounded-xl font-bold transition-all border border-emerald-500/20 shrink-0"
+              title="استيراد فصول"
+            >
+              {isImporting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Upload className="w-5 h-5" />}
+            </button>
+            <input type="file" accept=".json" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
+
             <Link 
               href="/admin/chapters/new"
               className="flex items-center justify-center gap-2 bg-gradient-to-r from-[var(--theme-primary)] to-orange-600 hover:from-orange-600 hover:to-[var(--theme-primary)] text-white h-[48px] md:h-[52px] px-4 md:px-6 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(230,74,25,0.3)] hover:shadow-[0_0_30px_rgba(230,74,25,0.5)] border border-white/10 shrink-0"

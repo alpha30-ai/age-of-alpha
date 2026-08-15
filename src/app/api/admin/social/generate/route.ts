@@ -41,32 +41,49 @@ export async function POST(request: Request) {
       promptContext = "فيديو من رواية عهد ألفا. العنوان: " + targetData.title + ". الوصف: " + (targetData.description || 'لا يوجد');
     }
 
-    const systemPrompt = "أنت خبير تسويق عبقري لرواية دارك فانتسي تسمى عهد ألفا.\n" +
-      "بناء على المحتوى التالي، قم بإنشاء إعدادات نشر لمنصة " + (platform === 'YOUTUBE' ? 'يوتيوب' : 'فيسبوك') + ".\n" +
+    const systemPrompt = "أنت خبير تسويق و SEO عبقري لرواية دارك فانتسي تسمى (عهد ألفا).\n" +
+      "بناء على المحتوى التالي، قم بإنشاء منشور إبداعي لمنصة " + (platform === 'YOUTUBE' ? 'يوتيوب' : 'فيسبوك') + ".\n" +
       "المحتوى:\n" + promptContext + "\n\n" +
-      "يجب أن يكون ردك بصيغة JSON حصراً، يحتوي على:\n" +
+      "الشروط الصارمة:\n" +
+      "1. ممنوع تماماً استخدام علامات النجوم ** أو أي تنسيقات Markdown أخرى.\n" +
+      "2. استخدم رموز تعبيرية (Emojis) احترافية ومتناسقة مع جو الرواية (الغموض، الملحمة، السحر).\n" +
+      "3. يجب أن تكون الكلمات المفتاحية (Hashtags) والعنوان قوية جداً وتتصدر نتائج البحث (SEO Optimized).\n" +
+      "4. يجب أن يكون ردك بصيغة JSON حصراً، ويحتوي على:\n" +
       '{\n' +
-      '  "title": "عنوان جذاب جدا ومثير",\n' +
-      '  "description": "وصف احترافي يشوق المتابعين مع دعوة للاشتراك",\n' +
-      '  "hashtags": "#عهد_ألفا #رواية_خيال وغيرها",\n' +
+      '  "title": "عنوان جذاب جداً ومثير للاهتمام ويجذب النقرات",\n' +
+      '  "description": "وصف احترافي يشوق المتابعين مع دعوة قوية للاشتراك والمتابعة، منسق بالرموز التعبيرية وبدون أي علامات نجوم",\n' +
+      '  "hashtags": "#عهد_ألفا #رواية_خيال #دارك_فانتسي وغيرها",\n' +
       '  "thumbnailPrompt": "وصف بصري دقيق باللغة الإنجليزية لتوليد صورة مصغرة (Thumbnail) تناسب المشهد أو الشخصية، ركز على الإضاءة، الطابع السينمائي، دارك فانتسي."\n' +
       '}';
 
     const cleanApiKey = systemSettings.geminiApiKey.trim();
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
     
-    const geminiRes = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': cleanApiKey
-      },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: systemPrompt }] }]
-      })
-    });
+    // Fallback logic
+    async function attemptFetch(modelName: string) {
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`;
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': cleanApiKey
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: systemPrompt }] }]
+        })
+      });
+      const data = await res.json();
+      return { res, data };
+    }
 
-    const geminiData = await geminiRes.json();
+    let { res: geminiRes, data: geminiData } = await attemptFetch('gemini-flash-latest');
+
+    // If high demand, fallback to 8b model
+    if (!geminiRes.ok && geminiData.error?.message?.toLowerCase().includes('high demand')) {
+      console.log('High demand on flash-latest, falling back to flash-8b...');
+      const fallbackResult = await attemptFetch('gemini-1.5-flash-8b');
+      geminiRes = fallbackResult.res;
+      geminiData = fallbackResult.data;
+    }
     
     if (!geminiRes.ok) {
       throw new Error(geminiData.error?.message || 'فشل الاتصال بـ Gemini API');

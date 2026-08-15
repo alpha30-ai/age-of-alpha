@@ -1,18 +1,83 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from "next/link";
-import { Plus, Edit2, Trash2, Film, PlayCircle } from "lucide-react";
+import { Plus, Edit2, Trash2, Film, PlayCircle, Download, Upload, Loader2 } from "lucide-react";
 import { deleteVideo } from "./actions";
 import SearchInput from '@/components/ui/SearchInput';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export default function VideosAdminClient({ initialVideos }: { initialVideos: any[] }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isExporting, setIsExporting] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const filteredVideos = initialVideos.filter(v => 
     v.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
     (v.description && v.description.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+
+  const handleExport = () => {
+    setIsExporting(true);
+    const toastId = toast.loading('جاري تصدير الفيديوهات... 📦');
+    try {
+      const dataStr = JSON.stringify(initialVideos, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `videos_backup_${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast.success('تم تصدير الفيديوهات بنجاح! 🎉', { id: toastId });
+    } catch (error) {
+      toast.error('حدث خطأ أثناء تصدير الفيديوهات', { id: toastId });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const toastId = toast.loading('جاري استيراد الفيديوهات... ⚙️');
+      try {
+        setIsImporting(true);
+        const content = event.target?.result as string;
+        const data = JSON.parse(content);
+        
+        const res = await fetch('/api/admin/videos/import', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.error || 'فشل في الاستيراد');
+
+        toast.success(`تم استيراد ${result.count} فيديو بنجاح! 🚀`, { id: toastId });
+        router.refresh();
+      } catch (error: any) {
+        toast.error(error.message || 'حدث خطأ أثناء الاستيراد', { id: toastId });
+      } finally {
+        setIsImporting(false);
+        if (e.target) e.target.value = ''; // Reset input
+      }
+    };
+    reader.readAsText(file);
+  };
 
   return (
     <div className="max-w-7xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -48,18 +113,39 @@ export default function VideosAdminClient({ initialVideos }: { initialVideos: an
 
       {/* Standalone Search & Actions Toolbar */}
       <div className="bg-black/40 border border-white/10 p-3 md:p-4 rounded-3xl backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] sticky top-[72px] md:top-[88px] z-30 mb-8">
-        <div className="flex flex-row items-center gap-2 md:gap-4 w-full">
+        <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4 w-full">
           <div className="w-full flex-1 min-w-0">
             <SearchInput placeholder="ابحث بعنوان أو وصف الفيديو..." value={searchQuery} onChange={setSearchQuery} />
           </div>
           
-          <Link 
-            href="/admin/videos/new"
-            className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-blue-600 text-white h-[48px] md:h-[52px] px-4 md:px-6 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] border border-white/10 shrink-0"
-          >
-            <Plus className="w-5 h-5" />
-            <span className="hidden md:inline">فيديو جديد</span>
-          </Link>
+          <div className="flex items-center gap-2 md:gap-3 shrink-0 flex-wrap justify-center">
+            <button 
+              onClick={handleExport}
+              disabled={isExporting}
+              className="flex items-center justify-center gap-2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 h-[48px] md:h-[52px] px-3 md:px-4 rounded-xl font-bold transition-all border border-blue-500/20 shrink-0"
+              title="تصدير الفيديوهات"
+            >
+              {isExporting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Download className="w-5 h-5" />}
+            </button>
+
+            <button 
+              onClick={handleImportClick}
+              disabled={isImporting}
+              className="flex items-center justify-center gap-2 bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-400 h-[48px] md:h-[52px] px-3 md:px-4 rounded-xl font-bold transition-all border border-emerald-500/20 shrink-0"
+              title="استيراد فيديوهات"
+            >
+              {isImporting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Upload className="w-5 h-5" />}
+            </button>
+            <input type="file" accept=".json" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
+
+            <Link 
+              href="/admin/videos/new"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-blue-600 text-white h-[48px] md:h-[52px] px-4 md:px-6 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] border border-white/10 shrink-0"
+            >
+              <Plus className="w-5 h-5" />
+              <span className="hidden md:inline">فيديو جديد</span>
+            </Link>
+          </div>
         </div>
       </div>
 
