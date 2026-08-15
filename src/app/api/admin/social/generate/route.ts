@@ -75,14 +75,14 @@ export async function POST(request: Request) {
       return { res, data };
     }
 
-    let { res: geminiRes, data: geminiData } = await attemptFetch('gemini-1.5-flash');
+    let { res: geminiRes, data: geminiData } = await attemptFetch('gemini-1.5-flash-latest');
 
-    // If high demand or not found, fallback to pro model
+    // If high demand or not found, fallback to gemini-pro (v1.0 Pro which is universally available)
     if (!geminiRes.ok) {
       const errMsg = geminiData.error?.message?.toLowerCase() || '';
       if (errMsg.includes('high demand') || errMsg.includes('not found') || errMsg.includes('not supported')) {
-        console.log('Falling back to gemini-1.5-pro...');
-        const fallbackResult = await attemptFetch('gemini-1.5-pro');
+        console.log('Falling back to gemini-pro...');
+        const fallbackResult = await attemptFetch('gemini-pro');
         geminiRes = fallbackResult.res;
         geminiData = fallbackResult.data;
       }
