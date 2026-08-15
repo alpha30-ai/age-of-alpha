@@ -121,7 +121,7 @@ export default function SystemSettingsPage() {
                 name="geminiApiKey"
                 value={settings.geminiApiKey || ''}
                 onChange={handleChange}
-                placeholder="AIzaSy...................................."
+                placeholder="الصق مفتاح Gemini هنا..."
                 className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl pr-12 pl-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
                 dir="ltr"
               />

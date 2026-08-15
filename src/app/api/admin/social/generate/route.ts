@@ -72,6 +72,6 @@ export async function POST(request: Request) {
 
   } catch (error: any) {
     console.error('Gemini Generate Error:', error);
-    return NextResponse.json({ error: 'حدث خطأ أثناء التوليد. تأكد من صحة مفتاح Gemini' }, { status: 500 });
+    return NextResponse.json({ error: `حدث خطأ: ${error.message || 'مشكلة غير معروفة في التوليد'}` }, { status: 500 });
   }
 }
