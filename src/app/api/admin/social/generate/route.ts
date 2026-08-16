@@ -58,54 +58,33 @@ export async function POST(request: Request) {
 
     const cleanApiKey = systemSettings.geminiApiKey.trim();
     
-    // Fallback logic
-    async function attemptFetch(modelName: string) {
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`;
-      const res = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': cleanApiKey
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: systemPrompt }] }]
-        })
-      });
-      const data = await res.json();
-      return { res, data };
-    }
-
-    let { res: geminiRes, data: geminiData } = await attemptFetch('gemini-1.5-flash-latest');
-
-    // If high demand, wait a moment and retry with the same model
-    if (!geminiRes.ok) {
-      const errMsg = geminiData.error?.message?.toLowerCase() || '';
-      if (errMsg.includes('high demand') || errMsg.includes('503')) {
-        console.log('High demand encountered. Waiting 2 seconds before retrying...');
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        const retryResult = await attemptFetch('gemini-1.5-flash-latest');
-        geminiRes = retryResult.res;
-        geminiData = retryResult.data;
-      } else if (errMsg.includes('not found') || errMsg.includes('not supported')) {
-         // If latest is somehow not found, try the specific 001 version
-         console.log('Model not found, falling back to gemini-1.5-flash-001...');
-         const fallbackResult = await attemptFetch('gemini-1.5-flash-001');
-         geminiRes = fallbackResult.res;
-         geminiData = fallbackResult.data;
+    // Initialize the official SDK
+    const genAI = new GoogleGenerativeAI(cleanApiKey);
+    
+    // Try primary model first
+    let model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    let result;
+    
+    try {
+      result = await model.generateContent(systemPrompt);
+    } catch (e: any) {
+      console.log('Error with gemini-1.5-flash, trying fallback...', e.message);
+      // Fallback to older or specific models if the main one fails
+      try {
+        model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-8b" });
+        result = await model.generateContent(systemPrompt);
+      } catch (fallbackError: any) {
+        console.log('Error with gemini-1.5-flash-8b, trying gemini-pro...', fallbackError.message);
+        model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        result = await model.generateContent(systemPrompt);
       }
     }
-    
-    if (!geminiRes.ok) {
-      console.error('Gemini API Error details:', geminiData);
-      throw new Error(geminiData.error?.message || 'فشل الاتصال بـ Gemini API');
+
+    if (!result || !result.response) {
+      throw new Error('لم يقم الذكاء الاصطناعي بتوليد أي محتوى.');
     }
 
-    if (!geminiData.candidates || geminiData.candidates.length === 0) {
-      console.error('Gemini returned no candidates. Full response:', geminiData);
-      throw new Error('لم يقم الذكاء الاصطناعي بتوليد أي محتوى. قد يكون ذلك بسبب سياسات الأمان أو مشكلة في الخوادم.');
-    }
-
-    const text = geminiData.candidates[0].content?.parts?.[0]?.text || '';
+    const text = result.response.text() || '';
     if (!text) {
       throw new Error('الاستجابة كانت فارغة من النص.');
     }

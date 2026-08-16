@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Menu, X, BookOpen, Users, Video, Info, User, LogIn, LogOut, Settings, Shield, Film } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
-import ThemeSwitcher from '@/components/layout/ThemeSwitcher';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -106,12 +105,6 @@ export default function Navbar() {
                 >
                   <Settings className="w-4 h-4" />
                 </Link>
-
-                <div className="w-px h-6 bg-silver-ash/20 mx-1" />
-
-                <div className="scale-75 origin-right">
-                  <ThemeSwitcher />
-                </div>
 
                 <div className="w-px h-6 bg-silver-ash/20 mx-1" />
 
@@ -254,10 +247,6 @@ export default function Navbar() {
                       <Settings className="w-5 h-5" />
                       إعدادات الحساب
                     </Link>
-                    <div className="flex items-center justify-between px-4 py-3 bg-stone-dark/40 rounded-xl">
-                      <span className="text-silver-ash/80 font-cairo font-bold">المظهر</span>
-                      <ThemeSwitcher />
-                    </div>
                     <button
                       onClick={() => {
                         setIsOpen(false);
