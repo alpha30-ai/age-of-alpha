@@ -1,19 +1,53 @@
 @import 'tailwindcss';
 
+:root {
+  --theme-bg-dark: #050505;
+  --theme-text-dark: #E2E8F0;
+  --theme-primary-dark: #E64A19;
+  --theme-secondary-dark: #A9C4EB;
+
+  --theme-bg-light: #F8FAFC;
+  --theme-text-light: #0f172a;
+  --theme-primary-light: #C62828;
+  --theme-secondary-light: #1E3A8A;
+}
+
+.light {
+  --theme-bg: var(--theme-bg-light);
+  --theme-text: var(--theme-text-light);
+  --theme-primary: var(--theme-primary-light);
+  --theme-secondary: var(--theme-secondary-light);
+  
+  --theme-bg-mix: var(--theme-bg);
+}
+
+.dark {
+  --theme-bg: var(--theme-bg-dark);
+  --theme-text: var(--theme-text-dark);
+  --theme-primary: var(--theme-primary-dark);
+  --theme-secondary: var(--theme-secondary-dark);
+  
+  --theme-bg-mix: #000000;
+}
+
 @theme {
   --color-abyss: var(--theme-bg, #050505);
-  --color-abyss-light: color-mix(in srgb, var(--theme-bg, #050505) 90%, white);
-  --color-abyss-lighter: color-mix(in srgb, var(--theme-bg, #050505) 80%, white);
+  --color-abyss-light: color-mix(in srgb, var(--theme-bg) 95%, var(--theme-bg-mix, black));
+  --color-abyss-lighter: color-mix(in srgb, var(--theme-bg) 90%, var(--theme-bg-mix, black));
+  
   --color-magma: var(--theme-primary, #E64A19);
-  --color-magma-light: color-mix(in srgb, var(--theme-primary, #E64A19) 80%, white);
-  --color-magma-dark: color-mix(in srgb, var(--theme-primary, #E64A19) 70%, black);
+  --color-magma-light: color-mix(in srgb, var(--theme-primary) 80%, white);
+  --color-magma-dark: color-mix(in srgb, var(--theme-primary) 70%, black);
+  
   --color-milky-blue: var(--theme-secondary, #A9C4EB);
-  --color-milky-blue-light: color-mix(in srgb, var(--theme-secondary, #A9C4EB) 80%, white);
+  --color-milky-blue-light: color-mix(in srgb, var(--theme-secondary) 80%, white);
+  
   --color-silver-ash: var(--theme-text, #E2E8F0);
-  --color-silver-ash-light: color-mix(in srgb, var(--theme-text, #E2E8F0) 80%, white);
-  --color-stone-dark: color-mix(in srgb, var(--theme-bg, #050505) 90%, white);
-  --color-stone: color-mix(in srgb, var(--theme-bg, #050505) 80%, white);
-  --color-stone-light: color-mix(in srgb, var(--theme-bg, #050505) 70%, white);
+  --color-silver-ash-light: color-mix(in srgb, var(--theme-text) 80%, white);
+  
+  --color-stone-dark: color-mix(in srgb, var(--theme-bg) 95%, var(--theme-text, white) 5%);
+  --color-stone: color-mix(in srgb, var(--theme-bg) 90%, var(--theme-text, white) 10%);
+  --color-stone-light: color-mix(in srgb, var(--theme-bg) 80%, var(--theme-text, white) 20%);
   --font-family-tajawal: 'Tajawal', sans-serif;
   --font-family-cairo: 'Cairo', sans-serif;
   --font-family-amiri: 'Amiri', serif;

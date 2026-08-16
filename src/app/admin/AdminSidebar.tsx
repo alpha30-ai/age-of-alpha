@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, BookOpen, Users, Film, Palette, ArrowRight, ChevronRight, ChevronLeft, Menu, X, Settings, Flame, UserCircle, MessageSquare, Share2 } from 'lucide-react';
+import ThemeSwitcher from '@/components/layout/ThemeSwitcher';
 
 export default function AdminSidebar({ user }: { user?: any }) {
   const pathname = usePathname();
@@ -68,16 +69,23 @@ export default function AdminSidebar({ user }: { user?: any }) {
                 onClick={() => setIsMobileOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${
                   isActive 
-                    ? 'bg-white/10 text-white shadow-inner border border-white/5' 
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    ? 'bg-white/10 text-white shadow-inner border border-white/5 dark:bg-white/10 dark:text-white bg-gray-200 text-black' 
+                    : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
                 }`}
               >
-                <Icon className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive ? 'text-magma' : link.color} group-hover:text-white`} />
+                <Icon className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive ? 'text-magma' : link.color} group-hover:text-magma`} />
                 {!isCollapsed && <span className="font-bold truncate">{link.label}</span>}
               </Link>
             )
           })}
         </nav>
+
+        {!isCollapsed && (
+          <div className="mx-4 mt-2 mb-4 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-between">
+            <span className="text-sm font-bold text-gray-500 dark:text-gray-400">مظهر النظام</span>
+            <ThemeSwitcher />
+          </div>
+        )}
 
         {!isCollapsed && (
           <div className="m-4 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md relative group overflow-hidden">

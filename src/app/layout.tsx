@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma';
 import AuthProvider from '@/components/providers/AuthProvider';
 import BackgroundEffects from '@/components/layout/BackgroundEffects';
 import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'عهد ألفا: ملحمة الدول المائة | Age of Alpha',
@@ -22,11 +23,11 @@ export default async function RootLayout({
     const theme = await prisma.siteTheme.findUnique({ where: { id: 'default' } });
     if (theme) {
       themeStyles = `
-        :root {
-          --theme-bg: ${theme.backgroundColor || '#050505'};
-          --theme-primary: ${theme.primaryColor || '#E64A19'};
-          --theme-secondary: ${theme.secondaryColor || '#A9C4EB'};
-          --theme-text: ${theme.textColor || '#F8FAFC'};
+        .dark {
+          --theme-bg-dark: ${theme.backgroundColor || '#050505'};
+          --theme-primary-dark: ${theme.primaryColor || '#E64A19'};
+          --theme-secondary-dark: ${theme.secondaryColor || '#A9C4EB'};
+          --theme-text-dark: ${theme.textColor || '#F8FAFC'};
         }
       `;
     }
@@ -35,7 +36,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -45,22 +46,22 @@ export default async function RootLayout({
         />
         {themeStyles && <style dangerouslySetInnerHTML={{ __html: themeStyles }} />}
       </head>
-      <body className="bg-abyss text-silver-ash font-tajawal min-h-screen antialiased overflow-x-hidden">
-        <BackgroundEffects />
-        <Toaster 
-          position="bottom-left"
-          toastOptions={{
-            style: {
-              background: '#111',
-              color: '#fff',
-              border: '1px solid rgba(255,255,255,0.1)',
-              fontFamily: 'Tajawal, sans-serif'
-            }
-          }}
-        />
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+      <body className="bg-abyss text-silver-ash font-tajawal min-h-screen antialiased overflow-x-hidden transition-colors duration-500">
+        <ThemeProvider>
+          <BackgroundEffects />
+          <Toaster 
+            position="bottom-left"
+            toastOptions={{
+              className: 'dark:bg-[#111] dark:text-white bg-white text-gray-900 border dark:border-white/10 border-gray-200',
+              style: {
+                fontFamily: 'Tajawal, sans-serif'
+              }
+            }}
+          />
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
