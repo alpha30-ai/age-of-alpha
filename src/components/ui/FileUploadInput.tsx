@@ -8,6 +8,8 @@ export default function FileUploadInput({
   label, 
   defaultValue = '', 
   accept = "image/*",
+  value,
+  placeholder,
   onChange
 }: { 
   name?: string;
