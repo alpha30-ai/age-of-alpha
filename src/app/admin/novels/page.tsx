@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, BookOpen, Loader2, Edit, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import FileUploadInput from '@/components/ui/FileUploadInput';
 
 type Novel = {
   id: string;
@@ -175,11 +176,16 @@ export default function AdminNovelsPage() {
                 <textarea required rows={6} value={description} onChange={e => setDescription(e.target.value)} className="w-full bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-magma transition-colors leading-relaxed" />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">رابط صورة الغلاف (اختياري)</label>
-                  <input type="url" value={coverImage} onChange={e => setCoverImage(e.target.value)} dir="ltr" className="w-full bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-magma transition-colors" />
+                <div className="col-span-1 md:col-span-2">
+                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">رابط صورة الغلاف أو الرفع (اختياري)</label>
+                  <FileUploadInput
+                    value={coverImage}
+                    onChange={setCoverImage}
+                    placeholder="ارفع صورة الغلاف..."
+                    accept="image/*"
+                  />
                 </div>
-                <div>
+                <div className="col-span-1 md:col-span-2">
                   <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">اسم الكاتب (اختياري)</label>
                   <input type="text" value={author} onChange={e => setAuthor(e.target.value)} className="w-full bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-magma transition-colors" />
                 </div>

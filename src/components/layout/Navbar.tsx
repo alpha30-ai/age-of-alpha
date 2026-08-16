@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Flame, Menu, X, BookOpen, Users, Video, Info, User, LogIn, LogOut, Settings, Shield, Film } from 'lucide-react';
+import { Flame, Menu, X, BookOpen, Users, Video, Info, User, LogIn, LogOut, Settings, Shield, Film, Sparkles, Library } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
 
 export default function Navbar() {
@@ -20,9 +20,11 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'الرئيسية', icon: Flame },
+    { href: '/novels', label: 'الروايات', icon: Library },
+    { href: '/chat', label: 'الرائي', icon: Sparkles },
     { href: '/chapters', label: 'الفصول', icon: BookOpen },
-    { href: '/characters', label: 'أبطال الملحمة', icon: Users },
-    { href: '/videos', label: 'السجلات المرئية', icon: Film },
+    { href: '/characters', label: 'الأبطال', icon: Users },
+    { href: '/videos', label: 'المرئيات', icon: Film },
   ];
 
   return (
