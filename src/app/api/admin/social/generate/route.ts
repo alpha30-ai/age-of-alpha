@@ -77,14 +77,21 @@ export async function POST(request: Request) {
 
     let { res: geminiRes, data: geminiData } = await attemptFetch('gemini-1.5-flash-latest');
 
-    // If high demand or not found, fallback to gemini-1.5-flash
+    // If high demand, wait a moment and retry with the same model
     if (!geminiRes.ok) {
       const errMsg = geminiData.error?.message?.toLowerCase() || '';
-      if (errMsg.includes('high demand') || errMsg.includes('not found') || errMsg.includes('not supported')) {
-        console.log('Falling back to gemini-1.5-flash...');
-        const fallbackResult = await attemptFetch('gemini-1.5-flash');
-        geminiRes = fallbackResult.res;
-        geminiData = fallbackResult.data;
+      if (errMsg.includes('high demand') || errMsg.includes('503')) {
+        console.log('High demand encountered. Waiting 2 seconds before retrying...');
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        const retryResult = await attemptFetch('gemini-1.5-flash-latest');
+        geminiRes = retryResult.res;
+        geminiData = retryResult.data;
+      } else if (errMsg.includes('not found') || errMsg.includes('not supported')) {
+         // If latest is somehow not found, try the specific 001 version
+         console.log('Model not found, falling back to gemini-1.5-flash-001...');
+         const fallbackResult = await attemptFetch('gemini-1.5-flash-001');
+         geminiRes = fallbackResult.res;
+         geminiData = fallbackResult.data;
       }
     }
     
