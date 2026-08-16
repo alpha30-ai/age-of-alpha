@@ -77,12 +77,12 @@ export async function POST(request: Request) {
 
     let { res: geminiRes, data: geminiData } = await attemptFetch('gemini-1.5-flash-latest');
 
-    // If high demand or not found, fallback to gemini-pro (v1.0 Pro which is universally available)
+    // If high demand or not found, fallback to gemini-1.5-flash
     if (!geminiRes.ok) {
       const errMsg = geminiData.error?.message?.toLowerCase() || '';
       if (errMsg.includes('high demand') || errMsg.includes('not found') || errMsg.includes('not supported')) {
-        console.log('Falling back to gemini-pro...');
-        const fallbackResult = await attemptFetch('gemini-pro');
+        console.log('Falling back to gemini-1.5-flash...');
+        const fallbackResult = await attemptFetch('gemini-1.5-flash');
         geminiRes = fallbackResult.res;
         geminiData = fallbackResult.data;
       }

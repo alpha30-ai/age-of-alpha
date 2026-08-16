@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Share2, Video, Globe, Wand2, Save, Loader2, Copy, Palette, BookOpen, Users, Film, CheckCircle2 } from 'lucide-react';
+import { Share2, Video, Globe, Wand2, Save, Loader2, Copy, Palette, BookOpen, Users, Film, CheckCircle2, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 type Entity = {
@@ -26,6 +26,7 @@ export default function SocialPublishAdminPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoadingSettings, setIsLoadingSettings] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Fetch items based on targetType
   useEffect(() => {
@@ -222,15 +223,45 @@ export default function SocialPublishAdminPage() {
             {items.length === 0 ? (
               <div className="w-full bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-2xl px-5 py-4 text-gray-500 text-center">لا يوجد عناصر متاحة</div>
             ) : (
-              <select 
-                value={selectedTargetId}
-                onChange={(e) => setSelectedTargetId(e.target.value)}
-                className="w-full bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-4 text-gray-900 dark:text-white focus:outline-none focus:border-magma transition-colors text-base shadow-sm cursor-pointer"
-              >
-                {items.map(item => (
-                  <option key={item.id} value={item.id}>{getItemLabel(item)}</option>
-                ))}
-              </select>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="w-full flex items-center justify-between bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-4 text-gray-900 dark:text-white focus:outline-none focus:border-magma transition-colors text-base shadow-sm cursor-pointer"
+                >
+                  <span className="truncate pr-2">
+                    {selectedTargetId ? getItemLabel(items.find(i => i.id === selectedTargetId) || items[0]) : 'اختر...'}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isDropdownOpen && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-10" 
+                      onClick={() => setIsDropdownOpen(false)}
+                    />
+                    <div className="absolute z-20 top-full mt-2 left-0 w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-white/10 rounded-2xl shadow-xl overflow-hidden max-h-60 overflow-y-auto">
+                      {items.map(item => (
+                        <button
+                          key={item.id}
+                          onClick={() => {
+                            setSelectedTargetId(item.id);
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`w-full text-right px-5 py-3 hover:bg-magma/10 hover:text-magma dark:hover:text-magma-light transition-colors border-b border-gray-100 dark:border-white/5 last:border-0 ${
+                            selectedTargetId === item.id 
+                              ? 'bg-magma/5 text-magma font-bold' 
+                              : 'text-gray-700 dark:text-gray-300'
+                          }`}
+                        >
+                          {getItemLabel(item)}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
             )}
           </div>
 
