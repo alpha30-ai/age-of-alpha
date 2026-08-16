@@ -82,7 +82,7 @@ export default function CharactersClient({ characters, initialQuery, novelId }: 
           <div className="flex-1 w-full">
             <SearchInput 
               value={searchQuery} 
-              onChange={setSearchQuery} 
+              onChange={handleSearch} 
               placeholder="ابحث عن شخصية بالاسم أو اللقب..." 
             />
           </div>

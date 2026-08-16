@@ -41,7 +41,7 @@ export default function ChaptersClient({ initialChapters, initialQuery, novelId 
     <>
       <div className="flex flex-col md:flex-row items-center gap-4 mb-12">
         <div className="flex-1 w-full">
-          <SearchInput placeholder="ابحث عن مخطوطة باسمها أو رقمها..." value={query} onChange={(e) => handleSearch(e.target.value)} />
+          <SearchInput placeholder="ابحث عن مخطوطة باسمها أو رقمها..." value={query} onChange={(val) => handleSearch(val)} />
         </div>
         <div className="shrink-0 hidden md:block">
           <ViewToggle storageKey="chapters-view-mode" defaultView="grid" onViewChange={setViewMode} />
