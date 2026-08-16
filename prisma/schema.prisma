@@ -185,6 +185,7 @@ model SocialPublishSetting {
   title           String
   description     String   @db.Text
   hashtags        String   @db.Text
+  youtubeTags     String?  @db.Text
   thumbnailPrompt String   @db.Text
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

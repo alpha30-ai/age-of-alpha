@@ -21,6 +21,7 @@ export default function SocialPublishAdminPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [hashtags, setHashtags] = useState('');
+  const [youtubeTags, setYoutubeTags] = useState('');
   const [thumbnailPrompt, setThumbnailPrompt] = useState('');
   
   const [isGenerating, setIsGenerating] = useState(false);
@@ -70,11 +71,13 @@ export default function SocialPublishAdminPage() {
           setTitle(data.data.title || '');
           setDescription(data.data.description || '');
           setHashtags(data.data.hashtags || '');
+          setYoutubeTags(data.data.youtubeTags || '');
           setThumbnailPrompt(data.data.thumbnailPrompt || '');
         } else {
           setTitle('');
           setDescription('');
           setHashtags('');
+          setYoutubeTags('');
           setThumbnailPrompt('');
         }
       })
@@ -100,6 +103,7 @@ export default function SocialPublishAdminPage() {
       setTitle(data.data.title);
       setDescription(data.data.description);
       setHashtags(data.data.hashtags);
+      setYoutubeTags(data.data.youtubeTags || '');
       setThumbnailPrompt(data.data.thumbnailPrompt);
       
       toast.success('تم التوليد السحري بنجاح! ✨', { id: toastId, duration: 5000 });
@@ -129,6 +133,7 @@ export default function SocialPublishAdminPage() {
           title,
           description,
           hashtags,
+          youtubeTags,
           thumbnailPrompt
         })
       });
@@ -307,41 +312,51 @@ export default function SocialPublishAdminPage() {
         {/* Right Content - Editors */}
         <div className="xl:col-span-2 space-y-6">
           
-          <div className="bg-white dark:bg-[#111] rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-white/10 shadow-lg relative group">
+          <div className="bg-white dark:bg-[#111] rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-white/10 shadow-lg relative group transition-all duration-300 hover:shadow-xl hover:border-magma/30">
             <button onClick={() => copyToClipboard(title)} className="absolute top-6 left-6 p-2 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all"><Copy className="w-5 h-5"/></button>
-            <label className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-gray-300 mb-4">
-              <div className="w-2 h-2 rounded-full bg-magma"></div>
-              العنوان الرئيسي
-            </label>
+            <div className="flex items-center justify-between mb-4">
+              <label className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-gray-300">
+                <div className="w-2 h-2 rounded-full bg-magma"></div>
+                العنوان الرئيسي
+              </label>
+              <span className={`text-xs font-bold px-2 py-1 rounded-lg ${title.length > 100 ? 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' : 'bg-gray-100 text-gray-500 dark:bg-white/5 dark:text-gray-400'}`}>
+                {title.length} / 100
+              </span>
+            </div>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="العنوان الجذاب يكتب هنا..."
-              className="w-full bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-2xl px-6 py-5 text-gray-900 dark:text-white focus:outline-none focus:border-magma transition-colors text-lg md:text-xl font-bold shadow-inner"
+              className={`w-full bg-gray-50 dark:bg-[#0a0a0a] border ${title.length > 100 ? 'border-red-500/50 focus:border-red-500' : 'border-gray-200 dark:border-white/10 focus:border-magma'} rounded-2xl px-6 py-5 text-gray-900 dark:text-white focus:outline-none transition-colors text-lg md:text-xl font-bold shadow-inner`}
             />
           </div>
 
-          <div className="bg-white dark:bg-[#111] rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-white/10 shadow-lg relative group">
+          <div className="bg-white dark:bg-[#111] rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-white/10 shadow-lg relative group transition-all duration-300 hover:shadow-xl hover:border-blue-500/30">
             <button onClick={() => copyToClipboard(description)} className="absolute top-6 left-6 p-2 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all"><Copy className="w-5 h-5"/></button>
-            <label className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-gray-300 mb-4">
-              <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-              الوصف التسويقي (Description)
-            </label>
+            <div className="flex items-center justify-between mb-4">
+              <label className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-gray-300">
+                <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                الوصف التسويقي (Description)
+              </label>
+              <span className={`text-xs font-bold px-2 py-1 rounded-lg ${description.length > 5000 ? 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' : 'bg-gray-100 text-gray-500 dark:bg-white/5 dark:text-gray-400'}`}>
+                {description.length} / 5000
+              </span>
+            </div>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={6}
-              className="w-full bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-2xl px-6 py-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors text-base md:text-lg leading-relaxed shadow-inner"
+              className={`w-full bg-gray-50 dark:bg-[#0a0a0a] border ${description.length > 5000 ? 'border-red-500/50 focus:border-red-500' : 'border-gray-200 dark:border-white/10 focus:border-blue-500'} rounded-2xl px-6 py-5 text-gray-900 dark:text-white focus:outline-none transition-colors text-base md:text-lg leading-relaxed shadow-inner`}
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white dark:bg-[#111] rounded-3xl p-6 border border-gray-200 dark:border-white/10 shadow-lg relative group">
+            <div className="bg-white dark:bg-[#111] rounded-3xl p-6 border border-gray-200 dark:border-white/10 shadow-lg relative group transition-all duration-300 hover:shadow-xl hover:border-emerald-500/30">
               <button onClick={() => copyToClipboard(hashtags)} className="absolute top-6 left-6 p-2 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all"><Copy className="w-4 h-4"/></button>
               <label className="flex items-center gap-2 text-base font-bold text-gray-900 dark:text-gray-300 mb-4">
                 <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-                الهاشتاجات (SEO)
+                الهاشتاجات العادية
               </label>
               <textarea
                 value={hashtags}
@@ -350,8 +365,26 @@ export default function SocialPublishAdminPage() {
                 className="w-full bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-4 text-emerald-600 dark:text-emerald-400 focus:outline-none focus:border-emerald-500 transition-colors text-base shadow-inner leading-relaxed"
               />
             </div>
+            
+            {platform === 'YOUTUBE' && (
+              <div className="bg-red-50 dark:bg-[#111] rounded-3xl p-6 border border-red-200 dark:border-red-500/20 shadow-lg relative group transition-all duration-300 hover:shadow-xl hover:border-red-500/40">
+                <button onClick={() => copyToClipboard(youtubeTags)} className="absolute top-6 left-6 p-2 bg-red-100 dark:bg-red-500/20 hover:bg-red-200 dark:hover:bg-red-500/40 rounded-xl text-red-600 dark:text-red-400 transition-all"><Copy className="w-4 h-4"/></button>
+                <label className="flex items-center gap-2 text-base font-bold text-red-900 dark:text-red-400 mb-4">
+                  <Video className="w-4 h-4 text-red-500" />
+                  كلمات يوتيوب (Tags)
+                </label>
+                <textarea
+                  value={youtubeTags}
+                  onChange={(e) => setYoutubeTags(e.target.value)}
+                  dir="rtl"
+                  rows={4}
+                  className="w-full bg-white dark:bg-[#050505] border border-red-200 dark:border-red-500/30 rounded-2xl px-5 py-4 text-red-700 dark:text-red-300 focus:outline-none focus:border-red-500 transition-colors text-base shadow-inner leading-relaxed"
+                  placeholder="خيال, اكشن, عهد الفا, قصة..."
+                />
+              </div>
+            )}
 
-            <div className="bg-purple-50 dark:bg-[#111] rounded-3xl p-6 border border-purple-200 dark:border-purple-500/20 shadow-lg relative group">
+            <div className={`bg-purple-50 dark:bg-[#111] rounded-3xl p-6 border border-purple-200 dark:border-purple-500/20 shadow-lg relative group transition-all duration-300 hover:shadow-xl hover:border-purple-500/40 ${platform !== 'YOUTUBE' ? 'md:col-span-2' : ''}`}>
               <button onClick={() => copyToClipboard(thumbnailPrompt)} className="absolute top-6 left-6 p-2 bg-purple-100 dark:bg-purple-500/20 hover:bg-purple-200 dark:hover:bg-purple-500/40 rounded-xl text-purple-600 dark:text-purple-400 transition-all z-10"><Copy className="w-4 h-4"/></button>
               <label className="flex items-center gap-2 text-base font-bold text-purple-900 dark:text-purple-300 mb-4 relative z-10">
                 <Palette className="w-5 h-5 text-purple-500" />

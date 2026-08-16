@@ -1,22 +1,28 @@
-import { Users, BookOpen, Film, UserCircle, Flame, Plus, Settings, Palette } from 'lucide-react';
+import { Users, BookOpen, Film, UserCircle, Flame, Plus, Settings, Palette, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
 
 export default async function AdminDashboard() {
-  const [userCount, chapterCount, videoCount, characterCount, recentChapters, recentUsers] = await Promise.all([
+  const [userCount, chapterCount, videoCount, characterCount, socialCount, recentChapters, recentUsers, recentSocial] = await Promise.all([
     prisma.user.count(),
     prisma.chapter.count(),
     prisma.videoMedia.count(),
     prisma.character.count(),
+    prisma.socialPublishSetting.count(),
     prisma.chapter.findMany({ take: 4, orderBy: { createdAt: 'desc' } }),
     prisma.user.findMany({ take: 4, orderBy: { createdAt: 'desc' } }),
+    prisma.socialPublishSetting.findMany({
+      take: 4, 
+      orderBy: { createdAt: 'desc' },
+      include: { chapter: true, character: true, video: true }
+    }),
   ]);
 
   const stats = [
     { label: 'المستخدمين', count: userCount, icon: Users, color: 'text-blue-400', bg: 'bg-blue-400/10' },
     { label: 'الفصول', count: chapterCount, icon: BookOpen, color: 'text-[#E64A19]', bg: 'bg-[#E64A19]/10' },
-    { label: 'الشخصيات', count: characterCount, icon: UserCircle, color: 'text-purple-400', bg: 'bg-purple-400/10' },
     { label: 'الفيديوهات', count: videoCount, icon: Film, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
+    { label: 'المحتوى التسويقي', count: socialCount, icon: Share2, color: 'text-rose-400', bg: 'bg-rose-400/10' },
   ];
 
   return (
@@ -69,7 +75,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Recent Activity Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Recent Chapters */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl">
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
@@ -89,7 +95,7 @@ export default async function AdminDashboard() {
                     {chapter.chapterNum}
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-200">{chapter.title}</h4>
+                    <h4 className="font-bold text-gray-200 truncate w-32">{chapter.title}</h4>
                     <p className="text-xs text-gray-500">{new Date(chapter.createdAt).toLocaleDateString('ar-EG')}</p>
                   </div>
                 </div>
@@ -100,14 +106,47 @@ export default async function AdminDashboard() {
           </div>
         </div>
 
+        {/* Recent Social Content */}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl">
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
+            <h3 className="text-xl font-bold text-white flex items-center gap-2">
+              <Share2 className="w-5 h-5 text-rose-400" />
+              المحتوى التسويقي
+            </h3>
+            <Link href="/admin/social" className="text-sm text-rose-400 hover:text-rose-300 font-bold">
+              عرض الكل
+            </Link>
+          </div>
+          <div className="space-y-4">
+            {recentSocial.length > 0 ? recentSocial.map((social) => (
+              <div key={social.id} className="flex flex-col gap-2 p-4 rounded-xl bg-black/40 border border-white/5 hover:border-rose-400/30 transition-all">
+                <div className="flex items-center justify-between">
+                  <span className={`text-[10px] font-bold px-2 py-1 rounded-md ${social.platform === 'YOUTUBE' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                    {social.platform === 'YOUTUBE' ? 'يوتيوب' : 'فيسبوك'}
+                  </span>
+                  <span className="text-[10px] text-gray-500">{new Date(social.createdAt).toLocaleDateString('ar-EG')}</span>
+                </div>
+                <h4 className="font-bold text-gray-200 text-sm truncate">{social.title}</h4>
+                <p className="text-xs text-gray-400 truncate">
+                  {social.targetType === 'CHAPTER' ? `الفصل: ${social.chapter?.title}` : social.targetType === 'CHARACTER' ? `شخصية: ${social.character?.name}` : `فيديو: ${social.video?.title}`}
+                </p>
+              </div>
+            )) : (
+              <p className="text-center text-gray-500 py-4">لا يوجد محتوى تسويقي.</p>
+            )}
+          </div>
+        </div>
+
         {/* Recent Users */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl">
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
             <h3 className="text-xl font-bold text-white flex items-center gap-2">
               <Users className="w-5 h-5 text-blue-400" />
-              أحدث المنضمين للعهد
+              المنضمين الجدد
             </h3>
-            <span className="text-sm text-gray-400">آخر 4 مستخدمين</span>
+            <Link href="/admin/users" className="text-sm text-blue-400 hover:text-blue-300 font-bold">
+              عرض الكل
+            </Link>
           </div>
           <div className="space-y-4">
             {recentUsers.length > 0 ? recentUsers.map((user) => (
@@ -122,8 +161,8 @@ export default async function AdminDashboard() {
                     )}
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-200">{user.name || 'مستخدم مجهول'}</h4>
-                    <p className="text-xs text-gray-500" dir="ltr">{user.email}</p>
+                    <h4 className="font-bold text-gray-200 truncate w-32">{user.name || 'مجهول'}</h4>
+                    <p className="text-xs text-gray-500 truncate w-32" dir="ltr">{user.email}</p>
                   </div>
                 </div>
               </div>

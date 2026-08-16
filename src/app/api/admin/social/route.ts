@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { targetType, targetId, platform, title, description, hashtags, thumbnailPrompt } = body;
+    const { targetType, targetId, platform, title, description, hashtags, youtubeTags, thumbnailPrompt } = body;
 
     if (!targetType || !targetId || !platform || !title || !description || !hashtags || !thumbnailPrompt) {
       return NextResponse.json({ error: 'جميع الحقول مطلوبة' }, { status: 400 });
@@ -70,6 +70,7 @@ export async function POST(request: Request) {
       title,
       description,
       hashtags,
+      youtubeTags,
       thumbnailPrompt,
       chapterId: targetType === 'CHAPTER' ? targetId : null,
       characterId: targetType === 'CHARACTER' ? targetId : null,
