@@ -1,23 +1,32 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { UploadCloud, Link as LinkIcon, Loader2, X } from 'lucide-react';
 
 export default function FileUploadInput({ 
   name, 
   label, 
   defaultValue = '', 
-  accept = "image/*" 
+  accept = "image/*",
+  onChange
 }: { 
-  name: string;
-  label: string;
+  name?: string;
+  label?: string;
   defaultValue?: string;
+  value?: string;
   accept?: string;
+  onChange?: (url: string) => void;
 }) {
-  const [url, setUrl] = useState(defaultValue);
+  const [url, setUrl] = useState(value || defaultValue);
   const [isUploading, setIsUploading] = useState(false);
   const [mode, setMode] = useState<'file' | 'url'>('file');
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setUrl(value);
+    }
+  }, [value]);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -50,6 +59,7 @@ export default function FileUploadInput({
       
       if (res.ok && data.secure_url) {
         setUrl(data.secure_url);
+        onChange?.(data.secure_url);
       } else {
         setError(data.error?.message || 'فشل الرفع إلى التخزين السحابي');
       }
@@ -88,7 +98,10 @@ export default function FileUploadInput({
         <input 
           type="text" 
           value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={(e) => {
+            setUrl(e.target.value);
+            onChange?.(e.target.value);
+          }}
           placeholder="https://... أو /uploads/..."
           className="w-full bg-black/40 border border-silver-ash/10 rounded-xl px-4 py-3 text-gray-300 focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all font-mono text-left"
           dir="ltr"
@@ -128,7 +141,7 @@ export default function FileUploadInput({
         <div className="flex items-center gap-2 mt-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
           <LinkIcon className="w-4 h-4 flex-shrink-0" />
           <span className="text-sm font-mono truncate flex-1" dir="ltr">{url}</span>
-          <button type="button" onClick={() => setUrl('')} className="p-1 hover:bg-emerald-500/20 rounded-md transition-colors">
+          <button type="button" onClick={() => { setUrl(''); onChange?.(''); }} className="p-1 hover:bg-emerald-500/20 rounded-md transition-colors">
             <X className="w-4 h-4" />
           </button>
         </div>
