@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, Variants, AnimatePresence } from "framer-motion";
 import { Character } from "@prisma/client";
@@ -8,10 +9,25 @@ import SearchInput from '@/components/ui/SearchInput';
 import ViewToggle from '@/components/ui/ViewToggle';
 import { Shield, Zap, Brain, Users } from "lucide-react";
 
-export default function CharactersClient({ characters }: { characters: Character[] }) {
+interface CharactersClientProps {
+  characters: Character[];
+  initialQuery?: string;
+  novelId?: string;
+}
+
+export default function CharactersClient({ characters, initialQuery, novelId }: CharactersClientProps) {
   const [activeTab, setActiveTab] = useState<string>('ALL');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>(initialQuery || '');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const router = useRouter();
+
+  const handleSearch = (value: string) => {
+    setSearchQuery(value);
+    const params = new URLSearchParams();
+    if (value) params.set('q', value);
+    if (novelId) params.set('novelId', novelId);
+    router.push(`/characters?${params.toString()}`);
+  };
 
   const tabs = [
     { id: 'ALL', label: 'الكل' },

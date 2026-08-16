@@ -56,6 +56,7 @@ model User {
   sessions      Session[]
   comments      Comment[]
   videoComments VideoComment[]
+  communityPosts CommunityPost[]
 }
 
 model VerificationToken {
@@ -112,6 +113,7 @@ model Novel {
   chapters    Chapter[]
   characters  Character[]
   videos      VideoMedia[]
+  communityPosts CommunityPost[]
 }
 
 model Chapter {
@@ -140,6 +142,22 @@ model Comment {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   chapterId   String
   chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CommunityPost {
+  id          String   @id @default(cuid())
+  content     String   @db.Text
+  imageUrl    String?
+  isReported  Boolean  @default(false)
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  novelId     String
+  novel       Novel    @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -226,5 +244,9 @@ model SystemSettings {
   cloudinaryCloudName   String?
   cloudinaryApiKey      String?
   cloudinaryApiSecret   String?
+  
+  isMaintenanceMode     Boolean  @default(false)
+  maintenanceMessage    String?  @db.Text
+  
   updatedAt             DateTime @updatedAt
 }

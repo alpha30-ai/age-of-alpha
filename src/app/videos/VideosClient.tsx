@@ -1,20 +1,37 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import VideoCard from '@/components/videos/VideoCard';
 import SearchInput from '@/components/ui/SearchInput';
 import ViewToggle from '@/components/ui/ViewToggle';
 import { Film } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function VideosClient({ initialVideos, initialQuery }: { initialVideos: any[], initialQuery: string }) {
+interface VideosClientProps {
+  initialVideos: any[];
+  initialQuery: string;
+  novelId?: string;
+}
+
+export default function VideosClient({ initialVideos, initialQuery, novelId }: VideosClientProps) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  
+  const [query, setQuery] = useState(initialQuery);
+  const router = useRouter();
+
+  const handleSearch = (value: string) => {
+    setQuery(value);
+    const params = new URLSearchParams();
+    if (value) params.set('q', value);
+    if (novelId) params.set('novelId', novelId);
+    router.push(`/videos?${params.toString()}`);
+  };
+
   return (
     <>
       <div className="flex flex-col md:flex-row items-center gap-4 mb-12">
         <div className="flex-1 w-full">
-          <SearchInput placeholder="ابحث عن فيديو..." value={undefined} onChange={undefined} />
+          <SearchInput placeholder="ابحث عن فيديو..." value={query} onChange={handleSearch} />
         </div>
         <div className="shrink-0 hidden md:block">
           <ViewToggle storageKey="videos-view-mode" defaultView="grid" onViewChange={setViewMode} />

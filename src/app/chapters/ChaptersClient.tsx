@@ -1,20 +1,47 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import ChapterCard from '@/components/chapters/ChapterCard';
 import SearchInput from '@/components/ui/SearchInput';
 import ViewToggle from '@/components/ui/ViewToggle';
 import { BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function ChaptersClient({ initialChapters, initialQuery }: { initialChapters: any[], initialQuery: string }) {
+interface Chapter {
+  id: string;
+  chapterNum: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  audioUrl?: string;
+  imageUrl?: string;
+}
+
+interface ChaptersClientProps {
+  initialChapters: Chapter[];
+  initialQuery: string;
+  novelId?: string;
+}
+
+export default function ChaptersClient({ initialChapters, initialQuery, novelId }: ChaptersClientProps) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [query, setQuery] = useState(initialQuery);
+  const router = useRouter();
+
+  const handleSearch = (value: string) => {
+    setQuery(value);
+    const params = new URLSearchParams();
+    if (value) params.set('q', value);
+    if (novelId) params.set('novelId', novelId);
+    router.push(`/chapters?${params.toString()}`);
+  };
   
   return (
     <>
       <div className="flex flex-col md:flex-row items-center gap-4 mb-12">
         <div className="flex-1 w-full">
-          <SearchInput placeholder="ابحث عن مخطوطة باسمها أو رقمها..." value={undefined} onChange={undefined} />
+          <SearchInput placeholder="ابحث عن مخطوطة باسمها أو رقمها..." value={query} onChange={(e) => handleSearch(e.target.value)} />
         </div>
         <div className="shrink-0 hidden md:block">
           <ViewToggle storageKey="chapters-view-mode" defaultView="grid" onViewChange={setViewMode} />

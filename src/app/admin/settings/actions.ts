@@ -43,3 +43,24 @@ export async function updateAdminProfile(formData: FormData) {
     throw new Error('Failed to update profile');
   }
 }
+
+export async function updateSettings(formData: FormData) {
+  const isMaintenanceMode = formData.get("isMaintenanceMode") === "true";
+  const maintenanceMessage = formData.get("maintenanceMessage") as string;
+
+  await prisma.systemSettings.upsert({
+    where: { id: "default" },
+    update: {
+      isMaintenanceMode,
+      maintenanceMessage,
+    },
+    create: {
+      id: "default",
+      isMaintenanceMode,
+      maintenanceMessage,
+    },
+  });
+
+  revalidatePath("/");
+  revalidatePath("/admin/settings");
+}

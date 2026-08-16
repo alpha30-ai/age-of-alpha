@@ -4,27 +4,32 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import PageBanner from '@/components/ui/PageBanner';
 import VideosClient from './VideosClient';
-import { Film } from 'lucide-react';
+import { Video } from 'lucide-react';
+import MaintenanceGuard from '@/components/layout/MaintenanceGuard';
 
 export const metadata: Metadata = {
-  title: 'السجلات المرئية | عهد ألفا: ملحمة الدول المائة',
+  title: 'المرئيات | عهد ألفا: ملحمة الدول المائة',
   description: 'شاهد الفيديوهات الترويجية والموسيقى الملحمية لرواية عهد ألفا.',
 };
 
-export default async function VideosPage({ searchParams }: { searchParams: { q?: string } }) {
+export default async function VideosPage({ searchParams }: { searchParams: { q?: string; novelId?: string } }) {
   let videos: any[] = [];
   let theme: any = null;
   const query = searchParams?.q || '';
+  const novelId = searchParams?.novelId || undefined;
 
   try {
     const [fetchedVideos, fetchedTheme] = await Promise.all([
       prisma.videoMedia.findMany({
-        where: query ? {
-          OR: [
-            { title: { contains: query, mode: 'insensitive' } },
-            { description: { contains: query, mode: 'insensitive' } }
-          ]
-        } : undefined,
+        where: {
+          ...(novelId ? { novelId } : {}),
+          ...(query ? {
+            OR: [
+              { title: { contains: query, mode: 'insensitive' } },
+              { description: { contains: query, mode: 'insensitive' } }
+            ]
+          } : {})
+        },
         orderBy: { createdAt: 'desc' },
       }),
       prisma.siteTheme.findUnique({
@@ -37,29 +42,30 @@ export default async function VideosPage({ searchParams }: { searchParams: { q?:
     videos = [];
   }
 
-  const bgImage = theme?.bannerImageUrl || 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=2000&auto=format&fit=crop';
+  const bgImage = theme?.bannerImageUrl || 'https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2000&auto=format&fit=crop';
 
   return (
-    <main className="bg-[#050505] overflow-x-hidden w-full max-w-[100vw] min-h-screen relative flex flex-col">
-      <Navbar />
-      
-      <PageBanner 
-        title="السجلات المرئية"
-        subtitle="شاهد فيديوهات وملخصات عهد ألفا وتعرف على عالم الرواية"
-        icon={<Film className="w-8 h-8 text-blue-400" />}
-        backgroundImage={bgImage}
-        themeColor="blue"
-      />
-
-      <div className="pb-20 px-4 flex-1 relative w-full">
-        <div className="absolute top-0 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-blue-900/10 rounded-full blur-[150px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-cyan-900/10 rounded-full blur-[150px] pointer-events-none" />
+    <MaintenanceGuard>
+      <main className="bg-[#050505] overflow-x-hidden min-h-screen relative flex flex-col">
+        <Navbar />
         
-        <div className="max-w-7xl mx-auto relative z-10 w-full">
-          <VideosClient initialVideos={videos} initialQuery={query} />
+        <PageBanner 
+          title="المرئيات"
+          subtitle="مكتبة الفيديو والموسيقى الملحمية"
+          icon={<Video className="w-8 h-8 text-[var(--color-magma)]" />}
+          backgroundImage={bgImage}
+        />
+
+        <div className="pb-20 px-4 flex-1 relative">
+          <div className="absolute top-0 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-blue-900/10 rounded-full blur-[150px] pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-cyan-900/10 rounded-full blur-[150px] pointer-events-none" />
+          
+          <div className="max-w-7xl mx-auto relative z-10">
+            <VideosClient initialVideos={videos} initialQuery={query} novelId={novelId} />
+          </div>
         </div>
-      </div>
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </MaintenanceGuard>
   );
 }
