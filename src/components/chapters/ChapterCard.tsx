@@ -9,7 +9,7 @@ interface ChapterCardProps {
   chapterNum: number;
   title: string;
   content: string;
-  createdAt: Date;
+  createdAt: Date | string;
   audioUrl?: string | null;
   imageUrl?: string | null;
   isList?: boolean;

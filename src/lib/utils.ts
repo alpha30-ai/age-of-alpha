@@ -1,4 +1,4 @@
-export function formatDate(date: Date): string {
+export function formatDate(date: Date | string | number): string {
   return new Intl.DateTimeFormat('ar-SA', {
     year: 'numeric',
     month: 'long',
