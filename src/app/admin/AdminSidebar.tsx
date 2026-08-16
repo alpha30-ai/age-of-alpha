@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, BookOpen, Users, Film, Palette, ArrowRight, ChevronRight, ChevronLeft, Menu, X, Settings, Flame, UserCircle, MessageSquare, Share2 } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Users, Film, Palette, ArrowRight, ChevronRight, ChevronLeft, Menu, X, Settings, Flame, UserCircle, MessageSquare, Share2, Library } from 'lucide-react';
 
 export default function AdminSidebar({ user }: { user?: any }) {
   const pathname = usePathname();
@@ -12,6 +13,7 @@ export default function AdminSidebar({ user }: { user?: any }) {
 
   const links = [
     { href: '/admin', label: 'لوحة القيادة', icon: LayoutDashboard, color: 'text-blue-400' },
+    { href: '/admin/novels', label: 'الروايات', icon: Library, color: 'text-cyan-400' },
     { href: '/admin/chapters', label: 'الفصول', icon: BookOpen, color: 'text-orange-400' },
     { href: '/admin/characters', label: 'الشخصيات', icon: Users, color: 'text-purple-400' },
     { href: '/admin/videos', label: 'الفيديوهات', icon: Film, color: 'text-emerald-400' },

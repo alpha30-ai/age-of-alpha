@@ -161,7 +161,7 @@ export default function SocialPublishAdminPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 md:space-y-10 animate-fade-in pb-24 px-2 md:px-0">
+    <div className="w-full space-y-8 md:space-y-10 animate-fade-in pb-24 px-2 md:px-0">
       
       {/* Dynamic Header */}
       <div className="relative overflow-hidden bg-white dark:bg-[#0a0a0a] rounded-3xl p-8 border border-gray-200 dark:border-white/10 shadow-xl">
@@ -313,15 +313,17 @@ export default function SocialPublishAdminPage() {
         <div className="xl:col-span-2 space-y-6">
           
           <div className="bg-white dark:bg-[#111] rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-white/10 shadow-lg relative group transition-all duration-300 hover:shadow-xl hover:border-magma/30">
-            <button onClick={() => copyToClipboard(title)} className="absolute top-6 left-6 p-2 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all"><Copy className="w-5 h-5"/></button>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
               <label className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-gray-300">
                 <div className="w-2 h-2 rounded-full bg-magma"></div>
                 العنوان الرئيسي
               </label>
-              <span className={`text-xs font-bold px-2 py-1 rounded-lg ${title.length > 100 ? 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' : 'bg-gray-100 text-gray-500 dark:bg-white/5 dark:text-gray-400'}`}>
-                {title.length} / 100
-              </span>
+              <div className="flex items-center gap-3">
+                <span className={`text-xs font-bold px-2 py-1 rounded-lg ${title.length > 100 ? 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' : 'bg-gray-100 text-gray-500 dark:bg-white/5 dark:text-gray-400'}`}>
+                  {title.length} / 100
+                </span>
+                <button onClick={() => copyToClipboard(title)} className="p-2 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all"><Copy className="w-4 h-4"/></button>
+              </div>
             </div>
             <input
               type="text"
@@ -333,15 +335,17 @@ export default function SocialPublishAdminPage() {
           </div>
 
           <div className="bg-white dark:bg-[#111] rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-white/10 shadow-lg relative group transition-all duration-300 hover:shadow-xl hover:border-blue-500/30">
-            <button onClick={() => copyToClipboard(description)} className="absolute top-6 left-6 p-2 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all"><Copy className="w-5 h-5"/></button>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
               <label className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-gray-300">
                 <div className="w-2 h-2 rounded-full bg-blue-500"></div>
                 الوصف التسويقي (Description)
               </label>
-              <span className={`text-xs font-bold px-2 py-1 rounded-lg ${description.length > 5000 ? 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' : 'bg-gray-100 text-gray-500 dark:bg-white/5 dark:text-gray-400'}`}>
-                {description.length} / 5000
-              </span>
+              <div className="flex items-center gap-3">
+                <span className={`text-xs font-bold px-2 py-1 rounded-lg ${description.length > 5000 ? 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' : 'bg-gray-100 text-gray-500 dark:bg-white/5 dark:text-gray-400'}`}>
+                  {description.length} / 5000
+                </span>
+                <button onClick={() => copyToClipboard(description)} className="p-2 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all"><Copy className="w-4 h-4"/></button>
+              </div>
             </div>
             <textarea
               value={description}
@@ -353,11 +357,13 @@ export default function SocialPublishAdminPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white dark:bg-[#111] rounded-3xl p-6 border border-gray-200 dark:border-white/10 shadow-lg relative group transition-all duration-300 hover:shadow-xl hover:border-emerald-500/30">
-              <button onClick={() => copyToClipboard(hashtags)} className="absolute top-6 left-6 p-2 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all"><Copy className="w-4 h-4"/></button>
-              <label className="flex items-center gap-2 text-base font-bold text-gray-900 dark:text-gray-300 mb-4">
-                <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-                الهاشتاجات العادية
-              </label>
+              <div className="flex items-center justify-between mb-4">
+                <label className="flex items-center gap-2 text-base font-bold text-gray-900 dark:text-gray-300">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                  الهاشتاجات العادية
+                </label>
+                <button onClick={() => copyToClipboard(hashtags)} className="p-2 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all"><Copy className="w-4 h-4"/></button>
+              </div>
               <textarea
                 value={hashtags}
                 onChange={(e) => setHashtags(e.target.value)}

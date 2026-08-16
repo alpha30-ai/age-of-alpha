@@ -100,6 +100,20 @@ model SiteTheme {
   updatedAt       DateTime @updatedAt
 }
 
+model Novel {
+  id          String      @id @default(cuid())
+  title       String
+  description String      @db.Text
+  coverImage  String?
+  author      String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  
+  chapters    Chapter[]
+  characters  Character[]
+  videos      VideoMedia[]
+}
+
 model Chapter {
   id          String   @id @default(cuid())
   chapterNum  Int      @unique
@@ -108,6 +122,10 @@ model Chapter {
   authorNote  String?  @db.Text
   imageUrl    String?
   audioUrl    String?
+  
+  novelId     String?
+  novel       Novel?   @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   comments    Comment[]
@@ -133,6 +151,10 @@ model VideoMedia {
   videoUrl    String
   thumbnail   String?
   isHosted    Boolean  @default(false)
+  
+  novelId     String?
+  novel       Novel?   @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  
   createdAt   DateTime @default(now())
   comments    VideoComment[]
   socialSettings SocialPublishSetting[]
@@ -162,6 +184,10 @@ model Character {
   magic       Int      @default(50)
   intelligence Int     @default(50)
   sortOrder   Int      @default(0) // For manual ordering
+  
+  novelId     String?
+  novel       Novel?   @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   socialSettings SocialPublishSetting[]
