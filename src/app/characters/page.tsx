@@ -66,7 +66,7 @@ export default async function CharactersPage({ searchParams }: { searchParams: {
           <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-red-900/10 rounded-full blur-[150px] pointer-events-none" />
           
           <div className="max-w-7xl mx-auto relative z-10">
-            <CharactersClient initialCharacters={characters} initialQuery={query} novelId={novelId} />
+            <CharactersClient characters={characters} initialQuery={query} novelId={novelId} />
           </div>
         </div>
         <Footer />
