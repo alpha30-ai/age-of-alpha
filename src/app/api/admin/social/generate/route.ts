@@ -62,20 +62,20 @@ export async function POST(request: Request) {
     const genAI = new GoogleGenerativeAI(cleanApiKey);
     
     // Try primary model first
-    let model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    let model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     let result;
     
     try {
       result = await model.generateContent(systemPrompt);
     } catch (e: any) {
-      console.log('Error with gemini-1.5-flash, trying fallback...', e.message);
+      console.log('Error with gemini-2.5-flash, trying fallback...', e.message);
       // Fallback to older or specific models if the main one fails
       try {
-        model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-8b" });
+        model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
         result = await model.generateContent(systemPrompt);
       } catch (fallbackError: any) {
-        console.log('Error with gemini-1.5-flash-8b, trying gemini-pro...', fallbackError.message);
-        model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        console.log('Error with gemini-3.5-flash, trying gemini-flash-latest...', fallbackError.message);
+        model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
         result = await model.generateContent(systemPrompt);
       }
     }
