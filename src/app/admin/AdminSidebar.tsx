@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BookOpen, Users, Film, Palette, ArrowRight, ChevronRight, ChevronLeft, Menu, X, Settings, Flame, UserCircle, MessageSquare, Share2 } from 'lucide-react';
 import { LayoutDashboard, BookOpen, Users, Film, Palette, ArrowRight, ChevronRight, ChevronLeft, Menu, X, Settings, Flame, UserCircle, MessageSquare, Share2, Library } from 'lucide-react';
 
 export default function AdminSidebar({ user }: { user?: any }) {
