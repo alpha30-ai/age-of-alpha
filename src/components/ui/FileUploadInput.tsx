@@ -15,6 +15,7 @@ export default function FileUploadInput({
   defaultValue?: string;
   value?: string;
   accept?: string;
+  placeholder?: string;
   onChange?: (url: string) => void;
 }) {
   const [url, setUrl] = useState(value || defaultValue);
@@ -102,7 +103,7 @@ export default function FileUploadInput({
             setUrl(e.target.value);
             onChange?.(e.target.value);
           }}
-          placeholder="https://... أو /uploads/..."
+          placeholder={placeholder || "https://... أو /uploads/..."}
           className="w-full bg-black/40 border border-silver-ash/10 rounded-xl px-4 py-3 text-gray-300 focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all font-mono text-left"
           dir="ltr"
         />
