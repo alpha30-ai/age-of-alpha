@@ -83,14 +83,14 @@ export default function DeleteAccountSection() {
               type="text" 
               value={otpCode}
               onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-              className="bg-black/40 border border-red-500/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-all font-bold text-center tracking-[0.5em]" 
+              className="bg-black/40 border border-red-500/30 rounded-xl px-4 py-3 text-silver-ash focus:outline-none focus:border-red-500 transition-all font-bold text-center tracking-[0.5em]" 
               placeholder="000000"
               maxLength={6}
               dir="ltr"
             />
             <button 
               onClick={handleConfirmDelete}
-              className="bg-red-600 hover:bg-red-500 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)]"
+              className="bg-red-600 hover:bg-red-500 text-silver-ash px-8 py-3 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)]"
             >
               تأكيد الحذف النهائي
             </button>

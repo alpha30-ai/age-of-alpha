@@ -25,8 +25,8 @@ export default function PageBanner({
       />
       
       {/* Dark Gradient Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#050505] z-0" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-0" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-abyss z-0" />
+      <div className="absolute inset-0 bg-gradient-to-t from-abyss to-transparent z-0" />
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto mt-16">
@@ -34,7 +34,7 @@ export default function PageBanner({
           {icon || <Flame className={`w-8 h-8 text-[var(--theme-primary)]`} />}
         </div>
         
-        <h1 className="font-amiri font-bold text-5xl md:text-6xl text-white mb-4 drop-shadow-lg shadow-black">
+        <h1 className="font-amiri font-bold text-5xl md:text-6xl text-silver-ash mb-4 drop-shadow-lg shadow-black">
           {title}
         </h1>
         

@@ -16,10 +16,10 @@ interface VideoCardProps {
 export default function VideoCard({ id, title, description, thumbnail, isList = false }: VideoCardProps) {
   return (
     <Link href={`/videos/${id}`} className="block group h-full">
-      <div className={`relative bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 group-hover:border-[var(--theme-primary)]/50 shadow-lg group-hover:shadow-[0_10px_30px_-10px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] transition-all duration-500 hover:-translate-y-2 ${isList ? 'flex flex-col sm:flex-row' : 'flex flex-col h-full'}`}>
+      <div className={`relative bg-stone-dark rounded-2xl overflow-hidden border border-silver-ash/10 group-hover:border-[var(--theme-primary)]/50 shadow-lg group-hover:shadow-[0_10px_30px_-10px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] transition-all duration-500 hover:-translate-y-2 ${isList ? 'flex flex-col sm:flex-row' : 'flex flex-col h-full'}`}>
         
         {/* Top Video Thumbnail Section */}
-        <div className={`relative bg-[#111] overflow-hidden ${isList ? 'sm:w-72 sm:aspect-video flex-shrink-0 border-b sm:border-b-0 sm:border-l border-white/5' : 'w-full aspect-video border-b border-white/5'}`}>
+        <div className={`relative bg-stone overflow-hidden ${isList ? 'sm:w-72 sm:aspect-video flex-shrink-0 border-b sm:border-b-0 sm:border-l border-silver-ash/5' : 'w-full aspect-video border-b border-silver-ash/5'}`}>
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
             style={{ 
@@ -35,13 +35,13 @@ export default function VideoCard({ id, title, description, thumbnail, isList = 
           {/* Play Icon Center Overlay */}
           <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
             <div className="w-14 h-14 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-[var(--theme-primary)] group-hover:border-white transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_30px_color-mix(in_srgb,var(--theme-primary)_60%,transparent)] group-hover:scale-110">
-              <Play className="w-6 h-6 text-white ml-1" />
+              <Play className="w-6 h-6 text-silver-ash ml-1" />
             </div>
           </div>
         </div>
 
         {/* Bottom Content Section */}
-        <div className="p-5 flex-1 flex flex-col bg-gradient-to-b from-[#0a0a0a] to-[#050505] relative z-20">
+        <div className="p-5 flex-1 flex flex-col bg-gradient-to-b from-[#0a0a0a] to-abyss relative z-20">
           <h3 className="font-cairo font-bold text-lg md:text-xl text-gray-100 group-hover:text-[var(--theme-primary)] transition-colors duration-300 mb-2 leading-tight drop-shadow-sm">
             {title}
           </h3>

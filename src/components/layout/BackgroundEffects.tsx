@@ -11,7 +11,7 @@ export default function BackgroundEffects() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-[#050505]">
+    <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-abyss">
       {/* Nebula Blurs (Static for Performance) */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#E64A19] opacity-10 blur-[120px] rounded-full" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#A9C4EB] opacity-5 blur-[120px] rounded-full" />

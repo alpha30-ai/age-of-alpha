@@ -68,7 +68,7 @@ export default function ReadingTools() {
           <button
             onClick={() => changeFontSize(1)}
             disabled={fontSizeIndex === fontSizes.length - 1}
-            className="w-12 h-12 rounded-full bg-black/80 backdrop-blur-md border border-white/10 text-white flex items-center justify-center hover:bg-[var(--theme-primary)]/20 hover:border-[var(--theme-primary)] transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed group"
+            className="w-12 h-12 rounded-full bg-black/80 backdrop-blur-md border border-silver-ash/10 text-silver-ash flex items-center justify-center hover:bg-[var(--theme-primary)]/20 hover:border-[var(--theme-primary)] transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed group"
             title="تكبير الخط"
           >
             <ZoomIn className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -77,7 +77,7 @@ export default function ReadingTools() {
           <button
             onClick={() => changeFontSize(-1)}
             disabled={fontSizeIndex === 0}
-            className="w-12 h-12 rounded-full bg-black/80 backdrop-blur-md border border-white/10 text-white flex items-center justify-center hover:bg-[var(--theme-primary)]/20 hover:border-[var(--theme-primary)] transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed group"
+            className="w-12 h-12 rounded-full bg-black/80 backdrop-blur-md border border-silver-ash/10 text-silver-ash flex items-center justify-center hover:bg-[var(--theme-primary)]/20 hover:border-[var(--theme-primary)] transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed group"
             title="تصغير الخط"
           >
             <ZoomOut className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -88,10 +88,10 @@ export default function ReadingTools() {
         <button
           onClick={() => setIsToolsOpen(!isToolsOpen)}
           className={cn(
-            "w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-xl border border-white/10 backdrop-blur-md",
+            "w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-xl border border-silver-ash/10 backdrop-blur-md",
             isToolsOpen 
-              ? "bg-[var(--theme-primary)] text-white shadow-[0_0_15px_var(--theme-primary)] border-[var(--theme-primary)]" 
-              : "bg-black/80 text-gray-400 hover:text-white hover:bg-black"
+              ? "bg-[var(--theme-primary)] text-silver-ash shadow-[0_0_15px_var(--theme-primary)] border-[var(--theme-primary)]" 
+              : "bg-black/80 text-gray-400 hover:text-silver-ash hover:bg-black"
           )}
           title="أدوات القراءة"
         >
@@ -102,7 +102,7 @@ export default function ReadingTools() {
         <button
           onClick={scrollToTop}
           className={cn(
-            "w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-all shadow-lg mt-2",
+            "w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-silver-ash/10 text-silver-ash flex items-center justify-center hover:bg-white/20 transition-all shadow-lg mt-2",
             showScrollTop ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
           )}
           title="العودة للأعلى"

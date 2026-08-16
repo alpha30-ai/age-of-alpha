@@ -33,13 +33,13 @@ export default function HeroSection({ theme }: { theme?: any }) {
   const backgroundUrl = isBannerActive && theme?.bannerImageUrl ? theme.bannerImageUrl : null;
 
   return (
-    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-[#050505]"
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-abyss transition-colors duration-500"
       style={backgroundUrl ? { backgroundImage: `url(${backgroundUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
     >
       {/* Background Effects */}
       <div className="absolute inset-0 z-0">
         {/* Dark Gradient Overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/70 via-[#050505]/50 to-[#050505]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-abyss/70 via-abyss/50 to-abyss transition-colors duration-500" />
         
         {/* Core Magma Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] bg-magma/15 blur-[100px] rounded-full mix-blend-screen animate-pulse" />
@@ -64,7 +64,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
         )}
 
         {/* Bottom fade into Abyss */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#050505] to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-abyss to-transparent transition-colors duration-500" />
       </div>
 
       {/* Main Content */}
@@ -76,7 +76,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
           className="relative w-full max-w-4xl mx-auto p-4 sm:p-8"
         >
           {/* Subtle Top Shine */}
-          <div className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-silver-ash/20 to-transparent" />
 
           {/* Flame Icon */}
           <motion.div variants={itemVariants} className="mb-8 flex justify-center">
@@ -93,8 +93,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
           {/* Title */}
           <motion.h1 
             variants={itemVariants} 
-            className="font-amiri font-bold text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-white mb-4 tracking-wider drop-shadow-[0_4px_30px_rgba(255,255,255,0.4)] shadow-black"
-            style={{ textShadow: '0px 2px 10px rgba(0,0,0,0.8)' }}
+            className="font-amiri font-bold text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-silver-ash mb-4 tracking-wider drop-shadow-lg"
           >
             {title}
           </motion.h1>
@@ -102,8 +101,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
           {/* Subtitle */}
           <motion.h2 
             variants={itemVariants} 
-            className="font-cairo font-bold text-2xl md:text-3xl lg:text-4xl text-gray-100 mb-8 drop-shadow-[0_2px_15px_rgba(255,255,255,0.3)] shadow-black"
-            style={{ textShadow: '0px 2px 8px rgba(0,0,0,0.8)' }}
+            className="font-cairo font-bold text-2xl md:text-3xl lg:text-4xl text-silver-ash-light mb-8 drop-shadow-md"
           >
             {subtitle}
           </motion.h2>
@@ -111,7 +109,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
           {/* Logline */}
           <motion.p 
             variants={itemVariants} 
-            className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto mb-16 leading-relaxed font-tajawal drop-shadow-md whitespace-pre-wrap"
+            className="text-lg sm:text-xl md:text-2xl text-silver-ash-light max-w-4xl mx-auto mb-16 leading-relaxed font-tajawal drop-shadow-md whitespace-pre-wrap"
           >
             {theme?.bannerDescription || "من بين أنقاض الألم، وُلدت إمبراطورية لا تعرف الرحمة... عهدٌ تُكتب قوانينه بالدم، وتُدفع ضرائبه بالولاء المطلق."}
           </motion.p>
@@ -122,7 +120,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
               <BookOpen className="w-5 h-5" />
               ابدأ القراءة
             </GlowButton>
-            <GlowButton href="/videos" variant="ghost" size="lg" className="w-full sm:w-auto min-w-[200px] border-white/20 text-white hover:bg-white/10">
+            <GlowButton href="/videos" variant="ghost" size="lg" className="w-full sm:w-auto min-w-[200px] border-silver-ash/20 text-silver-ash hover:bg-silver-ash/10">
               <Shield className="w-5 h-5" />
               السجلات المرئية
             </GlowButton>
@@ -136,7 +134,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
           transition={{ delay: 2.5, duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="absolute left-1/2 -translate-x-1/2 bottom-4 sm:bottom-8 z-20 flex justify-center w-full"
         >
-          <ChevronDown className="w-10 h-10 text-white/30" />
+          <ChevronDown className="w-10 h-10 text-silver-ash/30" />
         </motion.div>
       </div>
     </section>

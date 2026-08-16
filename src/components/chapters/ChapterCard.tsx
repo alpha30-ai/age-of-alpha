@@ -18,10 +18,10 @@ interface ChapterCardProps {
 export default function ChapterCard({ id, chapterNum, title, content, createdAt, audioUrl, imageUrl, isList = false }: ChapterCardProps) {
   return (
     <Link href={`/chapters/${id}`} className="block h-full group">
-      <div className={`relative bg-[#0a0a0a] rounded-3xl overflow-hidden border border-white/10 shadow-2xl transition-all duration-500 hover:border-[var(--theme-primary)] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] ${isList ? 'flex flex-col sm:flex-row' : 'flex flex-col h-full'}`}>
+      <div className={`relative bg-stone-dark rounded-3xl overflow-hidden border border-silver-ash/10 shadow-2xl transition-all duration-500 hover:border-[var(--theme-primary)] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] ${isList ? 'flex flex-col sm:flex-row' : 'flex flex-col h-full'}`}>
         
         {/* Image Section */}
-        <div className={`relative bg-[#111] overflow-hidden ${isList ? 'sm:w-64 sm:aspect-square flex-shrink-0' : 'w-full aspect-video border-b border-white/5'}`}>
+        <div className={`relative bg-stone overflow-hidden ${isList ? 'sm:w-64 sm:aspect-square flex-shrink-0' : 'w-full aspect-video border-b border-silver-ash/5'}`}>
           {imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img 
@@ -39,7 +39,7 @@ export default function ChapterCard({ id, chapterNum, title, content, createdAt,
           
           {/* Top Badges */}
           <div className="absolute top-3 left-3 right-3 flex items-start justify-between z-20">
-            <span className="bg-black/60 backdrop-blur-md border border-white/10 text-[var(--theme-primary)] px-3 py-1 rounded-lg text-sm font-bold shadow-md">
+            <span className="bg-black/60 backdrop-blur-md border border-silver-ash/10 text-[var(--theme-primary)] px-3 py-1 rounded-lg text-sm font-bold shadow-md">
               الفصل {chapterNum}
             </span>
             {audioUrl && (
@@ -51,7 +51,7 @@ export default function ChapterCard({ id, chapterNum, title, content, createdAt,
         </div>
 
         {/* Bottom Content Section */}
-        <div className="p-5 flex-1 flex flex-col justify-between bg-gradient-to-b from-[#0a0a0a] to-[#050505] relative z-20">
+        <div className="p-5 flex-1 flex flex-col justify-between bg-gradient-to-b from-[#0a0a0a] to-abyss relative z-20">
           <div>
             <h3 className="font-cairo font-bold text-xl md:text-2xl text-gray-100 group-hover:text-[var(--theme-primary)] transition-colors duration-300 mb-2 leading-tight line-clamp-2">
               {title}
@@ -62,7 +62,7 @@ export default function ChapterCard({ id, chapterNum, title, content, createdAt,
             </p>
           </div>
 
-          <div className="flex items-center justify-between pt-4 mt-auto border-t border-white/10 group-hover:border-[var(--theme-primary)]/30 transition-colors duration-300">
+          <div className="flex items-center justify-between pt-4 mt-auto border-t border-silver-ash/10 group-hover:border-[var(--theme-primary)]/30 transition-colors duration-300">
             <div className="flex items-center gap-2 text-gray-500 text-xs font-bold">
               <Calendar className="w-4 h-4" />
               <span>{formatDate(createdAt)}</span>

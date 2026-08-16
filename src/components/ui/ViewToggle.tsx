@@ -32,17 +32,17 @@ export default function ViewToggle({ storageKey, defaultView = 'grid', onViewCha
 
   // Don't render until mounted to avoid hydration mismatch
   if (!mounted) return (
-    <div className="flex bg-[#0a0a0a] border border-white/10 rounded-xl p-1 w-[88px] h-10 animate-pulse"></div>
+    <div className="flex bg-stone-dark border border-silver-ash/10 rounded-xl p-1 w-[88px] h-10 animate-pulse"></div>
   );
 
   return (
-    <div className="flex bg-[#0a0a0a] border border-white/10 rounded-xl p-1 shadow-inner relative z-10">
+    <div className="flex bg-stone-dark border border-silver-ash/10 rounded-xl p-1 shadow-inner relative z-10">
       <button
         onClick={() => handleToggle('grid')}
         className={`p-2 rounded-lg transition-all duration-300 ${
           view === 'grid' 
-            ? 'bg-[var(--theme-primary)] text-white shadow-[0_0_10px_color-mix(in_srgb,var(--theme-primary)_50%,transparent)]' 
-            : 'text-gray-500 hover:text-white hover:bg-white/5'
+            ? 'bg-[var(--theme-primary)] text-silver-ash shadow-[0_0_10px_color-mix(in_srgb,var(--theme-primary)_50%,transparent)]' 
+            : 'text-gray-500 hover:text-silver-ash hover:bg-white/5'
         }`}
         title="عرض شبكي"
       >
@@ -52,8 +52,8 @@ export default function ViewToggle({ storageKey, defaultView = 'grid', onViewCha
         onClick={() => handleToggle('list')}
         className={`p-2 rounded-lg transition-all duration-300 ${
           view === 'list' 
-            ? 'bg-[var(--theme-primary)] text-white shadow-[0_0_10px_color-mix(in_srgb,var(--theme-primary)_50%,transparent)]' 
-            : 'text-gray-500 hover:text-white hover:bg-white/5'
+            ? 'bg-[var(--theme-primary)] text-silver-ash shadow-[0_0_10px_color-mix(in_srgb,var(--theme-primary)_50%,transparent)]' 
+            : 'text-gray-500 hover:text-silver-ash hover:bg-white/5'
         }`}
         title="عرض عمودي"
       >

@@ -30,10 +30,10 @@ export default function GlowButton({
 
   const variantClasses = {
     magma:
-      'bg-magma/90 hover:bg-magma text-white border border-magma-light/30 shadow-[0_0_15px_rgba(230,74,25,0.4)] hover:shadow-[0_0_30px_rgba(230,74,25,0.8)]',
+      'bg-magma/90 hover:bg-magma text-silver-ash border border-magma-light/30 shadow-[0_0_15px_rgba(230,74,25,0.4)] hover:shadow-[0_0_30px_rgba(230,74,25,0.8)]',
     blue: 'bg-milky-blue/20 hover:bg-milky-blue/30 text-milky-blue-light border border-milky-blue/40 shadow-[0_0_15px_rgba(169,196,235,0.2)] hover:shadow-[0_0_30px_rgba(169,196,235,0.5)]',
     ghost:
-      'bg-white/5 hover:bg-white/10 text-silver-ash border border-white/10 hover:border-white/20 backdrop-blur-md',
+      'bg-white/5 hover:bg-white/10 text-silver-ash border border-silver-ash/10 hover:border-white/20 backdrop-blur-md',
   };
 
   const sizeClasses = {
@@ -48,7 +48,7 @@ export default function GlowButton({
     <>
       <span className="relative z-10 flex items-center gap-2">{children}</span>
       {/* Glossy overlay effect */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/20 opacity-0 hover:opacity-100 transition-opacity duration-500 z-0" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-silver-ash/0 via-white/5 to-white/20 opacity-0 hover:opacity-100 transition-opacity duration-500 z-0" />
     </>
   );
 

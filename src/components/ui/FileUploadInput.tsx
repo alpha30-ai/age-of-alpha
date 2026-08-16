@@ -65,11 +65,11 @@ export default function FileUploadInput({
       <label className="block text-sm font-bold text-gray-300">{label}</label>
       <input type="hidden" name={name} value={url} />
       
-      <div className="flex gap-2 mb-2 bg-black/20 p-1 rounded-lg w-fit border border-white/5">
+      <div className="flex gap-2 mb-2 bg-black/20 p-1 rounded-lg w-fit border border-silver-ash/5">
         <button 
           type="button" 
           onClick={() => setMode('file')}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-bold transition-all ${mode === 'file' ? 'bg-white/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-bold transition-all ${mode === 'file' ? 'bg-white/10 text-silver-ash' : 'text-gray-400 hover:text-silver-ash hover:bg-white/5'}`}
         >
           <UploadCloud className="w-4 h-4" />
           رفع من الجهاز
@@ -77,7 +77,7 @@ export default function FileUploadInput({
         <button 
           type="button"
           onClick={() => setMode('url')}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-bold transition-all ${mode === 'url' ? 'bg-white/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-bold transition-all ${mode === 'url' ? 'bg-white/10 text-silver-ash' : 'text-gray-400 hover:text-silver-ash hover:bg-white/5'}`}
         >
           <LinkIcon className="w-4 h-4" />
           رابط خارجي
@@ -90,7 +90,7 @@ export default function FileUploadInput({
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="https://... أو /uploads/..."
-          className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-gray-300 focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all font-mono text-left"
+          className="w-full bg-black/40 border border-silver-ash/10 rounded-xl px-4 py-3 text-gray-300 focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all font-mono text-left"
           dir="ltr"
         />
       ) : (

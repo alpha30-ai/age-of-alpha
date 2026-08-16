@@ -23,7 +23,7 @@ export default function ThemeSwitcher() {
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       className={`
         relative flex items-center justify-between w-16 h-8 rounded-full p-1 transition-colors duration-500 ease-in-out
-        ${isDark ? 'bg-[#111] border border-white/10 shadow-inner' : 'bg-gray-200 border border-gray-300 shadow-inner'}
+        ${isDark ? 'bg-stone border border-silver-ash/10 shadow-inner' : 'bg-gray-200 border border-gray-300 shadow-inner'}
       `}
       aria-label="Toggle Theme"
     >

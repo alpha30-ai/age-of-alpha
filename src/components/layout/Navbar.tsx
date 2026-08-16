@@ -33,7 +33,7 @@ export default function Navbar() {
       transition={{ type: 'spring', stiffness: 100, damping: 20 }}
       className={`fixed top-0 inset-x-0 w-full z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-black/60 backdrop-blur-2xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)] py-2'
+          ? 'bg-abyss/80 backdrop-blur-2xl border-b border-silver-ash/10 shadow-lg'
           : 'bg-transparent py-4'
       }`}
     >
@@ -46,20 +46,20 @@ export default function Navbar() {
               <Flame className="w-6 h-6 text-magma-light relative z-10 group-hover:scale-110 transition-transform duration-500" />
               <div className="absolute inset-0 bg-magma/30 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
-            <span className="font-amiri font-bold text-2xl tracking-wide text-white group-hover:text-magma-light transition-colors duration-500 whitespace-nowrap">
+            <span className="font-amiri font-bold text-2xl tracking-wide text-silver-ash group-hover:text-magma-light transition-colors duration-500 whitespace-nowrap">
               عهد ألفا
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1 bg-black/40 border border-white/5 backdrop-blur-md px-2 py-1.5 rounded-2xl shadow-inner">
+          <div className="hidden md:flex items-center gap-1 bg-stone-dark/60 border border-silver-ash/10 backdrop-blur-md px-2 py-1.5 rounded-2xl shadow-inner transition-colors duration-500">
             {navLinks.map((link) => {
               const Icon = link.icon;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300 font-cairo font-semibold text-sm"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-silver-ash/80 hover:text-silver-ash hover:bg-silver-ash/10 transition-all duration-300 font-cairo font-semibold text-sm"
                 >
                   <Icon className="w-4 h-4 opacity-70" />
                   {link.label}
@@ -71,7 +71,7 @@ export default function Navbar() {
           {/* Desktop Auth */}
           <div className="hidden md:flex items-center gap-3">
             {session ? (
-              <div className="flex items-center gap-2 bg-black/40 border border-white/5 p-1.5 rounded-2xl">
+              <div className="flex items-center gap-2 bg-stone-dark/60 border border-silver-ash/10 p-1.5 rounded-2xl transition-colors duration-500">
                 {/* Admin Link */}
                 {(session.user as any)?.role === 'ADMIN' && (
                   <Link
@@ -86,7 +86,7 @@ export default function Navbar() {
                 {/* Dashboard Link */}
                 <Link
                   href="/dashboard"
-                  className="flex items-center gap-2 px-2 py-1.5 rounded-xl text-milky-blue-light hover:text-white hover:bg-milky-blue/10 transition-all duration-300 font-cairo text-sm font-bold border border-transparent hover:border-white/10"
+                  className="flex items-center gap-2 px-2 py-1.5 rounded-xl text-milky-blue-light hover:text-silver-ash hover:bg-milky-blue/10 transition-all duration-300 font-cairo text-sm font-bold border border-transparent hover:border-silver-ash/10"
                 >
                   {(session.user as any)?.image ? (
                     <div className="w-7 h-7 rounded-full overflow-hidden border border-milky-blue/50">
@@ -101,19 +101,19 @@ export default function Navbar() {
 
                 <Link
                   href="/settings"
-                  className="flex items-center gap-2 px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300 font-cairo text-sm font-bold"
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl text-silver-ash/80 hover:text-silver-ash hover:bg-silver-ash/10 transition-all duration-300 font-cairo text-sm font-bold"
                   title="إعدادات الحساب"
                 >
                   <Settings className="w-4 h-4" />
                 </Link>
 
-                <div className="w-px h-6 bg-white/10 mx-1" />
+                <div className="w-px h-6 bg-silver-ash/20 mx-1" />
 
                 <div className="scale-75 origin-right">
                   <ThemeSwitcher />
                 </div>
 
-                <div className="w-px h-6 bg-white/10 mx-1" />
+                <div className="w-px h-6 bg-silver-ash/20 mx-1" />
 
                 {/* Logout Button */}
                 <button
@@ -127,11 +127,11 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="group relative inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-magma/80 hover:bg-magma text-white font-cairo font-bold text-sm transition-all duration-300 shadow-[0_0_15px_rgba(230,74,25,0.3)] hover:shadow-[0_0_30px_rgba(230,74,25,0.6)] overflow-hidden border border-magma-light/30"
+                className="group relative inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-magma/80 hover:bg-magma text-silver-ash font-cairo font-bold text-sm transition-all duration-300 shadow-[0_0_15px_rgba(230,74,25,0.3)] hover:shadow-[0_0_30px_rgba(230,74,25,0.6)] overflow-hidden border border-magma-light/30"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                 <LogIn className="w-4 h-4 relative z-10" />
-                <span className="relative z-10">بوابة الدخول</span>
+                <span className="relative z-10 text-silver-ash">بوابة الدخول</span>
               </Link>
             )}
           </div>
@@ -139,7 +139,7 @@ export default function Navbar() {
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden relative z-10 p-2 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-all"
+            className="md:hidden relative z-10 p-2 rounded-xl bg-silver-ash/5 border border-silver-ash/10 text-silver-ash/80 hover:text-silver-ash hover:bg-silver-ash/10 transition-all"
             aria-label="تبديل القائمة"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -155,12 +155,12 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden fixed inset-0 z-40 bg-black/80 backdrop-blur-3xl flex flex-col pt-16 px-6 pb-6 overflow-y-auto"
+            className="md:hidden fixed inset-0 z-40 bg-abyss/90 backdrop-blur-3xl flex flex-col pt-16 px-6 pb-6 overflow-y-auto"
           >
             {/* Close Button */}
             <button 
               onClick={() => setIsOpen(false)}
-              className="absolute top-6 left-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white z-50 transition-colors"
+              className="absolute top-6 left-6 p-2 rounded-full bg-silver-ash/10 hover:bg-silver-ash/20 text-silver-ash z-50 transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
@@ -183,9 +183,9 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-4 px-4 py-4 rounded-2xl text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300 font-cairo font-bold text-xl group"
+                        className="flex items-center gap-4 px-4 py-4 rounded-2xl text-silver-ash/80 hover:text-silver-ash hover:bg-silver-ash/5 transition-all duration-300 font-cairo font-bold text-xl group"
                       >
-                        <div className="p-2 rounded-xl bg-white/5 group-hover:bg-magma/20 group-hover:text-magma-light transition-colors">
+                        <div className="p-2 rounded-xl bg-silver-ash/5 group-hover:bg-magma/20 group-hover:text-magma-light transition-colors">
                           <Icon className="w-6 h-6" />
                         </div>
                         {link.label}
@@ -209,21 +209,21 @@ export default function Navbar() {
                 transition={{ duration: 0.3, delay: 0.5 }}
               >
                 {session ? (
-                  <div className="bg-white/5 p-4 rounded-3xl border border-white/10 space-y-2">
-                    <div className="flex items-center gap-3 mb-4 px-2">
-                      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-magma/30">
-                        {(session.user as any)?.image ? (
-                          // eslint-disable-next-line @next/next/no-img-element
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 px-4 py-3 bg-stone-dark/40 rounded-xl mb-6">
+                      {(session.user as any)?.image ? (
+                        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-milky-blue">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={(session.user as any).image} alt="Avatar" className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full bg-black/50 flex items-center justify-center">
-                            <User className="w-5 h-5 text-gray-400" />
-                          </div>
-                        )}
-                      </div>
+                        </div>
+                      ) : (
+                        <div className="w-10 h-10 rounded-full bg-milky-blue/20 flex items-center justify-center text-milky-blue">
+                          <User className="w-6 h-6" />
+                        </div>
+                      )}
                       <div>
-                        <p className="text-white font-bold font-cairo">{session.user?.name || 'مستخدم'}</p>
-                        <p className="text-xs text-gray-400">{session.user?.email}</p>
+                        <div className="text-silver-ash font-bold font-cairo">{(session.user as any)?.name}</div>
+                        <div className="text-silver-ash/80 text-sm">{session.user?.email}</div>
                       </div>
                     </div>
 
@@ -231,30 +231,31 @@ export default function Navbar() {
                       <Link
                         href="/admin"
                         onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-yellow-500 hover:bg-yellow-500/10 transition-all duration-300 font-cairo font-bold bg-black/20"
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-yellow-500 hover:bg-yellow-500/10 transition-all duration-300 font-cairo font-bold bg-yellow-500/5 border border-yellow-500/20"
                       >
                         <Shield className="w-5 h-5" />
-                        لوحة تحكم الإدارة
+                        لوحة الإدارة
                       </Link>
                     )}
+
                     <Link
                       href="/dashboard"
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-milky-blue-light hover:bg-milky-blue/10 transition-all duration-300 font-cairo font-bold bg-black/20"
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-milky-blue hover:bg-milky-blue/10 transition-all duration-300 font-cairo font-bold"
                     >
                       <User className="w-5 h-5" />
-                      حسابي (متابعة القراءة)
+                      حسابي
                     </Link>
                     <Link
                       href="/settings"
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300 font-cairo font-bold bg-black/20"
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-silver-ash hover:bg-silver-ash/10 transition-all duration-300 font-cairo font-bold"
                     >
                       <Settings className="w-5 h-5" />
                       إعدادات الحساب
                     </Link>
-                    <div className="flex items-center justify-between px-4 py-3 bg-black/20 rounded-xl">
-                      <span className="text-gray-300 font-cairo font-bold">المظهر</span>
+                    <div className="flex items-center justify-between px-4 py-3 bg-stone-dark/40 rounded-xl">
+                      <span className="text-silver-ash/80 font-cairo font-bold">المظهر</span>
                       <ThemeSwitcher />
                     </div>
                     <button
@@ -262,7 +263,7 @@ export default function Navbar() {
                         setIsOpen(false);
                         signOut();
                       }}
-                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-all duration-300 font-cairo font-bold text-right bg-black/20"
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-all duration-300 font-cairo font-bold text-right bg-stone-dark/40"
                     >
                       <LogOut className="w-5 h-5" />
                       تسجيل الخروج
@@ -272,7 +273,7 @@ export default function Navbar() {
                   <Link
                     href="/login"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center gap-3 w-full px-4 py-4 rounded-2xl bg-gradient-to-r from-magma-dark to-magma text-white font-cairo font-bold text-xl shadow-[0_0_20px_rgba(230,74,25,0.4)]"
+                    className="flex items-center justify-center gap-3 w-full px-4 py-4 rounded-2xl bg-gradient-to-r from-magma-dark to-magma text-silver-ash font-cairo font-bold text-xl shadow-[0_0_20px_rgba(230,74,25,0.4)]"
                   >
                     <LogIn className="w-6 h-6" />
                     بوابة الدخول
