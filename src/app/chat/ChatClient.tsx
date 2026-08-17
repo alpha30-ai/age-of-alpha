@@ -37,7 +37,7 @@ export default function ChatClient() {
   // History State
   const [sessions, setSessions] = useState<ChatSessionMeta[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<string>('');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const [isMounted, setIsMounted] = useState(false);
   
@@ -178,8 +178,10 @@ export default function ChatClient() {
     }
   }, [messages, isLoading]);
 
-  // Close dropdown on outside click
   useEffect(() => {
+    if (window.innerWidth < 1024) {
+      setIsSidebarOpen(false);
+    }
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
@@ -283,12 +285,15 @@ export default function ChatClient() {
       </AnimatePresence>
 
       {/* Sidebar (Chat History) */}
-      <motion.aside 
-        initial={{ x: 300 }}
-        animate={{ x: isSidebarOpen ? 0 : (typeof window !== 'undefined' && window.innerWidth >= 768 ? 0 : 300) }}
-        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-        className="fixed md:static top-0 right-0 h-full w-72 sm:w-80 bg-[#111]/90 backdrop-blur-2xl border-l border-white/10 flex flex-col z-50 shrink-0 shadow-2xl md:shadow-none"
-      >
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.aside 
+            initial={{ x: 300, width: 0, opacity: 0 }}
+            animate={{ x: 0, width: 'auto', opacity: 1 }}
+            exit={{ x: 300, width: 0, opacity: 0 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed md:relative top-0 right-0 h-full w-72 sm:w-80 bg-[#111]/90 backdrop-blur-2xl border-l border-white/10 flex flex-col z-50 shrink-0 shadow-2xl md:shadow-none"
+          >
         <div className="p-4 flex items-center justify-between border-b border-white/10 shrink-0">
           <h2 className="font-cairo font-bold text-white flex items-center gap-2">
             <ScrollText className="w-5 h-5 text-[var(--theme-primary)]" />
@@ -377,6 +382,8 @@ export default function ChatClient() {
           ))}
         </div>
       </motion.aside>
+      )}
+      </AnimatePresence>
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col relative z-10 w-full h-full min-w-0">
@@ -385,8 +392,8 @@ export default function ChatClient() {
         <header className="h-16 sm:h-20 shrink-0 flex items-center justify-between px-4 sm:px-8 bg-black/40 backdrop-blur-xl border-b border-white/10">
           <div className="flex items-center gap-3">
             <button 
-              className="md:hidden p-2 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
-              onClick={() => setIsSidebarOpen(true)}
+              className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -407,8 +414,14 @@ export default function ChatClient() {
         </header>
 
         {/* Messages */}
-        <div ref={chatContainerRef} className="flex-1 overflow-y-auto px-4 py-6 sm:p-8 space-y-6 custom-scrollbar scroll-smooth">
-          <div className="max-w-4xl mx-auto space-y-6">
+        <div ref={chatContainerRef} className="flex-1 overflow-y-auto px-4 py-6 sm:p-8 space-y-6 custom-scrollbar scroll-smooth relative">
+          
+          {/* Watermark Logo */}
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0 opacity-5">
+            <Sparkles className="w-64 h-64 md:w-96 md:h-96 text-white" />
+          </div>
+
+          <div className="max-w-4xl mx-auto space-y-6 relative z-10">
             <AnimatePresence initial={false}>
               {messages.map((msg, idx) => (
                 <motion.div 

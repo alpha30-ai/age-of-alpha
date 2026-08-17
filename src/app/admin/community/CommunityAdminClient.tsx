@@ -38,18 +38,27 @@ export default function CommunityAdminClient({ initialPosts, currentUser }: { in
     <div className="space-y-6" dir="rtl">
       {/* Search and Filters */}
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white/5 border border-white/10 p-4 rounded-2xl">
-        <div className="relative w-full md:w-96">
-          <input 
-            type="text" 
-            placeholder="البحث في المنشورات..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 pl-10 text-white focus:outline-none focus:border-[var(--color-magma)]/50 transition-all font-tajawal text-sm"
-          />
-          <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+        <div className="flex flex-col md:flex-row gap-4 items-center w-full md:w-auto flex-1">
+          <div className="relative w-full md:w-96">
+            <input 
+              type="text" 
+              placeholder="البحث في المنشورات..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 pl-10 text-white focus:outline-none focus:border-[var(--color-magma)]/50 transition-all font-tajawal text-sm"
+            />
+            <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          </div>
+          <a 
+            href="/community" 
+            target="_blank" 
+            className="w-full md:w-auto text-sm bg-[var(--theme-primary)]/10 hover:bg-[var(--theme-primary)]/20 text-[var(--theme-primary)] border border-[var(--theme-primary)]/20 px-4 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all font-cairo whitespace-nowrap"
+          >
+            عرض واجهة المجتمع
+          </a>
         </div>
         
-        <div className="text-sm text-gray-400 font-bold bg-black/40 px-4 py-2 rounded-xl border border-white/5">
+        <div className="text-sm text-gray-400 font-bold bg-black/40 px-4 py-2 rounded-xl border border-white/5 shrink-0">
           إجمالي المنشورات: {filteredPosts.length}
         </div>
       </div>

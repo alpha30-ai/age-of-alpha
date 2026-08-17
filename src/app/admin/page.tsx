@@ -27,50 +27,59 @@ export default async function AdminDashboard() {
 
   return (
     <div className="space-y-8" dir="rtl">
-      {/* Royal Dashboard Header */}
-      <div className="bg-[#111] p-8 sm:p-12 rounded-[2rem] border border-[var(--theme-primary)]/20 shadow-[0_10px_40px_rgba(0,0,0,0.8)] relative overflow-hidden group">
+      {/* Epic Royal Command Center */}
+      <div className="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-[#0a0a0a] to-[#151515] border border-white/10 shadow-2xl group min-h-[300px] flex items-center">
         
-        {/* Glows & Grids */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          {/* Ambient Glows */}
-          <div className="absolute top-0 right-0 w-full h-[50vh] bg-gradient-to-b from-[#111] to-transparent opacity-90" />
-          <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[40vw] h-[40vw] bg-[var(--theme-primary)]/10 blur-[120px] rounded-full mix-blend-screen animate-pulse" />
-          <div className="absolute bottom-0 right-1/4 w-[30vw] h-[30vw] bg-[var(--theme-primary)]/5 blur-[100px] rounded-full mix-blend-screen" />
-          
-          {/* Grid Background */}
-          <div 
-            className="absolute inset-0 opacity-[0.05]"
-            style={{ backgroundImage: 'linear-gradient(var(--theme-primary) 1px, transparent 1px), linear-gradient(90deg, var(--theme-primary) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
-          />
-          
-          {/* Fade out edges */}
-          <div className="absolute inset-0 shadow-[inset_0_0_150px_100px_#111]" />
-        </div>
-
-        <div className="absolute -left-10 -top-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700">
-          <Flame className="w-64 h-64 text-[var(--theme-primary)] blur-[2px]" />
+        {/* Animated Background Layers */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-0 right-0 w-[70%] h-full bg-gradient-to-l from-[var(--theme-primary)]/20 to-transparent opacity-90" />
+          <div className="absolute bottom-[-20%] left-[-10%] w-[60%] h-[120%] bg-[var(--theme-secondary)]/10 blur-[120px] rounded-full mix-blend-screen animate-pulse" />
+          <div className="absolute top-1/4 right-1/4 w-[50%] h-[60%] bg-[var(--theme-primary)]/10 blur-[100px] rounded-full mix-blend-screen" />
+          <div className="absolute inset-0 bg-[linear-gradient(var(--theme-primary)_1px,transparent_1px),linear-gradient(90deg,var(--theme-primary)_1px,transparent_1px)] bg-[size:40px_40px] opacity-[0.03]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-90" />
         </div>
         
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-          <div className="text-center md:text-right">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-l from-white to-gray-400 mb-4 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] font-cairo">
-              <div className="p-3 bg-[var(--theme-primary)]/10 rounded-2xl border border-[var(--theme-primary)]/30 shadow-[0_0_20px_var(--theme-primary)]/20">
-                <Flame className="w-8 h-8 sm:w-10 sm:h-10 text-[var(--theme-primary)]" />
-              </div>
-              لوحة القيادة الملكية
+        <div className="relative z-10 w-full p-8 md:p-14 flex flex-col lg:flex-row items-center justify-between gap-12">
+          
+          {/* Text & Status */}
+          <div className="text-center lg:text-right flex-1 w-full">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md shadow-lg">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981]" />
+              <span className="text-xs font-bold text-gray-300 font-tajawal tracking-wide">النظام الملكي متصل ويعمل بكفاءة</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 font-cairo tracking-tight drop-shadow-xl">
+              مركز القيادة <span className="text-transparent bg-clip-text bg-gradient-to-br from-[var(--theme-primary)] to-rose-400">الملكي</span>
             </h1>
-            <p className="text-gray-400 text-base sm:text-lg md:text-xl font-tajawal max-w-2xl">مرحباً بك في مركز التحكم بملحمة الدول المائة. كل شيء رهن إشارتك.</p>
+            
+            <p className="text-gray-400 text-lg md:text-xl font-tajawal max-w-2xl leading-relaxed mx-auto lg:mx-0">
+              مرحباً بك في غرفة العمليات المركزية. من هنا يمكنك إدارة الإمبراطورية، نشر الفصول، تخصيص المظهر، والتحكم في مصير العوالم بأكملها.
+            </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto mt-4 md:mt-0 shrink-0">
-            <Link href="/admin/chapters/new" className="w-full sm:w-auto justify-center bg-[var(--theme-primary)] text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-[var(--theme-primary)]/90 shadow-[0_0_20px_var(--theme-primary)]/30 hover:shadow-[0_0_30px_var(--theme-primary)]/50 transition-all font-cairo text-lg">
-              <Plus className="w-6 h-6" />
+          
+          {/* Quick Actions Panel */}
+          <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto shrink-0 relative z-20">
+            <Link 
+              href="/admin/chapters/new" 
+              className="flex items-center justify-center gap-3 bg-gradient-to-br from-[var(--theme-primary)] to-[#c53912] text-white px-8 py-5 rounded-2xl font-cairo font-bold text-lg hover:scale-[1.02] transition-all shadow-[0_0_30px_var(--theme-primary)]/30 hover:shadow-[0_0_50px_var(--theme-primary)]/50 group/btn border border-white/10"
+            >
+              <div className="bg-white/20 p-2 rounded-xl group-hover/btn:rotate-90 transition-transform duration-300">
+                <Plus className="w-5 h-5" />
+              </div>
               مخطوطة جديدة
             </Link>
-            <Link href="/admin/theme" className="w-full sm:w-auto justify-center bg-white/5 hover:bg-[var(--theme-primary)]/10 border border-white/10 hover:border-[var(--theme-primary)]/30 text-gray-200 px-6 py-4 rounded-xl font-bold flex items-center gap-2 transition-all font-cairo shadow-lg">
-              <Palette className="w-5 h-5" />
-              المظهر
+            
+            <Link 
+              href="/admin/theme" 
+              className="flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 px-8 py-5 rounded-2xl font-cairo font-bold text-lg hover:scale-[1.02] transition-all backdrop-blur-md shadow-lg"
+            >
+              <div className="bg-white/10 p-2 rounded-xl">
+                <Palette className="w-5 h-5 text-gray-300" />
+              </div>
+              مظهر المنصة
             </Link>
           </div>
+          
         </div>
       </div>
 

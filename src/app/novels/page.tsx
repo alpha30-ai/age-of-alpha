@@ -35,7 +35,7 @@ export default async function PublicNovelsPage({ searchParams }: { searchParams:
           title="مكتبة العوالم"
           subtitle="اكتشف عوالمنا الملحمية، اقرأ الفصول، وتعرف على الشخصيات، أو تحدث مع الذكاء الاصطناعي الخاص بكل رواية."
           icon={<BookOpen className="w-8 h-8 text-[var(--theme-primary)]" />}
-          backgroundImage="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop"
+          backgroundImage="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?q=80&w=2000&auto=format&fit=crop"
         />
 
         <div className="pb-20 px-4 flex-1 relative w-full">

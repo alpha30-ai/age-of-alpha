@@ -92,7 +92,7 @@ export default function CommunityClient({ novel, user, novels }: CommunityClient
       )}
 
       {/* Posts List */}
-      <div className="space-y-6">
+      <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6 md:space-y-0">
         {isLoading ? (
           <div className="flex justify-center items-center py-20">
             <Loader2 className="w-10 h-10 animate-spin text-[var(--color-magma)]" />

@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     const isValidUrl = (text: string): boolean => {
       const urlRegex = /(https?:\/\/[^\s]+)/g;
       const urls = text.match(urlRegex) || [];
-      const allowedDomains = ['youtube.com', 'youtu.be', 'facebook.com', 'x.com', 'twitter.com', 'imgur.com', 'pinterest.com'];
+      const allowedDomains = ['youtube.com', 'youtu.be', 'facebook.com', 'x.com', 'twitter.com', 'imgur.com', 'pinterest.com', 'cloudinary.com', 'res.cloudinary.com'];
       
       for (const urlStr of urls) {
         try {
