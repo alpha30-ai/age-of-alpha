@@ -75,98 +75,107 @@ export default async function AdminDashboard() {
       {/* Recent Activity Sections */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Recent Chapters */}
-        <div className="bg-white/5 border border-[var(--color-theme-border)] rounded-2xl p-6 backdrop-blur-xl">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--color-theme-border)]">
-            <h3 className="text-xl font-bold text-[var(--color-theme-heading)] flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-[var(--theme-primary)]" />
-              أحدث المخطوطات
-            </h3>
-            <Link href="/admin/chapters" className="text-sm text-[var(--theme-primary)] hover:brightness-125 font-bold">
-              عرض الكل
-            </Link>
-          </div>
-          <div className="space-y-4">
-            {recentChapters.length > 0 ? recentChapters.map((chapter) => (
-              <div key={chapter.id} className="flex items-center justify-between p-4 rounded-xl bg-black/40 border border-white/5 hover:border-[var(--theme-primary)]/30 transition-all">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-[var(--theme-primary)]/20 text-[var(--theme-primary)] flex items-center justify-center font-bold border border-[var(--theme-primary)]/30">
-                    {chapter.chapterNum}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-200 truncate w-32">{chapter.title}</h4>
-                    <p className="text-xs text-gray-500">{new Date(chapter.createdAt).toLocaleDateString('ar-EG')}</p>
+        <div className="bg-white/5 border border-[var(--theme-primary)]/20 shadow-[0_0_15px_var(--theme-primary)]/10 rounded-2xl p-6 backdrop-blur-xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--theme-primary)]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--theme-primary)]/20 transition-all duration-500"></div>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--theme-primary)]/20">
+              <h3 className="text-xl font-bold text-[var(--theme-primary)] flex items-center gap-2">
+                <BookOpen className="w-5 h-5" />
+                أحدث المخطوطات
+              </h3>
+              <Link href="/admin/chapters" className="text-sm text-[var(--theme-primary)] hover:brightness-125 font-bold">
+                عرض الكل
+              </Link>
+            </div>
+            <div className="space-y-4">
+              {recentChapters.length > 0 ? recentChapters.map((chapter) => (
+                <div key={chapter.id} className="flex items-center justify-between p-4 rounded-xl bg-black/40 border border-[var(--theme-primary)]/10 hover:border-[var(--theme-primary)]/40 hover:shadow-[0_0_10px_var(--theme-primary)]/10 transition-all">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-[var(--theme-primary)]/20 text-[var(--theme-primary)] flex items-center justify-center font-bold border border-[var(--theme-primary)]/30">
+                      {chapter.chapterNum}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-200 truncate w-32">{chapter.title}</h4>
+                      <p className="text-xs text-gray-500">{new Date(chapter.createdAt).toLocaleDateString('ar-EG')}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )) : (
-              <p className="text-center text-gray-500 py-4">لا توجد مخطوطات بعد.</p>
-            )}
+              )) : (
+                <p className="text-center text-gray-500 py-4">لا توجد مخطوطات بعد.</p>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Recent Social Content */}
-        <div className="bg-white/5 border border-[var(--color-theme-border)] rounded-2xl p-6 backdrop-blur-xl">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--color-theme-border)]">
-            <h3 className="text-xl font-bold text-[var(--color-theme-heading)] flex items-center gap-2">
-              <Share2 className="w-5 h-5 text-rose-400" />
-              المحتوى التسويقي
-            </h3>
-            <Link href="/admin/social" className="text-sm text-rose-400 hover:text-rose-300 font-bold">
-              عرض الكل
-            </Link>
-          </div>
-          <div className="space-y-4">
-            {recentSocial.length > 0 ? recentSocial.map((social) => (
-              <div key={social.id} className="flex flex-col gap-2 p-4 rounded-xl bg-black/40 border border-white/5 hover:border-rose-400/30 transition-all">
-                <div className="flex items-center justify-between">
-                  <span className={`text-[10px] font-bold px-2 py-1 rounded-md ${social.platform === 'YOUTUBE' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'}`}>
-                    {social.platform === 'YOUTUBE' ? 'يوتيوب' : 'فيسبوك'}
-                  </span>
-                  <span className="text-[10px] text-gray-500">{new Date(social.createdAt).toLocaleDateString('ar-EG')}</span>
+        <div className="bg-white/5 border border-[var(--theme-primary)]/20 shadow-[0_0_15px_var(--theme-primary)]/10 rounded-2xl p-6 backdrop-blur-xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--theme-primary)]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--theme-primary)]/20 transition-all duration-500"></div>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--theme-primary)]/20">
+              <h3 className="text-xl font-bold text-[var(--theme-primary)] flex items-center gap-2">
+                <Share2 className="w-5 h-5" />
+                المحتوى التسويقي
+              </h3>
+              <Link href="/admin/social" className="text-sm text-[var(--theme-primary)] hover:brightness-125 font-bold">
+                عرض الكل
+              </Link>
+            </div>
+            <div className="space-y-4">
+              {recentSocial.length > 0 ? recentSocial.map((social) => (
+                <div key={social.id} className="flex flex-col gap-2 p-4 rounded-xl bg-black/40 border border-[var(--theme-primary)]/10 hover:border-[var(--theme-primary)]/40 hover:shadow-[0_0_10px_var(--theme-primary)]/10 transition-all">
+                  <div className="flex items-center justify-between">
+                    <span className={`text-[10px] font-bold px-2 py-1 rounded-md ${social.platform === 'YOUTUBE' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                      {social.platform === 'YOUTUBE' ? 'يوتيوب' : 'فيسبوك'}
+                    </span>
+                    <span className="text-[10px] text-gray-500">{new Date(social.createdAt).toLocaleDateString('ar-EG')}</span>
+                  </div>
+                  <h4 className="font-bold text-gray-200 text-sm truncate">{social.title}</h4>
+                  <p className="text-xs text-gray-400 truncate">
+                    {social.targetType === 'CHAPTER' ? `الفصل: ${social.chapter?.title}` : social.targetType === 'CHARACTER' ? `شخصية: ${social.character?.name}` : `فيديو: ${social.video?.title}`}
+                  </p>
                 </div>
-                <h4 className="font-bold text-gray-200 text-sm truncate">{social.title}</h4>
-                <p className="text-xs text-gray-400 truncate">
-                  {social.targetType === 'CHAPTER' ? `الفصل: ${social.chapter?.title}` : social.targetType === 'CHARACTER' ? `شخصية: ${social.character?.name}` : `فيديو: ${social.video?.title}`}
-                </p>
-              </div>
-            )) : (
-              <p className="text-center text-gray-500 py-4">لا يوجد محتوى تسويقي.</p>
-            )}
+              )) : (
+                <p className="text-center text-gray-500 py-4">لا يوجد محتوى تسويقي.</p>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Recent Users */}
-        <div className="bg-white/5 border border-[var(--color-theme-border)] rounded-2xl p-6 backdrop-blur-xl">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--color-theme-border)]">
-            <h3 className="text-xl font-bold text-[var(--color-theme-heading)] flex items-center gap-2">
-              <Users className="w-5 h-5 text-blue-400" />
-              المنضمين الجدد
-            </h3>
-            <Link href="/admin/users" className="text-sm text-blue-400 hover:text-blue-300 font-bold">
-              عرض الكل
-            </Link>
-          </div>
-          <div className="space-y-4">
-            {recentUsers.length > 0 ? recentUsers.map((user) => (
-              <div key={user.id} className="flex items-center justify-between p-4 rounded-xl bg-black/40 border border-white/5 hover:border-blue-400/30 transition-all">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold overflow-hidden border border-blue-500/30">
-                    {user.image ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img src={user.image} alt={user.name || ''} className="w-full h-full object-cover" />
-                    ) : (
-                      <UserCircle className="w-6 h-6" />
-                    )}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-200 truncate w-32">{user.name || 'مجهول'}</h4>
-                    <p className="text-xs text-gray-500 truncate w-32" dir="ltr">{user.email}</p>
+        <div className="bg-white/5 border border-[var(--theme-primary)]/20 shadow-[0_0_15px_var(--theme-primary)]/10 rounded-2xl p-6 backdrop-blur-xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--theme-primary)]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--theme-primary)]/20 transition-all duration-500"></div>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--theme-primary)]/20">
+              <h3 className="text-xl font-bold text-[var(--theme-primary)] flex items-center gap-2">
+                <Users className="w-5 h-5" />
+                المنضمين الجدد
+              </h3>
+              <Link href="/admin/users" className="text-sm text-[var(--theme-primary)] hover:brightness-125 font-bold">
+                عرض الكل
+              </Link>
+            </div>
+            <div className="space-y-4">
+              {recentUsers.length > 0 ? recentUsers.map((user) => (
+                <div key={user.id} className="flex items-center justify-between p-4 rounded-xl bg-black/40 border border-[var(--theme-primary)]/10 hover:border-[var(--theme-primary)]/40 hover:shadow-[0_0_10px_var(--theme-primary)]/10 transition-all">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-[var(--theme-primary)]/20 text-[var(--theme-primary)] flex items-center justify-center font-bold overflow-hidden border border-[var(--theme-primary)]/30">
+                      {user.image ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img src={user.image} alt={user.name || ''} className="w-full h-full object-cover" />
+                      ) : (
+                        <UserCircle className="w-6 h-6" />
+                      )}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-200 truncate w-32">{user.name || 'مجهول'}</h4>
+                      <p className="text-xs text-gray-500 truncate w-32" dir="ltr">{user.email}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )) : (
-              <p className="text-center text-gray-500 py-4">لا يوجد مستخدمين بعد.</p>
-            )}
+              )) : (
+                <p className="text-center text-gray-500 py-4">لا يوجد مستخدمين بعد.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>

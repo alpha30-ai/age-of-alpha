@@ -30,13 +30,14 @@ export default function SettingsForm({ defaultSettings }: { defaultSettings: any
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white/5 backdrop-blur-xl border border-[var(--color-theme-border)] rounded-3xl p-8 shadow-2xl relative overflow-hidden"
+        className="bg-white/5 border border-[var(--theme-primary)]/20 shadow-[0_0_15px_var(--theme-primary)]/10 rounded-3xl p-8 relative overflow-hidden group backdrop-blur-xl"
       >
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[var(--color-theme-border)]">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--theme-primary)]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--theme-primary)]/20 transition-all duration-500"></div>
+        <div className="relative z-10 flex items-center gap-3 mb-6 pb-4 border-b border-[var(--theme-primary)]/20">
           <div className="p-2 bg-red-500/10 rounded-lg">
             <ShieldAlert className="w-6 h-6 text-red-400" />
           </div>
-          <h2 className="text-2xl font-bold text-[var(--color-theme-heading)]">وضع الصيانة</h2>
+          <h2 className="text-2xl font-bold text-[var(--theme-primary)]">وضع الصيانة</h2>
         </div>
         
         <div className="space-y-6">
@@ -76,13 +77,14 @@ export default function SettingsForm({ defaultSettings }: { defaultSettings: any
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white/5 backdrop-blur-xl border border-[var(--color-theme-border)] rounded-3xl p-8 shadow-2xl relative overflow-hidden"
+        className="bg-white/5 border border-[var(--theme-primary)]/20 shadow-[0_0_15px_var(--theme-primary)]/10 rounded-3xl p-8 relative overflow-hidden group backdrop-blur-xl"
       >
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[var(--color-theme-border)]">
-          <div className="p-2 bg-blue-500/10 rounded-lg">
-            <ShieldAlert className="w-6 h-6 text-blue-400" />
+        <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--theme-primary)]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--theme-primary)]/20 transition-all duration-500"></div>
+        <div className="relative z-10 flex items-center gap-3 mb-6 pb-4 border-b border-[var(--theme-primary)]/20">
+          <div className="p-2 bg-[var(--theme-primary)]/10 rounded-lg border border-[var(--theme-primary)]/30">
+            <ShieldAlert className="w-6 h-6 text-[var(--theme-primary)]" />
           </div>
-          <h2 className="text-2xl font-bold text-[var(--color-theme-heading)]">مفاتيح الربط البرمجية (API Keys)</h2>
+          <h2 className="text-2xl font-bold text-[var(--theme-primary)]">مفاتيح الربط البرمجية (API Keys)</h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
