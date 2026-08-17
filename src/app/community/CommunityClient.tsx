@@ -58,17 +58,17 @@ export default function CommunityClient({ novel, user, novels }: CommunityClient
   };
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 max-w-[2000px] mx-auto" dir="rtl">
+    <div className="w-full mx-auto space-y-12" dir="rtl">
       
-      {/* Novel Selector & Create Post (Top Header Area) */}
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-8">
+      {/* Top Header Area: Filter & Create Post Stacked Elegantly */}
+      <div className="flex flex-col gap-6 max-w-5xl mx-auto">
         {novels && novels.length > 0 && (
-          <div className="flex-1 w-full lg:max-w-xl flex flex-col sm:flex-row items-center gap-4 bg-white/5 border border-[var(--theme-primary)]/20 p-4 rounded-2xl backdrop-blur-md shadow-[0_0_15px_var(--theme-primary)]/5">
-            <div className="flex items-center gap-2 text-gray-300 whitespace-nowrap shrink-0">
-              <AlertCircle className="w-5 h-5 text-[var(--theme-primary)]" />
-              <span className="font-tajawal font-bold">فلترة حسب الرواية:</span>
+          <div className="w-full flex flex-col sm:flex-row items-center gap-4 bg-[#111]/80 border border-[var(--theme-primary)]/20 p-4 rounded-2xl backdrop-blur-xl shadow-[0_0_20px_var(--theme-primary)]/10 z-50 relative">
+            <div className="flex items-center gap-2 text-[var(--theme-primary)] whitespace-nowrap shrink-0">
+              <AlertCircle className="w-5 h-5" />
+              <span className="font-tajawal font-bold text-gray-200">تصفح المجتمع:</span>
             </div>
-            <div className="w-full">
+            <div className="w-full sm:flex-1">
               <NovelFilterDropdown
                 novels={novels}
                 value={novel?.id || 'all'}
@@ -82,26 +82,30 @@ export default function CommunityClient({ novel, user, novels }: CommunityClient
           </div>
         )}
 
-        <div className="flex-1 w-full relative z-10">
+        <div className="w-full relative z-10">
           {novel ? (
             <CreatePostForm novelId={novel.id} user={user} onPostCreated={handlePostCreated} />
           ) : (
-            <div className="bg-[#111]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-4 text-center shadow-lg flex items-center justify-center gap-4">
-              <AlertCircle className="w-6 h-6 text-yellow-500 shrink-0" />
-              <p className="text-gray-300 font-tajawal text-sm">يجب اختيار رواية من القائمة للتمكن من إضافة منشور جديد.</p>
+            <div className="bg-[#111]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6 text-center shadow-lg flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="p-3 bg-yellow-500/10 rounded-full border border-yellow-500/20">
+                <AlertCircle className="w-8 h-8 text-yellow-500 shrink-0" />
+              </div>
+              <p className="text-gray-300 font-tajawal text-lg">
+                يجب عليك اختيار رواية معينة من القائمة أعلاه حتى تتمكن من نشر مشاركة جديدة.
+              </p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Posts Feed (Masonry Columns) */}
-      <div className="w-full">
+      {/* Posts Feed (True CSS Grid) */}
+      <div className="w-full relative z-0">
         {isLoading ? (
-          <div className="flex justify-center items-center py-20 bg-[#111]/30 rounded-3xl border border-white/5 backdrop-blur-sm">
+          <div className="flex justify-center items-center py-20 bg-[#111]/30 rounded-3xl border border-white/5 backdrop-blur-sm max-w-5xl mx-auto">
             <Loader2 className="w-10 h-10 animate-spin text-[var(--theme-primary)]" />
           </div>
         ) : posts.length === 0 ? (
-          <div className="text-center bg-[#111]/50 backdrop-blur-md rounded-3xl p-12 border border-white/5 max-w-3xl mx-auto mt-12">
+          <div className="text-center bg-[#111]/50 backdrop-blur-md rounded-3xl p-12 border border-white/5 max-w-3xl mx-auto">
             <MessageSquareOff className="w-16 h-16 text-gray-600 mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-white mb-2 font-cairo">لا توجد منشورات بعد</h3>
             <p className="text-gray-400 font-tajawal text-lg mb-8">
@@ -109,7 +113,7 @@ export default function CommunityClient({ novel, user, novels }: CommunityClient
             </p>
           </div>
         ) : (
-          <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-6 pb-20 space-y-6 md:space-y-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start pb-20">
             {posts.map(post => (
               <PostCard 
                 key={post.id} 

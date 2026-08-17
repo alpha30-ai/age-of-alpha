@@ -79,7 +79,7 @@ export default async function CommunityPage({ searchParams }: { searchParams: Pr
         <div className="absolute top-0 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[var(--color-magma)]/10 rounded-full blur-[150px] pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[var(--color-milky-blue)]/10 rounded-full blur-[150px] pointer-events-none" />
         
-        <div className="max-w-4xl mx-auto relative z-10 w-full mt-[-40px]">
+        <div className="w-full max-w-[2000px] px-4 md:px-8 mx-auto relative z-10 mt-[-40px]">
           <CommunityClient novel={novel} user={session?.user} novels={allNovels} />
         </div>
       </div>
