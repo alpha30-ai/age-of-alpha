@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
-import { MoreHorizontal, Trash2, ShieldAlert, Loader2, Heart, MessageSquare, Send } from 'lucide-react';
+import { MoreHorizontal, Trash2, ShieldAlert, Loader2, Heart, MessageSquare, Send, BookOpen } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -136,42 +136,48 @@ export default function PostCard({ post, currentUser, onDeleted }: PostCardProps
       dir="rtl"
     >
       {/* Background Glow on Hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-magma)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[var(--theme-primary)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-      <div className="flex items-start justify-between mb-4 relative z-10">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-[var(--color-magma)]/50 transition-colors bg-black shadow-lg">
+      {/* Novel Tag (Floating Pill) */}
+      {post.novel && (
+        <div className="absolute top-4 left-4 z-20">
+          <Link href={`/novels/${post.novelId}`} className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/5 text-gray-300 hover:text-white text-[10px] px-3 py-1.5 rounded-full font-tajawal hover:bg-white/10 hover:border-white/20 transition-all shadow-lg">
+            <BookOpen className="w-3 h-3 text-[var(--theme-primary)]" />
+            {post.novel.title}
+          </Link>
+        </div>
+      )}
+
+      <div className="flex items-start justify-between mb-5 relative z-10">
+        <div className="flex gap-3 items-start">
+          <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10 group-hover:border-[var(--theme-primary)]/40 transition-colors bg-black shadow-lg shrink-0 mt-1">
             {post.user.image ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={post.user.image} alt={post.user.name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-xl font-bold text-[var(--color-magma)]">
+              <div className="w-full h-full flex items-center justify-center text-xl font-bold text-[var(--theme-primary)]">
                 {post.user.name?.[0] || 'A'}
               </div>
             )}
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h4 className="font-bold text-white font-cairo group-hover:text-[var(--color-milky-blue)] transition-colors">{post.user.name || 'مستخدم مجهول'}</h4>
+          <div className="flex flex-col pt-1">
+            <div className="flex items-center gap-2 flex-wrap mb-1">
+              <h3 className="font-bold text-white text-base md:text-lg font-cairo leading-none group-hover:text-[var(--theme-primary)] transition-colors">
+                {post.user.name || 'مستخدم مجهول'}
+              </h3>
               {post.user.role === 'ADMIN' && (
-                <span className="bg-red-500/20 text-red-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-red-500/20">
+                <span className="bg-red-500/10 text-red-400 text-[10px] font-bold px-2 py-0.5 rounded-md border border-red-500/20 leading-none">
                   إدارة
                 </span>
               )}
             </div>
-            <p className="text-xs text-gray-500 font-tajawal flex items-center gap-2">
-              <span className="text-[var(--color-magma)]/80">{post.user.rank}</span>
+            <div className="flex items-center gap-2 flex-wrap text-xs text-gray-500 font-tajawal">
+              <span className="bg-[var(--theme-primary)]/10 text-[var(--theme-primary)] px-2 py-0.5 rounded text-[10px] border border-[var(--theme-primary)]/20 leading-none shadow-[0_0_10px_var(--theme-primary)]/10">
+                {post.user.rank || 'قارئ'}
+              </span>
               <span>•</span>
-              <span dir="ltr">{formatDistanceToNow(new Date(post.createdAt), { addSuffix: true, locale: ar })}</span>
-              {post.novel && (
-                <>
-                  <span>•</span>
-                  <Link href={`/novels/${post.novelId}`} className="text-[var(--color-milky-blue)]/80 hover:text-[var(--color-milky-blue)] transition-colors">
-                    {post.novel.title}
-                  </Link>
-                </>
-              )}
-            </p>
+              <span dir="ltr" className="text-[10px]">{formatDistanceToNow(new Date(post.createdAt), { addSuffix: true, locale: ar })}</span>
+            </div>
           </div>
         </div>
 
