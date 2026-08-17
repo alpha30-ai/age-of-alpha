@@ -22,10 +22,12 @@ export default async function CommunityPage({ searchParams }: { searchParams: { 
 
   let novel = null;
   let theme = null;
+  let allNovels = [];
 
   try {
     const promises: Promise<any>[] = [
-      prisma.siteTheme.findUnique({ where: { id: "default" } })
+      prisma.siteTheme.findUnique({ where: { id: "default" } }),
+      prisma.novel.findMany({ select: { id: true, title: true } })
     ];
     if (novelId) {
       promises.push(prisma.novel.findUnique({ where: { id: novelId } }));
@@ -33,8 +35,9 @@ export default async function CommunityPage({ searchParams }: { searchParams: { 
     
     const results = await Promise.all(promises);
     theme = results[0];
+    allNovels = results[1];
     if (novelId) {
-      novel = results[1];
+      novel = results[2];
     }
   } catch (error) {
     console.error(error);
@@ -76,7 +79,7 @@ export default async function CommunityPage({ searchParams }: { searchParams: { 
         <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[var(--color-milky-blue)]/10 rounded-full blur-[150px] pointer-events-none" />
         
         <div className="max-w-4xl mx-auto relative z-10 w-full mt-[-40px]">
-          <CommunityClient novel={novel} user={session?.user} />
+          <CommunityClient novel={novel} user={session?.user} novels={allNovels} />
         </div>
       </div>
       <Footer />

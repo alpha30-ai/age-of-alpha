@@ -33,59 +33,91 @@ export default function AboutSection({ characters = [] }: { characters?: any[] }
       
       {/* Immersive Background */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/4 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--theme-primary)]/20 to-transparent" />
-        <div className="absolute top-0 right-1/4 w-[40vw] h-[40vw] bg-[var(--theme-primary)]/5 blur-[150px] rounded-full mix-blend-screen" />
-        <div className="absolute bottom-1/4 left-1/4 w-[50vw] h-[50vw] bg-black blur-[120px] rounded-full mix-blend-multiply" />
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-[0.15] mix-blend-overlay" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
+        
+        {/* Animated Background Gradients */}
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[var(--theme-primary)]/10 rounded-full blur-[120px] mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-[var(--theme-primary)]/5 rounded-full blur-[150px] mix-blend-screen animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }} />
+        
+        {/* Cinematic Borders */}
+        <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-[var(--theme-primary)]/30 to-transparent" />
+        <div className="absolute right-0 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-[var(--theme-primary)]/30 to-transparent" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-32">
         
-        {/* Story Intro */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="space-y-8"
-          >
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-[var(--theme-primary)]/10 border border-[var(--theme-primary)]/20 shadow-[0_0_15px_var(--theme-primary)]/10">
-              <Skull className="w-4 h-4 text-[var(--theme-primary)]" />
-              <span className="text-[var(--theme-primary)] font-bold text-sm tracking-widest">عن الملحمة</span>
-            </div>
+        {/* Story Intro - Cinematic Layout */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] opacity-20 mix-blend-overlay pointer-events-none rounded-3xl" />
+          
+          <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto mb-20 space-y-8">
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-black/50 backdrop-blur-xl border border-[var(--theme-primary)]/30 shadow-[0_0_20px_var(--theme-primary)]/20"
+            >
+              <Skull className="w-5 h-5 text-[var(--theme-primary)]" />
+              <span className="text-white font-bold tracking-widest text-sm uppercase">عن الملحمة</span>
+              <Skull className="w-5 h-5 text-[var(--theme-primary)]" />
+            </motion.div>
             
-            <h2 className="font-cairo font-black text-5xl sm:text-6xl text-white leading-[1.2]">
+            <motion.h2 
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="font-cairo font-black text-5xl md:text-7xl text-white leading-[1.2] drop-shadow-2xl"
+            >
               ما وراء <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-l from-[var(--theme-primary)] to-[var(--theme-primary)]/70 filter drop-shadow-[0_0_20px_var(--theme-primary)]">الدماء والرماد</span>
-            </h2>
+              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-[var(--theme-primary)] filter drop-shadow-[0_0_30px_var(--theme-primary)]">الدماء والرماد</span>
+            </motion.h2>
 
-            <div className="space-y-6 font-tajawal text-lg text-gray-400 leading-loose border-r-2 border-[var(--theme-primary)]/50 pr-6">
-               <p>
-                لم يُولد <span className="text-white font-bold">"ألفا"</span> وفي فمه ملعقة من ذهب، بل نُحتت أسطورته في زنازين الجحيم. طفلٌ سُلب من طفولته ليقع بين براثن منظمة "إيبكس" المظلمة؛ كيان سري اتخذه حقلاً لتجارب قاسية لصناعة السلاح البشري المثالي.
-               </p>
-               <p>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative p-8 rounded-2xl bg-gradient-to-b from-white/5 to-transparent border-t border-[var(--theme-primary)]/20 backdrop-blur-sm"
+            >
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-[var(--theme-primary)] to-transparent" />
+              <p className="font-tajawal text-xl md:text-2xl text-gray-300 leading-relaxed mb-6 font-medium">
+                لم يُولد <span className="text-white font-bold text-[var(--theme-primary)] drop-shadow-[0_0_10px_var(--theme-primary)]">"ألفا"</span> وفي فمه ملعقة من ذهب، بل نُحتت أسطورته في زنازين الجحيم. طفلٌ سُلب من طفولته ليقع بين براثن منظمة "إيبكس" المظلمة؛ كيان سري اتخذه حقلاً لتجارب قاسية لصناعة السلاح البشري المثالي.
+              </p>
+              <p className="font-tajawal text-lg md:text-xl text-gray-400 leading-relaxed">
                 عاد ألفا ليحصد أرواح جلاديه في انتقام بارد ومحسوب، ليؤسس على أنقاضهم إمبراطوريته التي لن تتوقف حتى يخضع العالم بأسره لقانونه.
-               </p>
-            </div>
-          </motion.div>
+              </p>
+            </motion.div>
+          </div>
 
+          {/* Epic Features Grid */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="grid grid-cols-2 gap-4 relative"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10"
           >
-            <div className="absolute inset-0 bg-gradient-to-tr from-[var(--theme-primary)]/10 to-transparent blur-3xl rounded-full" />
             {features.map((feature, idx) => (
               <div 
                 key={idx} 
-                className={`bg-[#111]/80 backdrop-blur-md border border-white/5 p-6 rounded-2xl hover:bg-[#1a1a1a] hover:border-[var(--theme-primary)]/30 hover:shadow-[0_0_20px_var(--theme-primary)]/10 transition-all duration-300 group ${idx % 2 !== 0 ? 'translate-y-8' : ''}`}
+                className="group relative bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/5 rounded-2xl p-8 hover:border-[var(--theme-primary)]/50 transition-all duration-500 overflow-hidden hover:-translate-y-2"
               >
-                <feature.icon className="w-8 h-8 text-gray-500 mb-4 group-hover:text-[var(--theme-primary)] transition-colors" />
-                <h4 className="text-white font-cairo font-bold text-lg mb-2">{feature.title}</h4>
-                <p className="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
+                {/* Hover Gradients */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--theme-primary)]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-[var(--theme-primary)]/20 rounded-full blur-3xl group-hover:bg-[var(--theme-primary)]/40 transition-colors duration-700" />
+                
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-xl bg-black/50 border border-white/10 flex items-center justify-center mb-6 group-hover:border-[var(--theme-primary)]/40 group-hover:shadow-[0_0_20px_var(--theme-primary)]/20 transition-all duration-300">
+                    <feature.icon className="w-7 h-7 text-gray-500 group-hover:text-white transition-colors duration-300" />
+                  </div>
+                  <h4 className="text-xl font-cairo font-bold text-white mb-3 group-hover:text-[var(--theme-primary)] transition-colors duration-300">{feature.title}</h4>
+                  <p className="text-gray-400 text-sm leading-relaxed font-tajawal group-hover:text-gray-300 transition-colors duration-300">{feature.description}</p>
+                </div>
+                
+                {/* Bottom Line Accent */}
+                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--theme-primary)] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-center" />
               </div>
             ))}
           </motion.div>

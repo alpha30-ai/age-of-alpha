@@ -7,17 +7,22 @@ import PostCard from '@/components/community/PostCard';
 import { Loader2, MessageSquareOff, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import NovelFilterDropdown from '@/components/ui/NovelFilterDropdown';
 
 interface CommunityClientProps {
   novel: Novel | null;
   user: any;
+  novels?: { id: string; title: string }[];
 }
 
-export default function CommunityClient({ novel, user }: CommunityClientProps) {
+export default function CommunityClient({ novel, user, novels }: CommunityClientProps) {
   const [posts, setPosts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   const fetchPosts = async () => {
+    setIsLoading(true);
     try {
       const url = novel ? `/api/community/posts?novelId=${novel.id}` : '/api/community/posts';
       const res = await fetch(url);
@@ -43,8 +48,38 @@ export default function CommunityClient({ novel, user }: CommunityClientProps) {
     setPosts(posts.filter(p => p.id !== postId));
   };
 
+  const handleNovelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    if (val === 'all') {
+      router.push('/community');
+    } else {
+      router.push(`/community?novelId=${val}`);
+    }
+  };
+
   return (
     <div className="space-y-8" dir="rtl">
+      {/* Novel Selector */}
+      {novels && novels.length > 0 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/5 border border-[var(--theme-primary)]/20 p-4 rounded-2xl backdrop-blur-md shadow-[0_0_15px_var(--theme-primary)]/5">
+          <div className="flex items-center gap-2 text-gray-300">
+            <AlertCircle className="w-5 h-5 text-[var(--theme-primary)]" />
+            <span className="font-tajawal font-bold">اختر الرواية لعرض أو إضافة منشور:</span>
+          </div>
+          <div className="w-full sm:w-64 shrink-0">
+            <NovelFilterDropdown
+              novels={novels}
+              value={novel?.id || 'all'}
+              onChange={(val) => {
+                if (val === 'all') router.push('/community');
+                else router.push(`/community?novelId=${val}`);
+              }}
+              allLabel="جميع المنشورات"
+            />
+          </div>
+        </div>
+      )}
+
       {/* Create Post Section */}
       {novel ? (
         <CreatePostForm novelId={novel.id} user={user} onPostCreated={handlePostCreated} />
@@ -52,10 +87,7 @@ export default function CommunityClient({ novel, user }: CommunityClientProps) {
         <div className="bg-[#111]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center shadow-2xl">
           <AlertCircle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-white mb-2 font-cairo">المشاركة في المجتمع</h3>
-          <p className="text-gray-400 mb-6 font-tajawal">اختر رواية للمشاركة بنظرياتك ومناقشة تفاصيلها مع القراء.</p>
-          <Link href="/novels" className="inline-block bg-[var(--color-magma)] text-white px-8 py-3 rounded-xl font-bold hover:bg-[var(--color-magma)]/80 transition-colors">
-            تصفح الروايات
-          </Link>
+          <p className="text-gray-400 mb-6 font-tajawal">يجب اختيار رواية من القائمة أعلاه للتمكن من إضافة منشور.</p>
         </div>
       )}
 

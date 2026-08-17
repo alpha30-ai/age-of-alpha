@@ -27,35 +27,54 @@ export default async function AdminDashboard() {
 
   return (
     <div className="space-y-8" dir="rtl">
-      <div className="bg-white/5 p-8 rounded-xl border border-[var(--theme-primary)]/30 relative overflow-hidden shadow-lg">
-        <div className="absolute -left-10 -top-10 opacity-5">
-          <Flame className="w-64 h-64 text-[var(--theme-primary)]" />
+      {/* Royal Dashboard Header */}
+      <div className="bg-[#111] p-8 sm:p-12 rounded-[2rem] border border-[var(--theme-primary)]/20 shadow-[0_10px_40px_rgba(0,0,0,0.8)] relative overflow-hidden group">
+        
+        {/* Glows & Grids */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          {/* Ambient Glows */}
+          <div className="absolute top-0 right-0 w-full h-[50vh] bg-gradient-to-b from-[#111] to-transparent opacity-90" />
+          <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[40vw] h-[40vw] bg-[var(--theme-primary)]/10 blur-[120px] rounded-full mix-blend-screen animate-pulse" />
+          <div className="absolute bottom-0 right-1/4 w-[30vw] h-[30vw] bg-[var(--theme-primary)]/5 blur-[100px] rounded-full mix-blend-screen" />
+          
+          {/* Grid Background */}
+          <div 
+            className="absolute inset-0 opacity-[0.05]"
+            style={{ backgroundImage: 'linear-gradient(var(--theme-primary) 1px, transparent 1px), linear-gradient(90deg, var(--theme-primary) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
+          />
+          
+          {/* Fade out edges */}
+          <div className="absolute inset-0 shadow-[inset_0_0_150px_100px_#111]" />
         </div>
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+
+        <div className="absolute -left-10 -top-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700">
+          <Flame className="w-64 h-64 text-[var(--theme-primary)] blur-[2px]" />
+        </div>
+        
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="text-center md:text-right">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--color-theme-heading)] mb-3 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
-              <Flame className="w-8 h-8 sm:w-10 sm:h-10 text-[var(--theme-primary)]" />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-l from-white to-gray-400 mb-4 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] font-cairo">
+              <div className="p-3 bg-[var(--theme-primary)]/10 rounded-2xl border border-[var(--theme-primary)]/30 shadow-[0_0_20px_var(--theme-primary)]/20">
+                <Flame className="w-8 h-8 sm:w-10 sm:h-10 text-[var(--theme-primary)]" />
+              </div>
               لوحة القيادة الملكية
             </h1>
-            <p className="text-gray-400 text-sm sm:text-base md:text-lg">مرحباً بك في مركز التحكم بملحمة الدول المائة. كل شيء رهن إشارتك.</p>
+            <p className="text-gray-400 text-base sm:text-lg md:text-xl font-tajawal max-w-2xl">مرحباً بك في مركز التحكم بملحمة الدول المائة. كل شيء رهن إشارتك.</p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto mt-4 md:mt-0">
-            <Link href="/admin/chapters/new" className="w-full sm:w-auto justify-center bg-[var(--theme-primary)] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-[var(--theme-primary-dark)] transition-colors shadow-md">
-              <Plus className="w-5 h-5" />
+          <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto mt-4 md:mt-0 shrink-0">
+            <Link href="/admin/chapters/new" className="w-full sm:w-auto justify-center bg-[var(--theme-primary)] text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-[var(--theme-primary)]/90 shadow-[0_0_20px_var(--theme-primary)]/30 hover:shadow-[0_0_30px_var(--theme-primary)]/50 transition-all font-cairo text-lg">
+              <Plus className="w-6 h-6" />
               مخطوطة جديدة
             </Link>
-            <Link href="/admin/theme" className="w-full sm:w-auto justify-center bg-white/10 hover:bg-white/20 border border-white/20 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all">
+            <Link href="/admin/theme" className="w-full sm:w-auto justify-center bg-white/5 hover:bg-[var(--theme-primary)]/10 border border-white/10 hover:border-[var(--theme-primary)]/30 text-gray-200 px-6 py-4 rounded-xl font-bold flex items-center gap-2 transition-all font-cairo shadow-lg">
               <Palette className="w-5 h-5" />
               المظهر
-            </Link>
-            <Link href="/settings" className="w-full sm:w-auto justify-center bg-white/10 hover:bg-white/20 border border-white/20 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all">
-              <Settings className="w-5 h-5" />
-              إعدادات الحساب
             </Link>
           </div>
         </div>
       </div>
 
+      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, i) => (
           <div key={i} className="relative overflow-hidden rounded-xl bg-white/5 border border-white/5 p-6 shadow-md hover:border-[var(--theme-primary)]/30 transition-all duration-300 group">
@@ -79,11 +98,11 @@ export default async function AdminDashboard() {
           <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--theme-primary)]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--theme-primary)]/20 transition-all duration-500"></div>
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--theme-primary)]/20">
-              <h3 className="text-xl font-bold text-[var(--theme-primary)] flex items-center gap-2">
-                <BookOpen className="w-5 h-5" />
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-[var(--theme-primary)]" />
                 أحدث المخطوطات
               </h3>
-              <Link href="/admin/chapters" className="text-sm text-[var(--theme-primary)] hover:brightness-125 font-bold">
+              <Link href="/admin/chapters" className="text-sm text-gray-400 hover:text-white font-bold transition-colors">
                 عرض الكل
               </Link>
             </div>
@@ -112,11 +131,11 @@ export default async function AdminDashboard() {
           <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--theme-primary)]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--theme-primary)]/20 transition-all duration-500"></div>
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--theme-primary)]/20">
-              <h3 className="text-xl font-bold text-[var(--theme-primary)] flex items-center gap-2">
-                <Share2 className="w-5 h-5" />
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <Share2 className="w-5 h-5 text-[var(--theme-primary)]" />
                 المحتوى التسويقي
               </h3>
-              <Link href="/admin/social" className="text-sm text-[var(--theme-primary)] hover:brightness-125 font-bold">
+              <Link href="/admin/social" className="text-sm text-gray-400 hover:text-white font-bold transition-colors">
                 عرض الكل
               </Link>
             </div>
@@ -146,11 +165,11 @@ export default async function AdminDashboard() {
           <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--theme-primary)]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--theme-primary)]/20 transition-all duration-500"></div>
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--theme-primary)]/20">
-              <h3 className="text-xl font-bold text-[var(--theme-primary)] flex items-center gap-2">
-                <Users className="w-5 h-5" />
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <Users className="w-5 h-5 text-[var(--theme-primary)]" />
                 المنضمين الجدد
               </h3>
-              <Link href="/admin/users" className="text-sm text-[var(--theme-primary)] hover:brightness-125 font-bold">
+              <Link href="/admin/users" className="text-sm text-gray-400 hover:text-white font-bold transition-colors">
                 عرض الكل
               </Link>
             </div>
