@@ -5,7 +5,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
 
-export const revalidate = 60; // revalidate every minute
+export const dynamic = 'force-dynamic';
 
 export default async function PublicNovelsPage({ searchParams }: { searchParams: { q?: string } }) {
   const query = searchParams.q || '';

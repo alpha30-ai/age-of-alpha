@@ -20,6 +20,10 @@ export default async function ChaptersPage({ searchParams }: { searchParams: { q
   const query = searchParams?.q || '';
   const novelId = searchParams?.novelId || undefined;
 
+  if (!novelId && !query) {
+    import('next/navigation').then((mod) => mod.redirect('/novels'));
+  }
+
   try {
     const [fetchedChapters, fetchedTheme] = await Promise.all([
       prisma.chapter.findMany({

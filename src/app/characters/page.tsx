@@ -15,6 +15,10 @@ export default async function CharactersPage({ searchParams }: { searchParams: {
   const query = searchParams?.q || '';
   const novelId = searchParams?.novelId || undefined;
   
+  if (!novelId && !query) {
+    import('next/navigation').then((mod) => mod.redirect('/novels'));
+  }
+  
   let characters: any[] = [];
   let theme: any = null;
 

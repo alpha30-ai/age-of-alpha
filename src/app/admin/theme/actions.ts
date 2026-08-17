@@ -15,11 +15,6 @@ export async function updateTheme(formData: FormData) {
   const bannerIsActiveStr = formData.getAll("bannerIsActive");
   const bannerIsActive = bannerIsActiveStr.includes("true");
 
-  const headingColor = formData.get("headingColor") as string;
-  const borderColor = formData.get("borderColor") as string;
-  const cardOpacity = parseFloat(formData.get("cardOpacity") as string || "0.8");
-  const buttonOpacity = parseFloat(formData.get("buttonOpacity") as string || "1.0");
-
   await prisma.siteTheme.upsert({
     where: { id: "default" },
     update: {
@@ -27,10 +22,6 @@ export async function updateTheme(formData: FormData) {
       secondaryColor,
       backgroundColor,
       textColor,
-      headingColor,
-      borderColor,
-      cardOpacity,
-      buttonOpacity,
       bannerTitle,
       bannerSubtitle,
       bannerImageUrl,
@@ -42,10 +33,6 @@ export async function updateTheme(formData: FormData) {
       secondaryColor,
       backgroundColor,
       textColor,
-      headingColor,
-      borderColor,
-      cardOpacity,
-      buttonOpacity,
       bannerTitle,
       bannerSubtitle,
       bannerImageUrl,

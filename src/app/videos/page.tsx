@@ -17,6 +17,10 @@ export default async function VideosPage({ searchParams }: { searchParams: { q?:
   const query = searchParams?.q || '';
   const novelId = searchParams?.novelId || undefined;
 
+  if (!novelId && !query) {
+    import('next/navigation').then((mod) => mod.redirect('/novels'));
+  }
+
   try {
     const [fetchedVideos, fetchedTheme] = await Promise.all([
       prisma.videoMedia.findMany({

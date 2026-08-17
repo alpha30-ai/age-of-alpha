@@ -31,84 +31,13 @@ export default function ThemeForm({ defaultTheme }: { defaultTheme: any }) {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white/5 backdrop-blur-xl border border-[var(--color-theme-border)] rounded-3xl p-8 shadow-2xl relative overflow-hidden"
+        className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden"
       >
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[var(--color-theme-border)]">
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
           <div className="p-2 bg-purple-500/10 rounded-lg">
             <Paintbrush className="w-6 h-6 text-purple-400" />
           </div>
-          <h2 className="text-2xl font-bold text-[var(--color-theme-heading)]">لوحة الألوان الملكية</h2>
-        </div>
-
-        {/* Theme Presets */}
-        <div className="mb-8 p-4 bg-black/20 rounded-2xl border border-white/5">
-          <h3 className="text-sm font-bold text-gray-300 mb-4">الثيمات الجاهزة (اختر لتطبيق سريع)</h3>
-          <div className="flex flex-wrap gap-4">
-            <button
-              type="button"
-              onClick={() => {
-                (document.getElementById('primaryColor') as HTMLInputElement).value = '#E64A19';
-                (document.getElementById('primaryColor_text') as HTMLInputElement).value = '#E64A19';
-                (document.getElementById('secondaryColor') as HTMLInputElement).value = '#A9C4EB';
-                (document.getElementById('secondaryColor_text') as HTMLInputElement).value = '#A9C4EB';
-                (document.getElementById('headingColor') as HTMLInputElement).value = '#FFFFFF';
-                (document.getElementById('headingColor_text') as HTMLInputElement).value = '#FFFFFF';
-                (document.getElementById('borderColor') as HTMLInputElement).value = 'rgba(255,255,255,0.1)';
-                (document.getElementById('borderColor_text') as HTMLInputElement).value = 'rgba(255,255,255,0.1)';
-              }}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 hover:bg-orange-500/20 transition-all font-bold"
-            >
-              <div className="w-4 h-4 rounded-full bg-[#E64A19]" /> ناري (الافتراضي)
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                (document.getElementById('primaryColor') as HTMLInputElement).value = '#10B981';
-                (document.getElementById('primaryColor_text') as HTMLInputElement).value = '#10B981';
-                (document.getElementById('secondaryColor') as HTMLInputElement).value = '#D1FAE5';
-                (document.getElementById('secondaryColor_text') as HTMLInputElement).value = '#D1FAE5';
-                (document.getElementById('headingColor') as HTMLInputElement).value = '#34D399';
-                (document.getElementById('headingColor_text') as HTMLInputElement).value = '#34D399';
-                (document.getElementById('borderColor') as HTMLInputElement).value = 'rgba(16,185,129,0.2)';
-                (document.getElementById('borderColor_text') as HTMLInputElement).value = 'rgba(16,185,129,0.2)';
-              }}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-all font-bold"
-            >
-              <div className="w-4 h-4 rounded-full bg-[#10B981]" /> زمردي
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                (document.getElementById('primaryColor') as HTMLInputElement).value = '#8B5CF6';
-                (document.getElementById('primaryColor_text') as HTMLInputElement).value = '#8B5CF6';
-                (document.getElementById('secondaryColor') as HTMLInputElement).value = '#EDE9FE';
-                (document.getElementById('secondaryColor_text') as HTMLInputElement).value = '#EDE9FE';
-                (document.getElementById('headingColor') as HTMLInputElement).value = '#C4B5FD';
-                (document.getElementById('headingColor_text') as HTMLInputElement).value = '#C4B5FD';
-                (document.getElementById('borderColor') as HTMLInputElement).value = 'rgba(139,92,246,0.2)';
-                (document.getElementById('borderColor_text') as HTMLInputElement).value = 'rgba(139,92,246,0.2)';
-              }}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-400 hover:bg-purple-500/20 transition-all font-bold"
-            >
-              <div className="w-4 h-4 rounded-full bg-[#8B5CF6]" /> ظلامي ملكي
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                (document.getElementById('primaryColor') as HTMLInputElement).value = '#3B82F6';
-                (document.getElementById('primaryColor_text') as HTMLInputElement).value = '#3B82F6';
-                (document.getElementById('secondaryColor') as HTMLInputElement).value = '#DBEAFE';
-                (document.getElementById('secondaryColor_text') as HTMLInputElement).value = '#DBEAFE';
-                (document.getElementById('headingColor') as HTMLInputElement).value = '#93C5FD';
-                (document.getElementById('headingColor_text') as HTMLInputElement).value = '#93C5FD';
-                (document.getElementById('borderColor') as HTMLInputElement).value = 'rgba(59,130,246,0.2)';
-                (document.getElementById('borderColor_text') as HTMLInputElement).value = 'rgba(59,130,246,0.2)';
-              }}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 hover:bg-blue-500/20 transition-all font-bold"
-            >
-              <div className="w-4 h-4 rounded-full bg-[#3B82F6]" /> جليدي
-            </button>
-          </div>
+          <h2 className="text-2xl font-bold text-white">لوحة الألوان الملكية</h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -117,8 +46,6 @@ export default function ThemeForm({ defaultTheme }: { defaultTheme: any }) {
             { id: 'secondaryColor', label: 'اللون الثانوي (Secondary)', default: defaultTheme.secondaryColor },
             { id: 'backgroundColor', label: 'لون الخلفية (Background)', default: defaultTheme.backgroundColor },
             { id: 'textColor', label: 'لون النصوص (Text)', default: defaultTheme.textColor },
-            { id: 'headingColor', label: 'لون العناوين (Headings)', default: defaultTheme.headingColor || '#FFFFFF' },
-            { id: 'borderColor', label: 'لون الحواف والحدود (Borders)', default: defaultTheme.borderColor || 'rgba(255,255,255,0.1)' },
           ].map((colorItem) => (
             <div key={colorItem.id} className="space-y-3">
               <label htmlFor={colorItem.id} className="block text-sm font-bold text-gray-300">
@@ -130,15 +57,13 @@ export default function ThemeForm({ defaultTheme }: { defaultTheme: any }) {
                   id={colorItem.id} 
                   name={colorItem.id} 
                   defaultValue={colorItem.default} 
-                  onChange={(e) => { (document.getElementById(`${colorItem.id}_text`) as HTMLInputElement).value = e.target.value; }}
                   className="w-12 h-12 rounded-lg cursor-pointer bg-transparent border-0 p-0" 
                 />
                 <input 
-                  type="text"
-                  id={`${colorItem.id}_text`}
+                  type="text" 
                   defaultValue={colorItem.default} 
-                  onChange={(e) => { (document.getElementById(colorItem.id) as HTMLInputElement).value = e.target.value; }}
                   className="bg-transparent border-none outline-none text-white font-mono flex-1 text-left ltr" 
+                  readOnly 
                   dir="ltr"
                 />
               </div>
@@ -147,69 +72,18 @@ export default function ThemeForm({ defaultTheme }: { defaultTheme: any }) {
         </div>
       </motion.div>
 
-      {/* Opacity Section */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.05 }}
-        className="bg-white/5 backdrop-blur-xl border border-[var(--color-theme-border)] rounded-3xl p-8 shadow-2xl relative overflow-hidden"
-      >
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[var(--color-theme-border)]">
-          <div className="p-2 bg-blue-500/10 rounded-lg">
-            <ImageIcon className="w-6 h-6 text-blue-400" />
-          </div>
-          <h2 className="text-2xl font-bold text-[var(--color-theme-heading)]">التحكم بالشفافية (Transparency)</h2>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="space-y-4">
-            <label className="flex justify-between text-sm font-bold text-gray-300">
-              <span>شفافية البطاقات (Cards Opacity)</span>
-              <span id="cardOpacityValue">{defaultTheme.cardOpacity ?? 0.8}</span>
-            </label>
-            <input 
-              type="range" 
-              id="cardOpacity" 
-              name="cardOpacity" 
-              min="0" max="1" step="0.05" 
-              defaultValue={defaultTheme.cardOpacity ?? 0.8}
-              onChange={(e) => document.getElementById('cardOpacityValue')!.innerText = e.target.value}
-              className="w-full accent-[var(--theme-primary)]" 
-            />
-            <p className="text-xs text-gray-500">يتحكم في مدى شفافية خلفية الصناديق والبطاقات في الموقع</p>
-          </div>
-          
-          <div className="space-y-4">
-            <label className="flex justify-between text-sm font-bold text-gray-300">
-              <span>شفافية الأزرار (Buttons Opacity)</span>
-              <span id="buttonOpacityValue">{defaultTheme.buttonOpacity ?? 1.0}</span>
-            </label>
-            <input 
-              type="range" 
-              id="buttonOpacity" 
-              name="buttonOpacity" 
-              min="0.1" max="1" step="0.05" 
-              defaultValue={defaultTheme.buttonOpacity ?? 1.0}
-              onChange={(e) => document.getElementById('buttonOpacityValue')!.innerText = e.target.value}
-              className="w-full accent-[var(--theme-primary)]" 
-            />
-            <p className="text-xs text-gray-500">يتحكم في مدى شفافية خلفية الأزرار الرئيسية</p>
-          </div>
-        </div>
-      </motion.div>
-
       {/* Banner Section */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white/5 backdrop-blur-xl border border-[var(--color-theme-border)] rounded-3xl p-8 shadow-2xl relative overflow-hidden"
+        className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden"
       >
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[var(--color-theme-border)]">
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
           <div className="p-2 bg-orange-500/10 rounded-lg">
             <ImageIcon className="w-6 h-6 text-orange-400" />
           </div>
-          <h2 className="text-2xl font-bold text-[var(--color-theme-heading)]">الواجهة الرئيسية (Hero Banner)</h2>
+          <h2 className="text-2xl font-bold text-white">الواجهة الرئيسية (Hero Banner)</h2>
         </div>
 
         <div className="grid grid-cols-1 gap-6">
