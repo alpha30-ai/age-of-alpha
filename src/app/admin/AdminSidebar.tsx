@@ -28,13 +28,18 @@ export default function AdminSidebar({ user }: { user?: any }) {
   return (
     <>
       {/* Mobile Toggle Button */}
-      <div className="md:hidden p-4 bg-black/50 border-b border-white/10 flex items-center justify-between z-50 relative">
+      <div className="md:hidden p-4 bg-black/50 border-b border-white/10 flex items-center justify-between z-30 relative">
         <h2 className="text-xl font-bold text-white tracking-wide text-[var(--theme-primary)] truncate">
           لوحة التحكم
         </h2>
-        <button onClick={() => setIsMobileOpen(!isMobileOpen)} className="p-2 text-white bg-white/10 rounded-lg">
-          {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        <div className="flex items-center gap-2">
+          <Link href="/" className="p-2 text-white bg-white/10 hover:bg-white/20 rounded-lg flex items-center gap-2 transition-colors">
+            <span className="text-xs font-bold">الرئيسية</span>
+          </Link>
+          <button onClick={() => setIsMobileOpen(true)} className="p-2 text-white bg-white/10 hover:bg-white/20 rounded-lg transition-colors">
+            <Menu className="w-6 h-6" />
+          </button>
+        </div>
       </div>
 
       {/* Sidebar */}
@@ -53,9 +58,15 @@ export default function AdminSidebar({ user }: { user?: any }) {
               </h2>
             )}
           </div>
-          <Link href="/" className={`text-gray-400 hover:text-white transition-colors ${isCollapsed ? 'hidden' : ''}`} title="العودة للموقع">
-            <ArrowRight className="w-5 h-5" />
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link href="/" className={`flex items-center gap-1 text-gray-400 hover:text-white transition-colors bg-white/5 px-2 py-1 rounded-lg ${isCollapsed ? 'hidden' : 'hidden md:flex'}`} title="العودة للموقع">
+              <span className="text-xs font-bold">الرئيسية</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <button onClick={() => setIsMobileOpen(false)} className="md:hidden p-2 text-gray-400 hover:text-white bg-white/5 rounded-lg transition-colors">
+               <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         <nav className="flex-1 space-y-2 p-4 overflow-y-auto">

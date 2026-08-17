@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma';
 
 import AuthProvider from '@/components/providers/AuthProvider';
 import BackgroundEffects from '@/components/layout/BackgroundEffects';
+import MaintenanceGuard from '@/components/layout/MaintenanceGuard';
 import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
@@ -18,8 +19,19 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   let themeStyles = '';
+  let isMaintenanceMode = false;
+  let maintenanceMessage = '';
   try {
-    const theme = await prisma.siteTheme.findUnique({ where: { id: 'default' } });
+    const [theme, settings] = await Promise.all([
+      prisma.siteTheme.findUnique({ where: { id: 'default' } }),
+      prisma.systemSettings.findUnique({ where: { id: 'default' } })
+    ]);
+    
+    if (settings) {
+      isMaintenanceMode = settings.isMaintenanceMode;
+      maintenanceMessage = settings.maintenanceMessage || '';
+    }
+
     if (theme) {
       themeStyles = `
         .dark {
@@ -35,7 +47,7 @@ export default async function RootLayout({
       `;
     }
   } catch (error) {
-    console.error('Failed to fetch theme:', error);
+    console.error('Failed to fetch theme or settings:', error);
   }
 
   return (
@@ -61,7 +73,9 @@ export default async function RootLayout({
           }}
         />
         <AuthProvider>
-          {children}
+          <MaintenanceGuard isMaintenanceMode={isMaintenanceMode} maintenanceMessage={maintenanceMessage}>
+            {children}
+          </MaintenanceGuard>
         </AuthProvider>
       </body>
     </html>

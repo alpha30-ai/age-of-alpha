@@ -3,7 +3,6 @@ import prisma from '@/lib/prisma';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import PageBanner from '@/components/ui/PageBanner';
-import MaintenanceGuard from '@/components/layout/MaintenanceGuard';
 import CommunityClient from './CommunityClient';
 import { Users, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
@@ -23,8 +22,7 @@ export default async function CommunityPage({ searchParams }: { searchParams: { 
 
   if (!novelId) {
     return (
-      <MaintenanceGuard>
-        <main className="bg-[#050505] overflow-x-hidden min-h-screen relative flex flex-col">
+      <main className="bg-[#050505] overflow-x-hidden min-h-screen relative flex flex-col">
           <Navbar />
           <div className="flex-1 flex items-center justify-center p-4">
             <div className="text-center bg-[#111] p-10 rounded-3xl border border-white/10 max-w-lg">
@@ -38,7 +36,6 @@ export default async function CommunityPage({ searchParams }: { searchParams: { 
           </div>
           <Footer />
         </main>
-      </MaintenanceGuard>
     );
   }
 
@@ -58,21 +55,18 @@ export default async function CommunityPage({ searchParams }: { searchParams: { 
 
   if (!novel) {
     return (
-      <MaintenanceGuard>
-        <main className="bg-[#050505] overflow-x-hidden min-h-screen relative flex flex-col">
+      <main className="bg-[#050505] overflow-x-hidden min-h-screen relative flex flex-col">
           <Navbar />
           <div className="flex-1 flex items-center justify-center p-4 text-white">الرواية غير موجودة.</div>
           <Footer />
         </main>
-      </MaintenanceGuard>
     );
   }
 
   const bgImage = novel.coverImage || theme?.bannerImageUrl || 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?q=80&w=2000&auto=format&fit=crop';
 
   return (
-    <MaintenanceGuard>
-      <main className="bg-[#050505] overflow-x-hidden w-full max-w-[100vw] min-h-screen relative flex flex-col">
+    <main className="bg-[#050505] overflow-x-hidden w-full max-w-[100vw] min-h-screen relative flex flex-col">
         <Navbar />
         
         <PageBanner 
@@ -93,6 +87,5 @@ export default async function CommunityPage({ searchParams }: { searchParams: { 
         </div>
         <Footer />
       </main>
-    </MaintenanceGuard>
   );
 }

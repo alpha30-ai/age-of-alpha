@@ -6,7 +6,6 @@ import PageBanner from '@/components/ui/PageBanner';
 import ChaptersClient from './ChaptersClient';
 import { BookOpen } from 'lucide-react';
 
-import MaintenanceGuard from '@/components/layout/MaintenanceGuard';
 
 export const metadata: Metadata = {
   title: 'الفصول | عهد ألفا: ملحمة الدول المائة',
@@ -49,8 +48,7 @@ export default async function ChaptersPage({ searchParams }: { searchParams: { q
   const bgImage = theme?.bannerImageUrl || 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?q=80&w=2000&auto=format&fit=crop';
 
   return (
-    <MaintenanceGuard>
-      <main className="bg-[#050505] overflow-x-hidden w-full max-w-[100vw] min-h-screen relative flex flex-col">
+    <main className="bg-[#050505] overflow-x-hidden w-full max-w-[100vw] min-h-screen relative flex flex-col">
         <Navbar />
         
         <PageBanner 
@@ -71,6 +69,5 @@ export default async function ChaptersPage({ searchParams }: { searchParams: { q
         </div>
         <Footer />
       </main>
-    </MaintenanceGuard>
   );
 }

@@ -5,7 +5,6 @@ import Footer from '@/components/layout/Footer';
 import PageBanner from '@/components/ui/PageBanner';
 import VideosClient from './VideosClient';
 import { Video } from 'lucide-react';
-import MaintenanceGuard from '@/components/layout/MaintenanceGuard';
 
 export const metadata: Metadata = {
   title: 'المرئيات | عهد ألفا: ملحمة الدول المائة',
@@ -45,8 +44,7 @@ export default async function VideosPage({ searchParams }: { searchParams: { q?:
   const bgImage = theme?.bannerImageUrl || 'https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2000&auto=format&fit=crop';
 
   return (
-    <MaintenanceGuard>
-      <main className="bg-[#050505] overflow-x-hidden min-h-screen relative flex flex-col">
+    <main className="bg-[#050505] overflow-x-hidden min-h-screen relative flex flex-col">
         <Navbar />
         
         <PageBanner 
@@ -66,6 +64,5 @@ export default async function VideosPage({ searchParams }: { searchParams: { q?:
         </div>
         <Footer />
       </main>
-    </MaintenanceGuard>
   );
 }

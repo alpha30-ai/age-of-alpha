@@ -4,7 +4,6 @@ import { BookOpen, Users, Sparkles, Search } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
-import MaintenanceGuard from '@/components/layout/MaintenanceGuard';
 
 export const revalidate = 60; // revalidate every minute
 
@@ -27,8 +26,7 @@ export default async function PublicNovelsPage({ searchParams }: { searchParams:
   });
 
   return (
-    <MaintenanceGuard>
-      <main className="min-h-screen bg-[#050505] flex flex-col relative z-0">
+    <main className="min-h-screen bg-[#050505] flex flex-col relative z-0">
         <Navbar />
         
         <div className="flex-1 pt-32 pb-24">
@@ -123,6 +121,5 @@ export default async function PublicNovelsPage({ searchParams }: { searchParams:
         
         <Footer />
       </main>
-    </MaintenanceGuard>
   );
 }

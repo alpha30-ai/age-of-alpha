@@ -6,8 +6,6 @@ import LatestChapters from '@/components/home/LatestChapters';
 import VideoShowcase from '@/components/home/VideoShowcase';
 import prisma from '@/lib/prisma';
 
-import MaintenanceGuard from '@/components/layout/MaintenanceGuard';
-
 export default async function HomePage() {
   const [theme, characters] = await Promise.all([
     prisma.siteTheme.findUnique({
@@ -23,15 +21,13 @@ export default async function HomePage() {
   ]);
 
   return (
-    <MaintenanceGuard>
-      <main>
-        <Navbar />
-        <HeroSection theme={theme} />
-        <AboutSection characters={characters} />
-        <LatestChapters />
-        <VideoShowcase />
-        <Footer />
-      </main>
-    </MaintenanceGuard>
+    <main>
+      <Navbar />
+      <HeroSection theme={theme} />
+      <AboutSection characters={characters} />
+      <LatestChapters />
+      <VideoShowcase />
+      <Footer />
+    </main>
   );
 }

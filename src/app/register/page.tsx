@@ -91,15 +91,15 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#050505] text-white" dir="rtl">
+    <div className="flex min-h-screen bg-abyss text-silver-ash" dir="rtl">
       {/* القسم الأيمن: النموذج */}
       <div className="flex-1 flex flex-col justify-center px-8 sm:px-16 lg:px-24 xl:px-32 relative z-10 py-12">
         
         {/* زر العودة للرئيسية */}
-        <div className="absolute top-8 right-8">
-          <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors group">
+        <div className="absolute top-4 right-4 md:top-8 md:right-8 z-50">
+          <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors group bg-black/40 p-2 md:p-0 rounded-full md:rounded-none md:bg-transparent backdrop-blur-md md:backdrop-blur-none border border-white/10 md:border-transparent">
             <ArrowRight className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" />
-            <span className="font-tajawal text-sm">العودة للرئيسية</span>
+            <span className="font-tajawal text-sm hidden md:inline">العودة للرئيسية</span>
           </Link>
         </div>
 
@@ -252,11 +252,11 @@ export default function RegisterPage() {
           className="absolute inset-0 bg-cover bg-center transform hover:scale-105 transition-transform duration-10000"
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=2098&auto=format&fit=crop')" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-l from-[#050505] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-l from-abyss via-transparent to-transparent" />
         <div className="absolute inset-0 bg-magma/10 mix-blend-overlay" />
         <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]" />
         
-        <div className="relative z-10 flex flex-col justify-end p-16 text-white h-full w-full bg-gradient-to-t from-[#050505] via-transparent to-transparent">
+        <div className="relative z-10 flex flex-col justify-end p-16 text-white h-full w-full bg-gradient-to-t from-abyss via-transparent to-transparent">
           <motion.h1 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}

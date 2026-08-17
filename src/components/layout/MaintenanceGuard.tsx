@@ -1,17 +1,30 @@
-import prisma from '@/lib/prisma';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+'use client';
+
 import { AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
-export default async function MaintenanceGuard({ children }: { children: React.ReactNode }) {
-  const settings = await prisma.systemSettings.findUnique({ where: { id: 'default' } });
+export default function MaintenanceGuard({ 
+  children, 
+  isMaintenanceMode,
+  maintenanceMessage 
+}: { 
+  children: React.ReactNode;
+  isMaintenanceMode: boolean;
+  maintenanceMessage?: string;
+}) {
+  const pathname = usePathname();
+  const { data: session, status } = useSession();
   
-  if (settings?.isMaintenanceMode) {
-    const session = await getServerSession(authOptions);
-    if ((session?.user as any)?.role !== 'ADMIN') {
+  if (isMaintenanceMode) {
+    const isAdmin = (session?.user as any)?.role === 'ADMIN';
+    const isLoginPage = pathname === '/login';
+    const isRegisterPage = pathname === '/register';
+    
+    if (!isAdmin && !isLoginPage && !isRegisterPage && status !== 'loading') {
       return (
-        <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center p-4 relative overflow-hidden" dir="rtl">
+        <div className="min-h-screen bg-abyss flex flex-col items-center justify-center p-4 relative overflow-hidden" dir="rtl">
           {/* Background Glows */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--color-magma)]/10 blur-[150px] rounded-full pointer-events-none animate-pulse" />
           
@@ -21,7 +34,7 @@ export default async function MaintenanceGuard({ children }: { children: React.R
             </div>
             <h1 className="text-3xl font-bold font-cairo text-white mb-4 tracking-wide">بوابات العوالم مغلقة مؤقتاً</h1>
             <p className="text-gray-400 font-tajawal text-lg leading-relaxed mb-8">
-              {settings.maintenanceMessage || 'الموقع يخضع لعمليات صيانة وتحديث للأنظمة. سنعود قريباً جداً، نشكركم على صبركم.'}
+              {maintenanceMessage || 'الموقع يخضع لعمليات صيانة وتحديث للأنظمة. سنعود قريباً جداً، نشكركم على صبركم.'}
             </p>
             
             <div className="pt-6 border-t border-white/5">

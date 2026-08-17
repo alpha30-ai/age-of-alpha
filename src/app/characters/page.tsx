@@ -5,7 +5,6 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import PageBanner from '@/components/ui/PageBanner';
 import { Users } from 'lucide-react';
-import MaintenanceGuard from '@/components/layout/MaintenanceGuard';
 
 export const metadata: Metadata = {
   title: "الشخصيات | عهد ألفا",
@@ -50,8 +49,7 @@ export default async function CharactersPage({ searchParams }: { searchParams: {
   const bgImage = theme?.bannerImageUrl || 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?q=80&w=2000&auto=format&fit=crop';
 
   return (
-    <MaintenanceGuard>
-      <main className="bg-[#050505] overflow-x-hidden min-h-screen relative flex flex-col">
+    <main className="bg-[#050505] overflow-x-hidden min-h-screen relative flex flex-col">
         <Navbar />
         
         <PageBanner 
@@ -71,6 +69,5 @@ export default async function CharactersPage({ searchParams }: { searchParams: {
         </div>
         <Footer />
       </main>
-    </MaintenanceGuard>
   );
 }
