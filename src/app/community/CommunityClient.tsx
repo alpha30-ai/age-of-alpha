@@ -61,7 +61,7 @@ export default function CommunityClient({ novel, user, novels }: CommunityClient
     <div className="space-y-8" dir="rtl">
       {/* Novel Selector */}
       {novels && novels.length > 0 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/5 border border-[var(--theme-primary)]/20 p-4 rounded-2xl backdrop-blur-md shadow-[0_0_15px_var(--theme-primary)]/5">
+        <div className="relative z-50 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/5 border border-[var(--theme-primary)]/20 p-4 rounded-2xl backdrop-blur-md shadow-[0_0_15px_var(--theme-primary)]/5">
           <div className="flex items-center gap-2 text-gray-300">
             <AlertCircle className="w-5 h-5 text-[var(--theme-primary)]" />
             <span className="font-tajawal font-bold">اختر الرواية لعرض أو إضافة منشور:</span>
@@ -101,9 +101,20 @@ export default function CommunityClient({ novel, user, novels }: CommunityClient
           <div className="text-center bg-[#111]/50 backdrop-blur-md rounded-3xl p-12 border border-white/5">
             <MessageSquareOff className="w-16 h-16 text-gray-600 mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-white mb-2 font-cairo">لا توجد منشورات بعد</h3>
-            <p className="text-gray-400 font-tajawal">
+            <p className="text-gray-400 font-tajawal text-lg">
               {novel ? `كن أول من يشارك أفكاره في مجتمع ${novel.title}!` : 'كن أول من يشارك أفكاره في مجتمع القراء!'}
             </p>
+            <div className="mt-8 bg-black/40 border border-[var(--theme-primary)]/20 rounded-2xl p-6 max-w-2xl mx-auto inline-block text-right">
+              <div className="flex items-start gap-3">
+                <AlertCircle className="w-6 h-6 text-[var(--theme-primary)] shrink-0 mt-1" />
+                <div>
+                  <h4 className="text-white font-bold font-cairo mb-2">أين التعليقات؟</h4>
+                  <p className="text-gray-400 font-tajawal leading-relaxed text-sm">
+                    تعليقات القراء الموجودة داخل الفصول تظهر هناك فقط لتجنب حرق الأحداث. هذه الساحة مخصصة لإنشاء نقاشات عامة، طرح نظريات، وتوجيه الأسئلة لمجتمع القراء بالكامل!
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         ) : (
           posts.map(post => (
