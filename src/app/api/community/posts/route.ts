@@ -46,6 +46,39 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Content and novelId are required' }, { status: 400 });
     }
 
+    // --- Link Validation System ---
+    const isValidUrl = (text: string): boolean => {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      const urls = text.match(urlRegex) || [];
+      const allowedDomains = ['youtube.com', 'youtu.be', 'facebook.com', 'x.com', 'twitter.com', 'imgur.com', 'pinterest.com'];
+      
+      for (const urlStr of urls) {
+        try {
+          const urlObj = new URL(urlStr);
+          const isAllowed = allowedDomains.some(domain => 
+            urlObj.hostname === domain || urlObj.hostname.endsWith(`.${domain}`)
+          );
+          if (!isAllowed) return false;
+        } catch {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    if (imageUrl && imageUrl.startsWith('http')) {
+      if (!isValidUrl(imageUrl)) {
+        return NextResponse.json({ error: 'الرابط المرفق غير مدعوم أو غير موثوق. يرجى استخدام مواقع معروفة مثل يوتيوب أو إمجور.' }, { status: 400 });
+      }
+    }
+
+    if (content) {
+      if (!isValidUrl(content)) {
+        return NextResponse.json({ error: 'محتوى المنشور يحتوي على روابط خارجية غير مدعومة أو غير موثوقة.' }, { status: 400 });
+      }
+    }
+    // -----------------------------
+
     // Get user id
     const user = await prisma.user.findUnique({
       where: { email: session.user.email }

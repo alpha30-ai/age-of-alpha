@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   }
   try {
     const body = await request.json();
-    const { targetType, targetId, platform } = body;
+    const { targetType, targetId, platform, visualContext } = body;
 
     if (!targetType || !targetId || !platform) {
       return NextResponse.json({ error: 'بيانات غير مكتملة' }, { status: 400 });
@@ -27,18 +27,15 @@ export async function POST(request: Request) {
     let targetData: any = null;
     let promptContext = '';
 
-    if (targetType === 'CHAPTER') {
-      targetData = await prisma.chapter.findUnique({ where: { id: targetId } });
-      if (!targetData) return NextResponse.json({ error: 'الفصل غير موجود' }, { status: 404 });
-      promptContext = "فصل رواية عهد ألفا رقم " + targetData.chapterNum + " بعنوان " + targetData.title + ". المحتوى: " + targetData.content.substring(0, 1500);
-    } else if (targetType === 'CHARACTER') {
-      targetData = await prisma.character.findUnique({ where: { id: targetId } });
-      if (!targetData) return NextResponse.json({ error: 'الشخصية غير موجودة' }, { status: 404 });
-      promptContext = "شخصية من رواية عهد ألفا. الاسم: " + targetData.name + ". الدور: " + targetData.role + ". السلاح: " + targetData.weapon + ". الوصف: " + targetData.description;
-    } else if (targetType === 'VIDEO') {
-      targetData = await prisma.videoMedia.findUnique({ where: { id: targetId } });
-      if (!targetData) return NextResponse.json({ error: 'الفيديو غير موجود' }, { status: 404 });
-      promptContext = "فيديو من رواية عهد ألفا. العنوان: " + targetData.title + ". الوصف: " + (targetData.description || 'لا يوجد');
+    // Always fetching CHAPTER as primary context
+    targetData = await prisma.chapter.findUnique({ where: { id: targetId } });
+    if (!targetData) return NextResponse.json({ error: 'الفصل غير موجود' }, { status: 404 });
+    
+    promptContext = "فصل رواية عهد ألفا رقم " + targetData.chapterNum + " بعنوان " + targetData.title + ". المحتوى: " + targetData.content.substring(0, 1500);
+
+    // If visual context is provided, attach it to the prompt context
+    if (visualContext) {
+      promptContext += "\nملاحظة هامة للمصمم/الكاتب: الملحق البصري للبوست هو " + visualContext.label + ". يرجى صياغة الوصف والكلمات المفتاحية والـ Thumbnail Prompt ليدعم وجود " + (visualContext.type === 'CHARACTER' ? 'هذه الشخصية' : 'هذا الفيديو') + ".";
     }
 
     const systemPrompt = "أنت خبير تسويق و SEO عبقري لرواية دارك فانتسي تسمى (عهد ألفا).\n" +

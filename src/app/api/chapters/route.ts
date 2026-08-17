@@ -3,9 +3,13 @@ import prisma from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const novelId = searchParams.get('novelId');
+
     const chapters = await prisma.chapter.findMany({
+      where: novelId ? { novelId } : undefined,
       orderBy: { chapterNum: 'asc' },
     });
     return NextResponse.json(chapters);
