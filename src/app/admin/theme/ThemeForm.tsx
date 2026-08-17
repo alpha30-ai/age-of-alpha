@@ -39,6 +39,61 @@ export default function ThemeForm({ defaultTheme }: { defaultTheme: any }) {
           </div>
           <h2 className="text-2xl font-bold text-white">لوحة الألوان الملكية</h2>
         </div>
+
+        {/* Theme Presets */}
+        <div className="mb-8 p-4 bg-black/20 rounded-2xl border border-white/5">
+          <h3 className="text-sm font-bold text-gray-300 mb-4">الثيمات الجاهزة (اختر لتطبيق سريع)</h3>
+          <div className="flex flex-wrap gap-4">
+            <button
+              type="button"
+              onClick={() => {
+                (document.getElementById('primaryColor') as HTMLInputElement).value = '#E64A19';
+                (document.getElementById('primaryColor_text') as HTMLInputElement).value = '#E64A19';
+                (document.getElementById('secondaryColor') as HTMLInputElement).value = '#A9C4EB';
+                (document.getElementById('secondaryColor_text') as HTMLInputElement).value = '#A9C4EB';
+              }}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 hover:bg-orange-500/20 transition-all font-bold"
+            >
+              <div className="w-4 h-4 rounded-full bg-[#E64A19]" /> ناري (الافتراضي)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                (document.getElementById('primaryColor') as HTMLInputElement).value = '#10B981';
+                (document.getElementById('primaryColor_text') as HTMLInputElement).value = '#10B981';
+                (document.getElementById('secondaryColor') as HTMLInputElement).value = '#D1FAE5';
+                (document.getElementById('secondaryColor_text') as HTMLInputElement).value = '#D1FAE5';
+              }}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-all font-bold"
+            >
+              <div className="w-4 h-4 rounded-full bg-[#10B981]" /> زمردي
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                (document.getElementById('primaryColor') as HTMLInputElement).value = '#8B5CF6';
+                (document.getElementById('primaryColor_text') as HTMLInputElement).value = '#8B5CF6';
+                (document.getElementById('secondaryColor') as HTMLInputElement).value = '#EDE9FE';
+                (document.getElementById('secondaryColor_text') as HTMLInputElement).value = '#EDE9FE';
+              }}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-400 hover:bg-purple-500/20 transition-all font-bold"
+            >
+              <div className="w-4 h-4 rounded-full bg-[#8B5CF6]" /> ظلامي ملكي
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                (document.getElementById('primaryColor') as HTMLInputElement).value = '#3B82F6';
+                (document.getElementById('primaryColor_text') as HTMLInputElement).value = '#3B82F6';
+                (document.getElementById('secondaryColor') as HTMLInputElement).value = '#DBEAFE';
+                (document.getElementById('secondaryColor_text') as HTMLInputElement).value = '#DBEAFE';
+              }}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 hover:bg-blue-500/20 transition-all font-bold"
+            >
+              <div className="w-4 h-4 rounded-full bg-[#3B82F6]" /> جليدي
+            </button>
+          </div>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {[
@@ -57,13 +112,15 @@ export default function ThemeForm({ defaultTheme }: { defaultTheme: any }) {
                   id={colorItem.id} 
                   name={colorItem.id} 
                   defaultValue={colorItem.default} 
+                  onChange={(e) => { (document.getElementById(`${colorItem.id}_text`) as HTMLInputElement).value = e.target.value; }}
                   className="w-12 h-12 rounded-lg cursor-pointer bg-transparent border-0 p-0" 
                 />
                 <input 
-                  type="text" 
+                  type="text"
+                  id={`${colorItem.id}_text`}
                   defaultValue={colorItem.default} 
+                  onChange={(e) => { (document.getElementById(colorItem.id) as HTMLInputElement).value = e.target.value; }}
                   className="bg-transparent border-none outline-none text-white font-mono flex-1 text-left ltr" 
-                  readOnly 
                   dir="ltr"
                 />
               </div>

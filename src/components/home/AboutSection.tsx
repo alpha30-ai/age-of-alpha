@@ -32,7 +32,7 @@ export default function AboutSection({ characters = [] }: { characters?: any[] }
     <section className="py-32 bg-abyss relative overflow-hidden border-t border-silver-ash/5">
       {/* Background Ornaments */}
       <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-[var(--theme-primary)]/5 rounded-full blur-[180px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[1000px] h-[1000px] bg-blue-900/5 rounded-full blur-[180px] translate-y-1/2 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[1000px] h-[1000px] bg-[var(--theme-secondary)]/5 rounded-full blur-[180px] translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         

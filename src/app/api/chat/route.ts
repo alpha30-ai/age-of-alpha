@@ -12,8 +12,8 @@ export async function POST(request: Request) {
 
     // Get API Key
     const settings = await prisma.systemSettings.findUnique({ where: { id: 'default' } });
-    if (!settings?.geminiApiKey) {
-      return NextResponse.json({ error: 'Gemini API Key is not configured' }, { status: 500 });
+    if (!settings?.geminiApiKey || settings.geminiApiKey.trim() === '') {
+      return NextResponse.json({ error: 'عذراً، لم يتم ربط نظام الذكاء الاصطناعي (API Key) بعد. يرجى التواصل مع الإدارة.' }, { status: 503 });
     }
 
     // Fetch Novel Context for RAG

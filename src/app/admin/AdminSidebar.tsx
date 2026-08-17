@@ -29,7 +29,7 @@ export default function AdminSidebar({ user }: { user?: any }) {
     <>
       {/* Mobile Toggle Button */}
       <div className="md:hidden p-4 bg-black/50 border-b border-white/10 flex items-center justify-between z-50 relative">
-        <h2 className="text-xl font-bold text-white tracking-wide text-[var(--color-magma)] truncate">
+        <h2 className="text-xl font-bold text-white tracking-wide text-[var(--theme-primary)] truncate">
           لوحة التحكم
         </h2>
         <button onClick={() => setIsMobileOpen(!isMobileOpen)} className="p-2 text-white bg-white/10 rounded-lg">
@@ -46,7 +46,7 @@ export default function AdminSidebar({ user }: { user?: any }) {
       >
         <div className={`p-6 flex items-center justify-between border-b border-white/5 ${isCollapsed ? 'justify-center p-4' : ''}`}>
           <div className="flex items-center gap-2">
-            <Flame className="w-8 h-8 text-[var(--color-magma)] drop-shadow-[0_0_10px_rgba(230,74,25,0.5)] shrink-0" />
+            <Flame className="w-8 h-8 text-[var(--theme-primary)] drop-shadow-[0_0_10px_var(--theme-primary)] shrink-0" />
             {!isCollapsed && (
               <h2 className="text-2xl font-bold text-white tracking-wide truncate">
                 عهد ألفا
@@ -74,7 +74,7 @@ export default function AdminSidebar({ user }: { user?: any }) {
                     : 'text-gray-400 hover:text-white hover:bg-white/5'
                 }`}
               >
-                <Icon className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive ? 'text-[var(--color-magma)]' : link.color} group-hover:text-[var(--color-magma)]`} />
+                <Icon className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive ? 'text-[var(--theme-primary)]' : link.color} group-hover:text-[var(--theme-primary)]`} />
                 {!isCollapsed && <span className="font-bold truncate">{link.label}</span>}
               </Link>
             )
@@ -83,14 +83,14 @@ export default function AdminSidebar({ user }: { user?: any }) {
 
         {!isCollapsed && (
           <div className="m-4 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md relative group overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-magma)]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-[var(--theme-primary)]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="flex items-center gap-3 relative z-10">
-              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[var(--color-magma)]/50 bg-black/50 shadow-[0_0_15px_rgba(230,74,25,0.2)] flex-shrink-0">
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[var(--theme-primary)]/50 bg-black/50 shadow-[0_0_15px_var(--theme-primary)]/20 flex-shrink-0">
                 {user?.image && user.image.trim() !== '' ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img src={user.image} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-xl font-bold text-[var(--color-magma)]">
+                  <div className="w-full h-full flex items-center justify-center text-xl font-bold text-[var(--theme-primary)]">
                     {user?.name?.[0]?.toUpperCase() || 'A'}
                   </div>
                 )}
@@ -98,7 +98,7 @@ export default function AdminSidebar({ user }: { user?: any }) {
               <div className="flex-1 min-w-0 text-right">
                 <p className="text-sm font-bold text-white truncate">{user?.name || 'المدير العام'}</p>
                 <p className="text-xs text-gray-400 truncate mt-0.5">{user?.email}</p>
-                <p className="text-[10px] text-[var(--color-magma)] font-bold mt-1 bg-[var(--color-magma)]/10 inline-block px-2 py-0.5 rounded-full border border-[var(--color-magma)]/20">صلاحيات كاملة</p>
+                <p className="text-[10px] text-[var(--theme-primary)] font-bold mt-1 bg-[var(--theme-primary)]/10 inline-block px-2 py-0.5 rounded-full border border-[var(--theme-primary)]/20">صلاحيات كاملة</p>
               </div>
             </div>
           </div>

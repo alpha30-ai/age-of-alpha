@@ -5,12 +5,16 @@ interface SectionTitleProps {
 }
 
 export default function SectionTitle({ title, subtitle, accent = 'magma' }: SectionTitleProps) {
-  const accentColor = accent === 'magma' ? 'text-magma' : 'text-milky-blue';
-  const lineColor = accent === 'magma' ? 'bg-magma' : 'bg-milky-blue';
+  const isPrimary = accent === 'magma';
+  const accentColorClass = isPrimary ? 'text-[var(--theme-primary)]' : 'text-[var(--theme-secondary)]';
+  const lineColorClass = isPrimary ? 'bg-[var(--theme-primary)]' : 'bg-[var(--theme-secondary)]';
+  const glowStyle = isPrimary 
+    ? { textShadow: '0 0 20px color-mix(in srgb, var(--theme-primary) 60%, transparent), 0 0 40px color-mix(in srgb, var(--theme-primary) 30%, transparent)' }
+    : { textShadow: '0 0 20px color-mix(in srgb, var(--theme-secondary) 60%, transparent), 0 0 40px color-mix(in srgb, var(--theme-secondary) 30%, transparent)' };
 
   return (
     <div className="text-center mb-12">
-      <h2 className={`font-cairo font-bold text-3xl md:text-4xl ${accentColor} glow-text-${accent === 'magma' ? 'magma' : 'blue'} mb-4`}>
+      <h2 className={`font-cairo font-bold text-3xl md:text-4xl ${accentColorClass} mb-4`} style={glowStyle}>
         {title}
       </h2>
       {subtitle && (
@@ -18,7 +22,7 @@ export default function SectionTitle({ title, subtitle, accent = 'magma' }: Sect
           {subtitle}
         </p>
       )}
-      <div className={`mt-6 mx-auto w-24 h-0.5 ${lineColor} rounded-full opacity-60`} />
+      <div className={`mt-6 mx-auto w-24 h-0.5 ${lineColorClass} rounded-full opacity-60 shadow-[0_0_10px_currentColor]`} />
     </div>
   );
 }

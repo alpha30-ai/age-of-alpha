@@ -11,6 +11,11 @@ export default async function AdminSettingsPage() {
   const defaultSettings = {
     isMaintenanceMode: settings?.isMaintenanceMode ?? false,
     maintenanceMessage: settings?.maintenanceMessage || "الموقع يخضع لعمليات صيانة وتحديث للأنظمة. سنعود قريباً جداً، نشكركم على صبركم.",
+    openAiApiKey: settings?.openAiApiKey || "",
+    geminiApiKey: settings?.geminiApiKey || "",
+    cloudinaryCloudName: settings?.cloudinaryCloudName || "",
+    cloudinaryApiKey: settings?.cloudinaryApiKey || "",
+    cloudinaryApiSecret: settings?.cloudinaryApiSecret || "",
   };
 
   return (

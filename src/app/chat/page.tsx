@@ -107,8 +107,8 @@ function ChatContent() {
       
       {/* Dynamic Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-1]">
-        <div className="absolute top-1/4 left-1/4 w-[50vw] h-[50vw] bg-[var(--color-magma)]/10 blur-[120px] rounded-full mix-blend-screen animate-float"></div>
-        <div className="absolute bottom-0 right-0 w-[60vw] h-[60vw] bg-[var(--color-milky-blue)]/10 blur-[150px] rounded-full mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }}></div>
+        <div className="absolute top-1/4 left-1/4 w-[50vw] h-[50vw] bg-[var(--theme-primary)]/10 blur-[120px] rounded-full mix-blend-screen animate-float"></div>
+        <div className="absolute bottom-0 right-0 w-[60vw] h-[60vw] bg-[var(--theme-secondary)]/10 blur-[150px] rounded-full mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }}></div>
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay"></div>
       </div>
 
@@ -118,8 +118,8 @@ function ChatContent() {
           {/* Header & Custom Novel Selector */}
           <div className="bg-[#111]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 relative z-20">
             <div className="flex items-center gap-4 w-full md:w-auto">
-              <div className="p-4 bg-[var(--color-magma)]/10 rounded-full border border-[var(--color-magma)]/20 shadow-[0_0_20px_var(--color-magma)]/20">
-                <Sparkles className="w-8 h-8 text-[var(--color-magma)] animate-pulse" />
+              <div className="p-4 bg-[var(--theme-primary)]/10 rounded-full border border-[var(--theme-primary)]/20 shadow-[0_0_20px_var(--theme-primary)]/20">
+                <Sparkles className="w-8 h-8 text-[var(--theme-primary)] animate-pulse" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold font-cairo text-white mb-1 tracking-wide">الرائي العليم</h1>
@@ -163,7 +163,7 @@ function ChatContent() {
                       <button
                         key={novel.id}
                         onClick={() => { setSelectedNovel(novel); setIsDropdownOpen(false); }}
-                        className={`w-full flex items-center justify-between px-4 py-3 hover:bg-white/5 transition-colors ${selectedNovel?.id === novel.id ? 'bg-[var(--color-magma)]/10' : ''}`}
+                        className={`w-full flex items-center justify-between px-4 py-3 hover:bg-white/5 transition-colors ${selectedNovel?.id === novel.id ? 'bg-[var(--theme-primary)]/10' : ''}`}
                       >
                         <div className="flex items-center gap-3">
                           {novel.coverImage ? (
@@ -172,11 +172,11 @@ function ChatContent() {
                           ) : (
                             <div className="w-8 h-8 rounded-md bg-white/5 border border-white/10"></div>
                           )}
-                          <span className={`font-bold font-cairo text-right ${selectedNovel?.id === novel.id ? 'text-[var(--color-magma)]' : 'text-gray-300'}`}>
+                          <span className={`font-bold font-cairo text-right ${selectedNovel?.id === novel.id ? 'text-[var(--theme-primary)]' : 'text-gray-300'}`}>
                             {novel.title}
                           </span>
                         </div>
-                        {selectedNovel?.id === novel.id && <Check className="w-5 h-5 text-[var(--color-magma)]" />}
+                        {selectedNovel?.id === novel.id && <Check className="w-5 h-5 text-[var(--theme-primary)]" />}
                       </button>
                     ))}
                   </motion.div>
@@ -192,21 +192,21 @@ function ChatContent() {
             <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar scroll-smooth">
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex gap-3 md:gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-lg ${msg.role === 'user' ? 'bg-[var(--color-magma)] text-white' : 'bg-black border border-white/10 text-[var(--color-magma)]'}`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-lg ${msg.role === 'user' ? 'bg-[var(--theme-primary)] text-white' : 'bg-black border border-[var(--theme-primary)]/30 text-[var(--theme-primary)] shadow-[0_0_10px_var(--theme-primary)]/20'}`}>
                     {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
                   </div>
-                  <div className={`max-w-[85%] md:max-w-[75%] rounded-2xl p-4 md:p-5 shadow-sm text-sm md:text-base ${msg.role === 'user' ? 'bg-[var(--color-magma)]/10 border border-[var(--color-magma)]/20 text-white rounded-tr-none' : 'bg-[#1a1a1a]/80 border border-white/5 text-gray-300 rounded-tl-none leading-loose font-tajawal'}`}>
+                  <div className={`max-w-[85%] md:max-w-[75%] rounded-2xl p-4 md:p-5 shadow-sm text-sm md:text-base ${msg.role === 'user' ? 'bg-[var(--theme-primary)]/20 border border-[var(--theme-primary)]/30 text-white rounded-tr-none' : 'bg-[#1a1a1a]/80 border border-white/5 text-gray-300 rounded-tl-none leading-loose font-tajawal shadow-lg'}`}>
                     <p className="whitespace-pre-wrap">{msg.content}</p>
                   </div>
                 </div>
               ))}
               {isLoading && (
                 <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-black border border-white/10 text-[var(--color-magma)] flex items-center justify-center shrink-0 shadow-lg">
+                  <div className="w-10 h-10 rounded-full bg-black border border-[var(--theme-primary)]/30 text-[var(--theme-primary)] flex items-center justify-center shrink-0 shadow-[0_0_10px_var(--theme-primary)]/20">
                     <Bot className="w-5 h-5" />
                   </div>
                   <div className="rounded-2xl rounded-tl-none p-4 bg-[#1a1a1a]/80 border border-white/5 text-gray-400 flex items-center gap-3">
-                    <Loader2 className="w-5 h-5 animate-spin text-[var(--color-magma)]" />
+                    <Loader2 className="w-5 h-5 animate-spin text-[var(--theme-primary)]" />
                     <span className="animate-pulse">الرائي يستحضر السجلات...</span>
                   </div>
                 </div>
@@ -222,13 +222,13 @@ function ChatContent() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="تحدث مع الرائي العليم، اسأله عن أحداث، شخصيات، أو أسرار..."
-                  className="w-full bg-[#1a1a1a] border border-white/10 focus:bg-[#222] rounded-full px-6 py-4 text-white focus:outline-none focus:border-[var(--color-magma)]/50 transition-all shadow-inner pr-16 font-tajawal text-lg"
+                  className="w-full bg-[#1a1a1a] border border-white/10 focus:bg-[#222] rounded-full px-6 py-4 text-white focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all shadow-inner pr-16 font-tajawal text-lg"
                   disabled={isLoading || !selectedNovel}
                 />
                 <button
                   type="submit"
                   disabled={isLoading || !input.trim() || !selectedNovel}
-                  className="absolute right-2 p-3 bg-[var(--color-magma)] hover:bg-[var(--theme-primary-dark)] text-white rounded-full transition-all disabled:opacity-50 hover:scale-105 active:scale-95 shadow-[0_0_15px_var(--color-magma)]/40"
+                  className="absolute right-2 p-3 bg-[var(--theme-primary)] hover:brightness-110 text-white rounded-full transition-all disabled:opacity-50 hover:scale-105 active:scale-95 shadow-[0_0_15px_var(--theme-primary)]/40"
                 >
                   <Send className="w-6 h-6 rtl:-scale-x-100" />
                 </button>
@@ -247,7 +247,7 @@ function ChatContent() {
 export default function ChatPage() {
   return (
     <MaintenanceGuard>
-      <Suspense fallback={<div className="min-h-screen bg-[#050505] flex items-center justify-center"><Loader2 className="w-10 h-10 animate-spin text-[var(--color-magma)]" /></div>}>
+      <Suspense fallback={<div className="min-h-screen bg-[#050505] flex items-center justify-center"><Loader2 className="w-10 h-10 animate-spin text-[var(--theme-primary)]" /></div>}>
         <ChatContent />
       </Suspense>
     </MaintenanceGuard>

@@ -31,7 +31,7 @@ export default async function CommunityPage({ searchParams }: { searchParams: { 
               <AlertCircle className="w-16 h-16 text-yellow-500 mx-auto mb-6" />
               <h2 className="text-2xl font-bold font-cairo text-white mb-4">يجب اختيار رواية أولاً</h2>
               <p className="text-gray-400 mb-8 font-tajawal">لكي تتمكن من الدخول إلى مجتمع القراء، يجب عليك اختيار الرواية التي ترغب في مناقشتها.</p>
-              <Link href="/novels" className="bg-[var(--color-magma)] text-white px-8 py-3 rounded-xl font-bold hover:bg-[var(--color-magma)]/80 transition-colors">
+              <Link href="/novels" className="bg-[var(--theme-primary)] text-white px-8 py-3 rounded-xl font-bold hover:bg-[var(--theme-primary)]/80 transition-colors shadow-[0_0_15px_var(--theme-primary)]/30 hover:shadow-[0_0_25px_var(--theme-primary)]/50">
                 تصفح الروايات
               </Link>
             </div>
@@ -78,14 +78,14 @@ export default async function CommunityPage({ searchParams }: { searchParams: { 
         <PageBanner 
           title={`مجتمع ${novel.title}`}
           subtitle="مساحة حرة لنقاش النظريات، تبادل الآراء، ومشاركة حب الرواية."
-          icon={<Users className="w-8 h-8 text-[var(--color-magma)]" />}
+          icon={<Users className="w-8 h-8 text-[var(--theme-primary)]" />}
           backgroundImage={bgImage}
         />
 
         <div className="pb-20 px-4 flex-1 relative w-full">
           {/* Ambient background glows */}
-          <div className="absolute top-0 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[var(--color-magma)]/10 rounded-full blur-[150px] pointer-events-none" />
-          <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-purple-900/10 rounded-full blur-[150px] pointer-events-none" />
+          <div className="absolute top-0 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[var(--theme-primary)]/10 rounded-full blur-[150px] pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[var(--theme-secondary)]/10 rounded-full blur-[150px] pointer-events-none" />
           
           <div className="max-w-4xl mx-auto relative z-10 w-full mt-[-40px]">
             <CommunityClient novel={novel} user={session?.user} />

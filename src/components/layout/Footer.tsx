@@ -112,7 +112,7 @@ export default function Footer() {
         ======================================== 
       */}
       <a 
-        href="https://github.com/alpha30-ai" 
+        href="https://workspace-mh.vercel.app/" 
         target="_blank" 
         rel="noopener noreferrer"
         className="block relative w-full overflow-hidden border-t border-silver-ash/5 bg-abyss group cursor-pointer"

@@ -30,8 +30,8 @@ export default function GlowButton({
 
   const variantClasses = {
     magma:
-      'bg-magma/90 hover:bg-magma text-silver-ash border border-magma-light/30 shadow-[0_0_15px_rgba(230,74,25,0.4)] hover:shadow-[0_0_30px_rgba(230,74,25,0.8)]',
-    blue: 'bg-milky-blue/20 hover:bg-milky-blue/30 text-milky-blue-light border border-milky-blue/40 shadow-[0_0_15px_rgba(169,196,235,0.2)] hover:shadow-[0_0_30px_rgba(169,196,235,0.5)]',
+      'bg-[var(--theme-primary)]/90 hover:bg-[var(--theme-primary)] text-silver-ash border border-[var(--theme-primary)]/30 shadow-[0_0_15px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--theme-primary)_80%,transparent)]',
+    blue: 'bg-[var(--theme-secondary)]/20 hover:bg-[var(--theme-secondary)]/30 text-[var(--theme-secondary)] border border-[var(--theme-secondary)]/40 shadow-[0_0_15px_color-mix(in_srgb,var(--theme-secondary)_20%,transparent)] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--theme-secondary)_50%,transparent)]',
     ghost:
       'bg-white/5 hover:bg-white/10 text-silver-ash border border-silver-ash/10 hover:border-white/20 backdrop-blur-md',
   };

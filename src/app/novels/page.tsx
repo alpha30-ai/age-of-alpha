@@ -36,7 +36,7 @@ export default async function PublicNovelsPage({ searchParams }: { searchParams:
             
             <div className="text-center mb-12 animate-slide-up">
               <h1 className="text-4xl md:text-5xl font-bold font-cairo text-white mb-4 tracking-wide">
-                مكتبة <span className="text-[var(--color-magma)]">العوالم</span>
+                مكتبة <span className="text-[var(--theme-primary)]">العوالم</span>
               </h1>
               <p className="text-xl text-gray-400 max-w-2xl mx-auto font-tajawal">
                 اكتشف عوالمنا الملحمية، اقرأ الفصول، وتعرف على الشخصيات، أو تحدث مع الذكاء الاصطناعي الخاص بكل رواية.
@@ -51,9 +51,9 @@ export default async function PublicNovelsPage({ searchParams }: { searchParams:
                   name="q"
                   defaultValue={query}
                   placeholder="ابحث عن رواية أو عالم..." 
-                  className="w-full bg-[#111]/80 backdrop-blur-sm border border-white/10 rounded-2xl px-6 py-4 pr-14 text-white focus:outline-none focus:border-[var(--color-magma)]/50 transition-all shadow-lg group-hover:border-white/20 font-tajawal text-lg"
+                  className="w-full bg-[#111]/80 backdrop-blur-sm border border-white/10 rounded-2xl px-6 py-4 pr-14 text-white focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all shadow-lg group-hover:border-white/20 font-tajawal text-lg"
                 />
-                <button type="submit" className="absolute right-4 text-gray-400 hover:text-[var(--color-magma)] transition-colors">
+                <button type="submit" className="absolute right-4 text-gray-400 hover:text-[var(--theme-primary)] transition-colors">
                   <Search className="w-6 h-6" />
                 </button>
               </form>
@@ -96,8 +96,8 @@ export default async function PublicNovelsPage({ searchParams }: { searchParams:
                       </p>
 
                       <div className="flex items-center justify-between text-xs text-gray-500 font-bold mb-6 border-y border-white/5 py-4">
-                        <div className="flex items-center gap-1.5"><BookOpen className="w-4 h-4 text-[var(--color-magma)]" /> {novel._count.chapters} فصول</div>
-                        <div className="flex items-center gap-1.5"><Users className="w-4 h-4 text-[var(--color-milky-blue)]" /> {novel._count.characters} شخصيات</div>
+                        <div className="flex items-center gap-1.5"><BookOpen className="w-4 h-4 text-[var(--theme-primary)]" /> {novel._count.chapters} فصول</div>
+                        <div className="flex items-center gap-1.5"><Users className="w-4 h-4 text-[var(--theme-secondary)]" /> {novel._count.characters} شخصيات</div>
                       </div>
 
                         <div className="flex flex-col gap-3">
@@ -105,11 +105,11 @@ export default async function PublicNovelsPage({ searchParams }: { searchParams:
                             <Link href={`/chapters?novelId=${novel.id}`} className="w-full text-center py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold transition-colors border border-white/5 hover:border-white/20 shadow-sm font-cairo text-sm">
                               الفصول
                             </Link>
-                            <Link href={`/community?novelId=${novel.id}`} className="w-full text-center py-3 rounded-xl bg-[var(--color-milky-blue)]/10 hover:bg-[var(--color-milky-blue)]/20 border border-[var(--color-milky-blue)]/30 text-[var(--color-milky-blue)] hover:text-white font-bold transition-colors shadow-[0_0_15px_rgba(169,196,235,0.1)] font-cairo text-sm flex items-center justify-center gap-1.5">
+                            <Link href={`/community?novelId=${novel.id}`} className="w-full text-center py-3 rounded-xl bg-[var(--theme-secondary)]/10 hover:bg-[var(--theme-secondary)]/20 border border-[var(--theme-secondary)]/30 text-[var(--theme-secondary)] hover:text-white font-bold transition-colors shadow-[0_0_15px_var(--theme-secondary)]/10 font-cairo text-sm flex items-center justify-center gap-1.5">
                               <Users className="w-4 h-4" /> مجتمع القراء
                             </Link>
                           </div>
-                          <Link href={`/chat?novelId=${novel.id}`} className="w-full text-center py-3 rounded-xl bg-[var(--color-magma)]/10 hover:bg-[var(--color-magma)] border border-[var(--color-magma)]/30 hover:border-[var(--color-magma)] text-[var(--color-magma)] hover:text-white font-bold transition-all flex items-center justify-center gap-2 font-cairo group/btn shadow-[0_0_15px_var(--color-magma)]/10 hover:shadow-[0_0_25px_var(--color-magma)]/40 text-sm">
+                          <Link href={`/chat?novelId=${novel.id}`} className="w-full text-center py-3 rounded-xl bg-[var(--theme-primary)]/10 hover:bg-[var(--theme-primary)] border border-[var(--theme-primary)]/30 hover:border-[var(--theme-primary)] text-[var(--theme-primary)] hover:text-white font-bold transition-all flex items-center justify-center gap-2 font-cairo group/btn shadow-[0_0_15px_var(--theme-primary)]/10 hover:shadow-[0_0_25px_var(--theme-primary)]/40 text-sm">
                             <Sparkles className="w-5 h-5 group-hover/btn:animate-spin" /> محادثة الذكاء الاصطناعي
                           </Link>
                         </div>

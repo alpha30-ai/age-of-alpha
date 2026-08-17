@@ -47,17 +47,32 @@ export async function updateAdminProfile(formData: FormData) {
 export async function updateSettings(formData: FormData) {
   const isMaintenanceMode = formData.get("isMaintenanceMode") === "true";
   const maintenanceMessage = formData.get("maintenanceMessage") as string;
+  const openAiApiKey = formData.get("openAiApiKey") as string;
+  const geminiApiKey = formData.get("geminiApiKey") as string;
+  const cloudinaryCloudName = formData.get("cloudinaryCloudName") as string;
+  const cloudinaryApiKey = formData.get("cloudinaryApiKey") as string;
+  const cloudinaryApiSecret = formData.get("cloudinaryApiSecret") as string;
 
   await prisma.systemSettings.upsert({
     where: { id: "default" },
     update: {
       isMaintenanceMode,
       maintenanceMessage,
+      openAiApiKey,
+      geminiApiKey,
+      cloudinaryCloudName,
+      cloudinaryApiKey,
+      cloudinaryApiSecret,
     },
     create: {
       id: "default",
       isMaintenanceMode,
       maintenanceMessage,
+      openAiApiKey,
+      geminiApiKey,
+      cloudinaryCloudName,
+      cloudinaryApiKey,
+      cloudinaryApiSecret,
     },
   });
 
