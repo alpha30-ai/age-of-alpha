@@ -27,6 +27,8 @@ export default async function RootLayout({
           --theme-primary-dark: ${theme.primaryColor || '#E64A19'};
           --theme-secondary-dark: ${theme.secondaryColor || '#A9C4EB'};
           --theme-text-dark: ${theme.textColor || '#F8FAFC'};
+          --theme-heading-color: ${theme.headingColor || '#FFFFFF'};
+          --theme-border-color: ${theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
         }
       `;
     }

@@ -33,7 +33,7 @@ export default async function AdminDashboard() {
         </div>
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="text-center md:text-right">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--color-theme-heading)] mb-3 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
               <Flame className="w-8 h-8 sm:w-10 sm:h-10 text-[var(--theme-primary)] animate-pulse" />
               لوحة القيادة الملكية
             </h1>
@@ -77,9 +77,9 @@ export default async function AdminDashboard() {
       {/* Recent Activity Sections */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Recent Chapters */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
-            <h3 className="text-xl font-bold text-white flex items-center gap-2">
+        <div className="bg-white/5 border border-[var(--color-theme-border)] rounded-2xl p-6 backdrop-blur-xl">
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--color-theme-border)]">
+            <h3 className="text-xl font-bold text-[var(--color-theme-heading)] flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-[var(--theme-primary)]" />
               أحدث المخطوطات
             </h3>
@@ -107,9 +107,9 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Recent Social Content */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
-            <h3 className="text-xl font-bold text-white flex items-center gap-2">
+        <div className="bg-white/5 border border-[var(--color-theme-border)] rounded-2xl p-6 backdrop-blur-xl">
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--color-theme-border)]">
+            <h3 className="text-xl font-bold text-[var(--color-theme-heading)] flex items-center gap-2">
               <Share2 className="w-5 h-5 text-rose-400" />
               المحتوى التسويقي
             </h3>
@@ -138,9 +138,9 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Recent Users */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
-            <h3 className="text-xl font-bold text-white flex items-center gap-2">
+        <div className="bg-white/5 border border-[var(--color-theme-border)] rounded-2xl p-6 backdrop-blur-xl">
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--color-theme-border)]">
+            <h3 className="text-xl font-bold text-[var(--color-theme-heading)] flex items-center gap-2">
               <Users className="w-5 h-5 text-blue-400" />
               المنضمين الجدد
             </h3>

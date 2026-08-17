@@ -90,6 +90,8 @@ model SiteTheme {
   secondaryColor  String @default("#A9C4EB") // milky-blue
   backgroundColor String @default("#050505") // abyss
   textColor       String @default("#B0BEC5") // silver-ash
+  headingColor    String @default("#FFFFFF") // white
+  borderColor     String @default("rgba(255,255,255,0.1)") // standard border
   
   // Epic Banner Fields
   bannerTitle       String @default("عهد ألفا")

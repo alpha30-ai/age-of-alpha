@@ -45,7 +45,7 @@ export async function updateAdminProfile(formData: FormData) {
 }
 
 export async function updateSettings(formData: FormData) {
-  const isMaintenanceMode = formData.get("isMaintenanceMode") === "true";
+  const isMaintenanceMode = formData.getAll("isMaintenanceMode").includes("true");
   const maintenanceMessage = formData.get("maintenanceMessage") as string;
   const openAiApiKey = formData.get("openAiApiKey") as string;
   const geminiApiKey = formData.get("geminiApiKey") as string;

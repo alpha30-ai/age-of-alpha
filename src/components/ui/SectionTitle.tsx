@@ -14,7 +14,7 @@ export default function SectionTitle({ title, subtitle, accent = 'magma' }: Sect
 
   return (
     <div className="text-center mb-12">
-      <h2 className={`font-cairo font-bold text-3xl md:text-4xl ${accentColorClass} mb-4`} style={glowStyle}>
+      <h2 className={`font-cairo font-bold text-3xl md:text-4xl text-[var(--color-theme-heading)] mb-4`} style={glowStyle}>
         {title}
       </h2>
       {subtitle && (

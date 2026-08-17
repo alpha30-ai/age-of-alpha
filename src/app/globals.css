@@ -18,6 +18,9 @@
   --color-stone-dark: color-mix(in srgb, var(--theme-bg-dark, #050505) 95%, white 5%);
   --color-stone: color-mix(in srgb, var(--theme-bg-dark, #050505) 90%, white 10%);
   --color-stone-light: color-mix(in srgb, var(--theme-bg-dark, #050505) 80%, white 20%);
+  
+  --color-theme-heading: var(--theme-heading-color, #FFFFFF);
+  --color-theme-border: var(--theme-border-color, rgba(255, 255, 255, 0.1));
   --font-family-tajawal: 'Tajawal', sans-serif;
   --font-family-cairo: 'Cairo', sans-serif;
   --font-family-amiri: 'Amiri', serif;

@@ -30,13 +30,13 @@ export default function SettingsForm({ defaultSettings }: { defaultSettings: any
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden"
+        className="bg-white/5 backdrop-blur-xl border border-[var(--color-theme-border)] rounded-3xl p-8 shadow-2xl relative overflow-hidden"
       >
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[var(--color-theme-border)]">
           <div className="p-2 bg-red-500/10 rounded-lg">
             <ShieldAlert className="w-6 h-6 text-red-400" />
           </div>
-          <h2 className="text-2xl font-bold text-white">وضع الصيانة</h2>
+          <h2 className="text-2xl font-bold text-[var(--color-theme-heading)]">وضع الصيانة</h2>
         </div>
         
         <div className="space-y-6">
@@ -76,13 +76,13 @@ export default function SettingsForm({ defaultSettings }: { defaultSettings: any
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden"
+        className="bg-white/5 backdrop-blur-xl border border-[var(--color-theme-border)] rounded-3xl p-8 shadow-2xl relative overflow-hidden"
       >
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[var(--color-theme-border)]">
           <div className="p-2 bg-blue-500/10 rounded-lg">
             <ShieldAlert className="w-6 h-6 text-blue-400" />
           </div>
-          <h2 className="text-2xl font-bold text-white">مفاتيح الربط البرمجية (API Keys)</h2>
+          <h2 className="text-2xl font-bold text-[var(--color-theme-heading)]">مفاتيح الربط البرمجية (API Keys)</h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -42,7 +42,7 @@ export default function AboutSection({ characters = [] }: { characters?: any[] }
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="relative bg-stone-dark/80 backdrop-blur-2xl border border-silver-ash/10 rounded-[2.5rem] p-8 md:p-16 mb-24 overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+          className="relative bg-stone-dark/80 backdrop-blur-2xl border border-[var(--color-theme-border)] rounded-[2.5rem] p-8 md:p-16 mb-24 overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
         >
           {/* Ambient inner glow */}
           <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-[var(--theme-primary)]/10 to-transparent pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-1000" />
@@ -55,9 +55,9 @@ export default function AboutSection({ characters = [] }: { characters?: any[] }
                 <span className="w-2.5 h-2.5 rounded-full bg-[var(--theme-primary)] animate-pulse shadow-[0_0_10px_var(--theme-primary)]" />
                 <span className="text-gray-200 font-bold text-sm tracking-widest uppercase">عن الملحمة</span>
               </div>
-              <h2 className="font-amiri font-black text-6xl sm:text-7xl lg:text-8xl text-silver-ash mb-6 leading-[1.1] drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] relative z-10">
+              <h2 className="font-amiri font-black text-6xl sm:text-7xl lg:text-8xl text-[var(--color-theme-heading)] mb-6 leading-[1.1] drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] relative z-10">
                 ما وراء <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-l from-silver-ash via-[var(--theme-primary)] to-silver-ash-light drop-shadow-2xl">
+                <span className="text-[var(--color-theme-heading)] bg-clip-text drop-shadow-2xl">
                   الدماء والرماد
                 </span>
               </h2>
@@ -85,17 +85,17 @@ export default function AboutSection({ characters = [] }: { characters?: any[] }
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               key={index}
-              className={`relative bg-stone-dark border border-silver-ash/5 rounded-[2rem] p-8 hover:bg-stone hover:border-[var(--theme-primary)]/40 transition-all duration-500 group shadow-xl hover:shadow-[0_15px_50px_-15px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)] overflow-hidden ${
+              className={`relative bg-stone-dark border border-[var(--color-theme-border)] rounded-[2rem] p-8 hover:bg-stone hover:border-[var(--theme-primary)]/40 transition-all duration-500 group shadow-xl hover:shadow-[0_15px_50px_-15px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)] overflow-hidden ${
                 index === 0 ? 'md:col-span-7' : index === 1 ? 'md:col-span-5' : index === 2 ? 'md:col-span-5' : 'md:col-span-7'
               }`}
             >
               {/* Shine effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-silver-ash/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               
-              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500 border border-silver-ash/5 group-hover:border-[var(--theme-primary)]/30 group-hover:bg-[var(--theme-primary)]/10 shadow-inner">
+              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500 border border-[var(--color-theme-border)] group-hover:border-[var(--theme-primary)]/30 group-hover:bg-[var(--theme-primary)]/10 shadow-inner">
                 <feature.icon className="w-8 h-8 text-gray-500 group-hover:text-[var(--theme-primary)] transition-colors duration-500 drop-shadow-md" />
               </div>
-              <h4 className="font-cairo font-black text-2xl sm:text-3xl text-silver-ash mb-4 group-hover:text-[var(--theme-primary)] transition-colors duration-300 tracking-wide">
+              <h4 className="font-cairo font-black text-2xl sm:text-3xl text-[var(--color-theme-heading)] mb-4 group-hover:text-[var(--theme-primary)] transition-colors duration-300 tracking-wide">
                 {feature.title}
               </h4>
               <p className="text-gray-400 text-lg leading-relaxed font-tajawal group-hover:text-gray-300 transition-colors">
@@ -116,7 +116,7 @@ export default function AboutSection({ characters = [] }: { characters?: any[] }
           >
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
               <div>
-                <h3 className="font-amiri font-bold text-5xl sm:text-6xl text-silver-ash mb-6 drop-shadow-lg">
+                <h3 className="font-amiri font-bold text-5xl sm:text-6xl text-[var(--color-theme-heading)] mb-6 drop-shadow-lg">
                   أبطال <span className="text-[var(--theme-primary)]">الملحمة</span>
                 </h3>
                 <p className="text-gray-400 font-tajawal text-xl max-w-2xl leading-relaxed">
@@ -155,7 +155,7 @@ export default function AboutSection({ characters = [] }: { characters?: any[] }
                           {char.title}
                         </span>
                       )}
-                      <h4 className="text-3xl font-black font-cairo text-silver-ash drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)] mb-3 group-hover:text-[var(--theme-primary)] transition-colors duration-300">
+                      <h4 className="text-3xl font-black font-cairo text-[var(--color-theme-heading)] drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)] mb-3 group-hover:text-[var(--theme-primary)] transition-colors duration-300">
                         {char.name}
                       </h4>
                       <p className="text-gray-300 font-tajawal text-base line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200">
