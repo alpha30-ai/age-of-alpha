@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Novel } from '@prisma/client';
+import type { Novel } from '@prisma/client';
 import CreatePostForm from '@/components/community/CreatePostForm';
 import PostCard from '@/components/community/PostCard';
 import { Loader2, MessageSquareOff } from 'lucide-react';

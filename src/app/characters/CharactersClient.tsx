@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, Variants, AnimatePresence } from "framer-motion";
-import { Character } from "@prisma/client";
+import type { Character } from "@prisma/client";
 import SearchInput from '@/components/ui/SearchInput';
 import ViewToggle from '@/components/ui/ViewToggle';
 import { Shield, Zap, Brain, Users } from "lucide-react";
