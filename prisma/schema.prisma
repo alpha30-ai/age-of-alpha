@@ -92,6 +92,8 @@ model SiteTheme {
   textColor       String @default("#B0BEC5") // silver-ash
   headingColor    String @default("#FFFFFF") // white
   borderColor     String @default("rgba(255,255,255,0.1)") // standard border
+  cardOpacity     Float  @default(0.8) // For glassmorphism control
+  buttonOpacity   Float  @default(1.0) // For button opacity control
   
   // Epic Banner Fields
   bannerTitle       String @default("عهد ألفا")
@@ -116,6 +118,7 @@ model Novel {
   characters  Character[]
   videos      VideoMedia[]
   communityPosts CommunityPost[]
+  chatSessions   ChatSession[]
 }
 
 model Chapter {
@@ -251,4 +254,30 @@ model SystemSettings {
   maintenanceMessage    String?  @db.Text
   
   updatedAt             DateTime @updatedAt
+}
+
+model ChatSession {
+  id        String   @id @default(cuid())
+  userId    String?  // Optional, if users can be guests or logged out
+  novelId   String
+  novel     Novel    @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  messages  ChatMessage[]
+}
+
+model ChatMessage {
+  id            String   @id @default(cuid())
+  sessionId     String
+  session       ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role          String   // 'user' | 'model'
+  content       String   @db.Text
+  createdAt     DateTime @default(now())
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
 }

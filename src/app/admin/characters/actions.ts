@@ -16,6 +16,7 @@ export async function createCharacter(formData: FormData) {
   const intelligence = parseInt(formData.get('intelligence') as string) || 50;
   const sortOrder = parseInt(formData.get('sortOrder') as string) || 0;
   const imageUrl = formData.get('imageUrl') as string;
+  const novelId = formData.get('novelId') as string || null;
 
   await prisma.character.create({
     data: {
@@ -29,6 +30,7 @@ export async function createCharacter(formData: FormData) {
       intelligence,
       sortOrder,
       imageUrl,
+      novelId,
     }
   });
 
@@ -58,6 +60,7 @@ export async function updateCharacter(formData: FormData) {
   const intelligence = parseInt(formData.get('intelligence') as string) || 50;
   const sortOrder = parseInt(formData.get('sortOrder') as string) || 0;
   const imageUrl = formData.get('imageUrl') as string;
+  const novelId = formData.get('novelId') as string || null;
 
   const updateData: any = {
     name,
@@ -69,6 +72,7 @@ export async function updateCharacter(formData: FormData) {
     magic,
     intelligence,
     sortOrder,
+    novelId,
   };
 
   if (imageUrl) {

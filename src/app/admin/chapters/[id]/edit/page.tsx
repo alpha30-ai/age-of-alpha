@@ -18,11 +18,24 @@ export default function EditChapterPage({ params }: { params: Promise<{ id: stri
     content: '',
     audioUrl: '',
     authorNote: '',
+    novelId: '',
   });
+  const [novels, setNovels] = useState<any[]>([]);
 
   useEffect(() => {
     fetchChapter();
+    fetchNovels();
   }, [id]);
+
+  const fetchNovels = async () => {
+    try {
+      const res = await fetch('/api/admin/novels');
+      if (res.ok) {
+        const data = await res.json();
+        setNovels(data);
+      }
+    } catch (e) {}
+  };
 
   const fetchChapter = async () => {
     try {
@@ -35,6 +48,7 @@ export default function EditChapterPage({ params }: { params: Promise<{ id: stri
         content: data.content,
         audioUrl: data.audioUrl || '',
         authorNote: data.authorNote || '',
+        novelId: data.novelId || '',
       });
     } catch (err: any) {
       setError(err.message);
@@ -129,6 +143,22 @@ export default function EditChapterPage({ params }: { params: Promise<{ id: stri
                 className="w-full bg-abyss-lighter border border-stone rounded-lg px-4 py-3 text-silver-ash focus:border-magma focus:outline-none transition-colors"
               />
             </div>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-cairo font-bold text-silver-ash-light mb-2">
+              الرواية (اختياري)
+            </label>
+            <select
+              value={form.novelId}
+              onChange={(e) => setForm({ ...form, novelId: e.target.value })}
+              className="w-full bg-abyss-lighter border border-stone rounded-lg px-4 py-3 text-silver-ash focus:border-magma focus:outline-none transition-colors"
+            >
+              <option value="">-- بدون رواية --</option>
+              {novels.map(novel => (
+                <option key={novel.id} value={novel.id}>{novel.title}</option>
+              ))}
+            </select>
           </div>
 
           <div>

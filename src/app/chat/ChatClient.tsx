@@ -26,10 +26,11 @@ export default function ChatClient() {
   const [selectedNovel, setSelectedNovel] = useState<Novel | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { id: 'welcome', role: 'model', content: 'أهلاً بك أيها المستكشف. أنا حارس سجلات هذه العوالم. اختر الرواية التي تود التحدث عنها وسأجيب على كافة أسئلتك بلسان شخصياتها وتاريخها السري.' }
+    { id: 'welcome', role: 'model', content: 'أهلاً بك أيها المستكشف. أنا حارس سجلات هذه العوالم. اختر الرواية التي تود التحدث عنها وسأجيب على كافة أسئلتك بلسان شخصياتها وتاريخها السري. 🔮⚔️' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId, setSessionId] = useState<string>('');
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -52,6 +53,38 @@ export default function ChatClient() {
       })
       .catch(() => toast.error('فشل في جلب الروايات'));
   }, [initialNovelId]);
+
+  // Handle Session and load previous messages when novel changes
+  useEffect(() => {
+    if (!selectedNovel) return;
+    
+    // Get or generate a session ID specific to this novel
+    const storageKey = `chat_session_${selectedNovel.id}`;
+    let sid = localStorage.getItem(storageKey);
+    if (!sid) {
+      sid = 'session_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+      localStorage.setItem(storageKey, sid);
+    }
+    setSessionId(sid);
+
+    // Fetch previous messages for this session
+    fetch(`/api/chat/session?sessionId=${sid}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.messages && data.messages.length > 0) {
+          setMessages([
+            { id: 'welcome', role: 'model', content: `مرحباً بعودتك إلى سجلات "${selectedNovel.title}". المخطوطات جاهزة... 📜` },
+            ...data.messages
+          ]);
+        } else {
+          setMessages([
+            { id: 'welcome', role: 'model', content: `أهلاً بك في سجلات "${selectedNovel.title}". تفضل بطرح أسئلتك... 👁️` }
+          ]);
+        }
+      })
+      .catch(e => console.error('Error fetching chat history:', e));
+
+  }, [selectedNovel]);
 
   // Fix scrolling issue by scrolling only the container, not the window
   useEffect(() => {
@@ -90,6 +123,7 @@ export default function ChatClient() {
         body: JSON.stringify({
           novelId: selectedNovel.id,
           message: userMsg,
+          sessionId: sessionId,
           history: messages.slice(1) // exclude welcome message
         })
       });

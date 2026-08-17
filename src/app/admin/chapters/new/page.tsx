@@ -2,8 +2,12 @@ import { Save, X } from "lucide-react";
 import Link from "next/link";
 import { createChapter } from "../actions";
 import FileUploadInput from "@/components/ui/FileUploadInput";
+import prisma from "@/lib/prisma";
 
-export default function NewChapterPage() {
+export default async function NewChapterPage() {
+  const novels = await prisma.novel.findMany({
+    orderBy: { createdAt: 'desc' }
+  });
   return (
     <div className="max-w-4xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div>
@@ -24,7 +28,7 @@ export default function NewChapterPage() {
             />
           </div>
           
-          <div className="space-y-2 md:col-span-3">
+          <div className="space-y-2 md:col-span-2">
             <label htmlFor="title" className="block text-sm font-bold text-gray-300">عنوان الفصل</label>
             <input 
               type="text" 
@@ -34,6 +38,20 @@ export default function NewChapterPage() {
               placeholder="مثال: صحوة الصهارة"
               className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[var(--theme-primary)]/50 focus:shadow-[0_0_15px_rgba(var(--theme-primary-rgb),0.2)] transition-all font-bold" 
             />
+          </div>
+          
+          <div className="space-y-2 md:col-span-1">
+            <label htmlFor="novelId" className="block text-sm font-bold text-gray-300">الرواية (اختياري)</label>
+            <select
+              id="novelId"
+              name="novelId"
+              className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all font-bold"
+            >
+              <option value="">-- بدون رواية --</option>
+              {novels.map(novel => (
+                <option key={novel.id} value={novel.id}>{novel.title}</option>
+              ))}
+            </select>
           </div>
         </div>
 

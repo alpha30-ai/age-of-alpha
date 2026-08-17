@@ -17,6 +17,8 @@ export async function updateTheme(formData: FormData) {
 
   const headingColor = formData.get("headingColor") as string;
   const borderColor = formData.get("borderColor") as string;
+  const cardOpacity = parseFloat(formData.get("cardOpacity") as string || "0.8");
+  const buttonOpacity = parseFloat(formData.get("buttonOpacity") as string || "1.0");
 
   await prisma.siteTheme.upsert({
     where: { id: "default" },
@@ -27,6 +29,8 @@ export async function updateTheme(formData: FormData) {
       textColor,
       headingColor,
       borderColor,
+      cardOpacity,
+      buttonOpacity,
       bannerTitle,
       bannerSubtitle,
       bannerImageUrl,
@@ -40,6 +44,8 @@ export async function updateTheme(formData: FormData) {
       textColor,
       headingColor,
       borderColor,
+      cardOpacity,
+      buttonOpacity,
       bannerTitle,
       bannerSubtitle,
       bannerImageUrl,

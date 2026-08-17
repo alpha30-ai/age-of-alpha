@@ -13,6 +13,7 @@ export async function createVideo(formData: FormData) {
   const thumbnail = formData.get("thumbnail") as string || null;
   const isHostedStr = formData.getAll("isHosted");
   const isHosted = isHostedStr.includes("true");
+  const novelId = formData.get("novelId") as string || null;
 
   if (!title || !videoUrl) return;
 
@@ -23,6 +24,7 @@ export async function createVideo(formData: FormData) {
       videoUrl,
       thumbnail,
       isHosted,
+      novelId,
     },
   });
 
@@ -39,6 +41,7 @@ export async function updateVideo(formData: FormData) {
   const thumbnail = formData.get("thumbnail") as string || null;
   const isHostedStr = formData.getAll("isHosted");
   const isHosted = isHostedStr.includes("true");
+  const novelId = formData.get("novelId") as string || null;
 
   if (!id || !title || !videoUrl) return;
 
@@ -50,6 +53,7 @@ export async function updateVideo(formData: FormData) {
       videoUrl,
       thumbnail,
       isHosted,
+      novelId,
     },
   });
 

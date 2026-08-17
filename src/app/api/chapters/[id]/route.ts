@@ -24,7 +24,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;
   try {
     const body = await request.json();
-    const { chapterNum, title, content, authorNote, audioUrl } = body;
+    const { chapterNum, title, content, authorNote, audioUrl, novelId } = body;
 
     const chapter = await prisma.chapter.update({
       where: { id },
@@ -33,6 +33,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         ...(title && { title }),
         ...(content && { content }),
         ...(authorNote !== undefined && { authorNote }),
+        ...(novelId !== undefined && { novelId: novelId || null }),
         audioUrl: audioUrl || null,
       },
     });

@@ -2,8 +2,12 @@ import { Save, X } from "lucide-react";
 import Link from "next/link";
 import { createVideo } from "../actions";
 import FileUploadInput from "@/components/ui/FileUploadInput";
+import prisma from "@/lib/prisma";
 
-export default function NewVideoPage() {
+export default async function NewVideoPage() {
+  const novels = await prisma.novel.findMany({
+    orderBy: { createdAt: 'desc' }
+  });
   return (
     <div className="max-w-4xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div>
@@ -24,14 +28,30 @@ export default function NewVideoPage() {
           />
         </div>
         
-        <div className="space-y-2">
-          <label htmlFor="description" className="block text-sm font-bold text-gray-300">الوصف (اختياري)</label>
-          <textarea 
-            id="description" 
-            name="description" 
-            rows={4}
-            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-gray-200 focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all resize-y" 
-          ></textarea>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <label htmlFor="description" className="block text-sm font-bold text-gray-300">الوصف (اختياري)</label>
+            <textarea 
+              id="description" 
+              name="description" 
+              rows={4}
+              className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-gray-200 focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all resize-y" 
+            ></textarea>
+          </div>
+          
+          <div className="space-y-2">
+            <label htmlFor="novelId" className="block text-sm font-bold text-gray-300">الرواية (اختياري)</label>
+            <select
+              id="novelId"
+              name="novelId"
+              className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all font-bold"
+            >
+              <option value="">-- بدون رواية --</option>
+              {novels.map(novel => (
+                <option key={novel.id} value={novel.id}>{novel.title}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

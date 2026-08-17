@@ -13,6 +13,7 @@ export async function createChapter(formData: FormData) {
   const authorNote = formData.get("authorNote") as string || null;
   const imageUrl = formData.get("imageUrl") as string || null;
   const audioUrl = formData.get("audioUrl") as string || null;
+  const novelId = formData.get("novelId") as string || null;
 
   if (!title || !content || isNaN(chapterNum)) return;
 
@@ -24,6 +25,7 @@ export async function createChapter(formData: FormData) {
       authorNote,
       imageUrl,
       audioUrl,
+      novelId,
     },
   });
 
@@ -41,6 +43,7 @@ export async function updateChapter(formData: FormData) {
   const authorNote = formData.get("authorNote") as string || null;
   const imageUrl = formData.get("imageUrl") as string || null;
   const audioUrl = formData.get("audioUrl") as string || null;
+  const novelId = formData.get("novelId") as string || null;
 
   if (!id || !title || !content || isNaN(chapterNum)) return;
 
@@ -53,6 +56,7 @@ export async function updateChapter(formData: FormData) {
       authorNote,
       imageUrl,
       audioUrl,
+      novelId,
     },
   });
 

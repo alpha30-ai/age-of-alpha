@@ -12,6 +12,9 @@ export default async function EditVideoPage({ params }: { params: Promise<{ id: 
   const video = await prisma.videoMedia.findUnique({
     where: { id: resolvedParams.id }
   });
+  const novels = await prisma.novel.findMany({
+    orderBy: { createdAt: 'desc' }
+  });
 
   if (!video) {
     notFound();
@@ -39,15 +42,32 @@ export default async function EditVideoPage({ params }: { params: Promise<{ id: 
           />
         </div>
         
-        <div className="space-y-2">
-          <label htmlFor="description" className="block text-sm font-bold text-gray-300">الوصف (اختياري)</label>
-          <textarea 
-            id="description" 
-            name="description" 
-            rows={4}
-            defaultValue={video.description || ""}
-            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-gray-200 focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all resize-y" 
-          ></textarea>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <label htmlFor="description" className="block text-sm font-bold text-gray-300">الوصف (اختياري)</label>
+            <textarea 
+              id="description" 
+              name="description" 
+              rows={4}
+              defaultValue={video.description || ""}
+              className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-gray-200 focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all resize-y" 
+            ></textarea>
+          </div>
+          
+          <div className="space-y-2">
+            <label htmlFor="novelId" className="block text-sm font-bold text-gray-300">الرواية (اختياري)</label>
+            <select
+              id="novelId"
+              name="novelId"
+              defaultValue={video.novelId || ""}
+              className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all font-bold"
+            >
+              <option value="">-- بدون رواية --</option>
+              {novels.map(novel => (
+                <option key={novel.id} value={novel.id}>{novel.title}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

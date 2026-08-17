@@ -21,6 +21,9 @@
   
   --color-theme-heading: var(--theme-heading-color, #FFFFFF);
   --color-theme-border: var(--theme-border-color, rgba(255, 255, 255, 0.1));
+  --theme-card-opacity: 0.8;
+  --theme-button-opacity: 1.0;
+  
   --font-family-tajawal: 'Tajawal', sans-serif;
   --font-family-cairo: 'Cairo', sans-serif;
   --font-family-amiri: 'Amiri', serif;

@@ -1,11 +1,41 @@
 'use client';
 
-import { Flame, MessageCircle, Globe, Play, Code2, Heart, Sparkles } from 'lucide-react';
+import { Flame, MessageCircle, Globe, Play, Code2, Heart, Sparkles, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) {
+      toast.error('يرجى إدخال البريد الإلكتروني');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      
+      toast.success(data.message);
+      setEmail('');
+    } catch (err: any) {
+      toast.error(err.message || 'حدث خطأ أثناء التسجيل');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <footer className="relative bg-abyss text-gray-400 overflow-hidden font-tajawal">
@@ -79,19 +109,23 @@ export default function Footer() {
             <p className="text-sm leading-relaxed text-gray-400">
               احصل على مخطوطات حصرية وتسريبات من داخل إمارة الصدأ مباشرة إلى بريدك السحري.
             </p>
-            <form className="relative group">
+            <form onSubmit={handleSubscribe} className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--theme-primary)] to-purple-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
               <div className="relative flex p-1 bg-stone-dark rounded-xl border border-silver-ash/10">
                 <input 
                   type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="بريدك الإلكتروني..." 
                   className="w-full bg-transparent border-none px-4 text-silver-ash placeholder:text-gray-600 focus:outline-none focus:ring-0 text-sm"
+                  disabled={isSubmitting}
                 />
                 <button 
-                  type="button" 
-                  className="shrink-0 px-6 py-3 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-silver-ash font-bold text-sm rounded-lg shadow-[0_0_15px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)] transition-all transform hover:scale-105"
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="shrink-0 px-6 py-3 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-silver-ash font-bold text-sm rounded-lg shadow-[0_0_15px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)] transition-all transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[100px]"
                 >
-                  اشتراك
+                  {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'اشتراك'}
                 </button>
               </div>
             </form>

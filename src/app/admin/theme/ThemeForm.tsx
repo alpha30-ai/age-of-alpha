@@ -147,6 +147,57 @@ export default function ThemeForm({ defaultTheme }: { defaultTheme: any }) {
         </div>
       </motion.div>
 
+      {/* Opacity Section */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+        className="bg-white/5 backdrop-blur-xl border border-[var(--color-theme-border)] rounded-3xl p-8 shadow-2xl relative overflow-hidden"
+      >
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[var(--color-theme-border)]">
+          <div className="p-2 bg-blue-500/10 rounded-lg">
+            <ImageIcon className="w-6 h-6 text-blue-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-[var(--color-theme-heading)]">التحكم بالشفافية (Transparency)</h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-4">
+            <label className="flex justify-between text-sm font-bold text-gray-300">
+              <span>شفافية البطاقات (Cards Opacity)</span>
+              <span id="cardOpacityValue">{defaultTheme.cardOpacity ?? 0.8}</span>
+            </label>
+            <input 
+              type="range" 
+              id="cardOpacity" 
+              name="cardOpacity" 
+              min="0" max="1" step="0.05" 
+              defaultValue={defaultTheme.cardOpacity ?? 0.8}
+              onChange={(e) => document.getElementById('cardOpacityValue')!.innerText = e.target.value}
+              className="w-full accent-[var(--theme-primary)]" 
+            />
+            <p className="text-xs text-gray-500">يتحكم في مدى شفافية خلفية الصناديق والبطاقات في الموقع</p>
+          </div>
+          
+          <div className="space-y-4">
+            <label className="flex justify-between text-sm font-bold text-gray-300">
+              <span>شفافية الأزرار (Buttons Opacity)</span>
+              <span id="buttonOpacityValue">{defaultTheme.buttonOpacity ?? 1.0}</span>
+            </label>
+            <input 
+              type="range" 
+              id="buttonOpacity" 
+              name="buttonOpacity" 
+              min="0.1" max="1" step="0.05" 
+              defaultValue={defaultTheme.buttonOpacity ?? 1.0}
+              onChange={(e) => document.getElementById('buttonOpacityValue')!.innerText = e.target.value}
+              className="w-full accent-[var(--theme-primary)]" 
+            />
+            <p className="text-xs text-gray-500">يتحكم في مدى شفافية خلفية الأزرار الرئيسية</p>
+          </div>
+        </div>
+      </motion.div>
+
       {/* Banner Section */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}

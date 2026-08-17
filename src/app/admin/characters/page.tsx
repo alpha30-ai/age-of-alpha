@@ -9,6 +9,10 @@ export default async function CharactersPage() {
     ]
   });
 
+  const novels = await prisma.novel.findMany({
+    orderBy: { createdAt: 'desc' }
+  });
+
   return (
     <div className="space-y-8" dir="rtl">
       <div>
@@ -16,7 +20,7 @@ export default async function CharactersPage() {
         <p className="text-gray-400">إضافة وتعديل وحذف شخصيات عالم عهد ألفا.</p>
       </div>
 
-      <CharacterClient initialCharacters={characters} />
+      <CharacterClient initialCharacters={characters} novels={novels} />
     </div>
   );
 }

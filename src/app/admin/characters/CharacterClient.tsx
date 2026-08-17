@@ -22,7 +22,7 @@ interface Character {
   imageUrl: string | null;
 }
 
-export default function CharacterClient({ initialCharacters }: { initialCharacters: Character[] }) {
+export default function CharacterClient({ initialCharacters, novels }: { initialCharacters: Character[], novels: any[] }) {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -72,6 +72,15 @@ export default function CharacterClient({ initialCharacters }: { initialCharacte
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-300">الفصيل</label>
             <input name="faction" className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/50 transition-all" placeholder="مثال: إمارة الصدأ" />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-300">الرواية (اختياري)</label>
+            <select name="novelId" className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/50 transition-all">
+              <option value="" className="bg-[#111]">-- بدون رواية --</option>
+              {novels.map(novel => (
+                <option key={novel.id} value={novel.id} className="bg-[#111]">{novel.title}</option>
+              ))}
+            </select>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-300">الانتماء (حليف/عدو)</label>

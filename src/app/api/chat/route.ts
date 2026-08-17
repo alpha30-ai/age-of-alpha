@@ -4,10 +4,10 @@ import prisma from '@/lib/prisma';
 
 export async function POST(request: Request) {
   try {
-    const { novelId, message, history } = await request.json();
+    const { novelId, message, history, sessionId } = await request.json();
 
-    if (!novelId || !message) {
-      return NextResponse.json({ error: 'Missing novelId or message' }, { status: 400 });
+    if (!novelId || !message || !sessionId) {
+      return NextResponse.json({ error: 'Missing novelId, message, or sessionId' }, { status: 400 });
     }
 
     // Get API Key
@@ -43,10 +43,13 @@ export async function POST(request: Request) {
       contextStr += `فصل ${c.chapterNum} - ${c.title}:\n${c.content.substring(0, 500)}...\n\n`;
     });
 
-    contextStr += `تعليمات هامة:\n`;
+    contextStr += `تعليمات هامة جداً:\n`;
     contextStr += `1. أجب على أسئلة القارئ بدقة شديدة بناءً على المعلومات المقدمة فقط.\n`;
     contextStr += `2. استخدم أسلوباً مشوقاً، احترافياً، وغامضاً يناسب جو الفانتازيا المظلمة (Dark Fantasy).\n`;
     contextStr += `3. لا تقم بحرق أحداث لم يتم ذكرها في السياق، وتحدث وكأنك تعيش داخل هذا العالم.\n`;
+    contextStr += `4. لا تستخدم أبداً علامة النجمة (*) أو الـ Markdown (مثل **نص**) في ردودك بأي شكل من الأشكال.\n`;
+    contextStr += `5. استخدم الرموز التعبيرية (Emojis) بشكل مناسب لجو الفانتازيا المظلمة (مثل ⚔️، 🔮، 🏰، 🔥، 👑، 👁️) لجعل النص أكثر احترافية وجاذبية.\n`;
+    contextStr += `6. قسم إجاباتك إلى فقرات واضحة وقصيرة لتسهيل القراءة.\n`;
 
     const genAI = new GoogleGenerativeAI(settings.geminiApiKey);
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash', systemInstruction: contextStr });
@@ -59,7 +62,28 @@ export async function POST(request: Request) {
 
     const chat = model.startChat({ history: formattedHistory });
     const result = await chat.sendMessage(message);
-    const text = result.response.text();
+    let text = result.response.text();
+    
+    // Fallback manual replace in case model disobeys and uses asterisks
+    text = text.replace(/\*/g, '');
+
+    // Save to DB
+    let session = await prisma.chatSession.findUnique({ where: { id: sessionId } });
+    if (!session) {
+      session = await prisma.chatSession.create({
+        data: {
+          id: sessionId,
+          novelId: novelId,
+        }
+      });
+    }
+
+    await prisma.chatMessage.createMany({
+      data: [
+        { sessionId: sessionId, role: 'user', content: message },
+        { sessionId: sessionId, role: 'model', content: text }
+      ]
+    });
 
     return NextResponse.json({ reply: text });
 
