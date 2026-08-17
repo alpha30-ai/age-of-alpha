@@ -28,18 +28,21 @@ export default async function PublicNovelsPage({ searchParams }: { searchParams:
   });
 
   return (
-    <main className="min-h-screen bg-[#050505] flex flex-col relative z-0">
+    <main className="bg-[#050505] overflow-x-hidden w-full max-w-[100vw] min-h-screen relative flex flex-col">
         <Navbar />
         
-        <div className="flex-1 pt-32 pb-24">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <PageBanner 
-              title="مكتبة العوالم"
-              subtitle="اكتشف عوالمنا الملحمية، اقرأ الفصول، وتعرف على الشخصيات، أو تحدث مع الذكاء الاصطناعي الخاص بكل رواية."
-              icon={<BookOpen className="w-8 h-8 text-[var(--theme-primary)]" />}
-              backgroundImage="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop"
-            />
+        <PageBanner 
+          title="مكتبة العوالم"
+          subtitle="اكتشف عوالمنا الملحمية، اقرأ الفصول، وتعرف على الشخصيات، أو تحدث مع الذكاء الاصطناعي الخاص بكل رواية."
+          icon={<BookOpen className="w-8 h-8 text-[var(--theme-primary)]" />}
+          backgroundImage="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop"
+        />
 
+        <div className="pb-20 px-4 flex-1 relative w-full">
+          <div className="absolute top-0 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[var(--color-magma)]/10 rounded-full blur-[150px] pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-blue-900/10 rounded-full blur-[150px] pointer-events-none" />
+          
+          <div className="max-w-7xl mx-auto relative z-10 w-full mt-[-40px]">
             {/* Search Bar */}
             <div className="max-w-2xl mx-auto mb-16 animate-slide-up" style={{ animationDelay: '100ms' }}>
               <form className="relative flex items-center group">
