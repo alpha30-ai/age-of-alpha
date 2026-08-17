@@ -28,53 +28,53 @@ export default async function AdminDashboard() {
   return (
     <div className="space-y-8" dir="rtl">
       {/* Epic Royal Command Center */}
-      <div className="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-[#0a0a0a] to-[#151515] border border-white/10 shadow-2xl group min-h-[300px] flex items-center">
+      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#0a0a0a] to-[#151515] border border-white/10 shadow-2xl group flex items-center min-h-[220px]">
         
         {/* Animated Background Layers */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 right-0 w-[70%] h-full bg-gradient-to-l from-[var(--theme-primary)]/20 to-transparent opacity-90" />
-          <div className="absolute bottom-[-20%] left-[-10%] w-[60%] h-[120%] bg-[var(--theme-secondary)]/10 blur-[120px] rounded-full mix-blend-screen animate-pulse" />
-          <div className="absolute top-1/4 right-1/4 w-[50%] h-[60%] bg-[var(--theme-primary)]/10 blur-[100px] rounded-full mix-blend-screen" />
-          <div className="absolute inset-0 bg-[linear-gradient(var(--theme-primary)_1px,transparent_1px),linear-gradient(90deg,var(--theme-primary)_1px,transparent_1px)] bg-[size:40px_40px] opacity-[0.03]" />
+          <div className="absolute top-0 right-0 w-[50%] h-full bg-gradient-to-l from-[var(--theme-primary)]/15 to-transparent opacity-80" />
+          <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[100%] bg-[var(--theme-secondary)]/10 blur-[100px] rounded-full mix-blend-screen animate-pulse" />
+          <div className="absolute top-1/4 right-1/4 w-[40%] h-[50%] bg-[var(--theme-primary)]/5 blur-[80px] rounded-full mix-blend-screen" />
+          <div className="absolute inset-0 bg-[linear-gradient(var(--theme-primary)_1px,transparent_1px),linear-gradient(90deg,var(--theme-primary)_1px,transparent_1px)] bg-[size:30px_30px] opacity-[0.02]" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-90" />
         </div>
         
-        <div className="relative z-10 w-full p-8 md:p-14 flex flex-col lg:flex-row items-center justify-between gap-12">
+        <div className="relative z-10 w-full p-6 md:p-8 lg:p-10 flex flex-col lg:flex-row items-center justify-between gap-8">
           
           {/* Text & Status */}
           <div className="text-center lg:text-right flex-1 w-full">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md shadow-lg">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981]" />
-              <span className="text-xs font-bold text-gray-300 font-tajawal tracking-wide">النظام الملكي متصل ويعمل بكفاءة</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-4 backdrop-blur-md shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
+              <span className="text-[10px] sm:text-xs font-bold text-gray-300 font-tajawal tracking-wide">النظام الملكي متصل ويعمل بكفاءة</span>
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 font-cairo tracking-tight drop-shadow-xl">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 font-cairo tracking-tight drop-shadow-lg">
               مركز القيادة <span className="text-transparent bg-clip-text bg-gradient-to-br from-[var(--theme-primary)] to-rose-400">الملكي</span>
             </h1>
             
-            <p className="text-gray-400 text-lg md:text-xl font-tajawal max-w-2xl leading-relaxed mx-auto lg:mx-0">
-              مرحباً بك في غرفة العمليات المركزية. من هنا يمكنك إدارة الإمبراطورية، نشر الفصول، تخصيص المظهر، والتحكم في مصير العوالم بأكملها.
+            <p className="text-gray-400 text-sm md:text-base font-tajawal max-w-xl leading-relaxed mx-auto lg:mx-0">
+              مرحباً بك في غرفة العمليات المركزية. من هنا يمكنك إدارة الإمبراطورية، نشر الفصول، تخصيص المظهر، والتحكم في مصير العوالم.
             </p>
           </div>
           
           {/* Quick Actions Panel */}
-          <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto shrink-0 relative z-20">
+          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto shrink-0 relative z-20">
             <Link 
               href="/admin/chapters/new" 
-              className="flex items-center justify-center gap-3 bg-gradient-to-br from-[var(--theme-primary)] to-[#c53912] text-white px-8 py-5 rounded-2xl font-cairo font-bold text-lg hover:scale-[1.02] transition-all shadow-[0_0_30px_var(--theme-primary)]/30 hover:shadow-[0_0_50px_var(--theme-primary)]/50 group/btn border border-white/10"
+              className="flex items-center justify-center gap-2 bg-gradient-to-br from-[var(--theme-primary)] to-[#c53912] text-white px-6 py-3.5 rounded-xl font-cairo font-bold text-sm md:text-base hover:scale-[1.02] transition-all shadow-[0_0_20px_var(--theme-primary)]/20 hover:shadow-[0_0_30px_var(--theme-primary)]/40 group/btn border border-white/10"
             >
-              <div className="bg-white/20 p-2 rounded-xl group-hover/btn:rotate-90 transition-transform duration-300">
-                <Plus className="w-5 h-5" />
+              <div className="bg-white/20 p-1.5 rounded-lg group-hover/btn:rotate-90 transition-transform duration-300">
+                <Plus className="w-4 h-4" />
               </div>
               مخطوطة جديدة
             </Link>
             
             <Link 
               href="/admin/theme" 
-              className="flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 px-8 py-5 rounded-2xl font-cairo font-bold text-lg hover:scale-[1.02] transition-all backdrop-blur-md shadow-lg"
+              className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 px-6 py-3.5 rounded-xl font-cairo font-bold text-sm md:text-base hover:scale-[1.02] transition-all backdrop-blur-md shadow-sm"
             >
-              <div className="bg-white/10 p-2 rounded-xl">
-                <Palette className="w-5 h-5 text-gray-300" />
+              <div className="bg-white/10 p-1.5 rounded-lg">
+                <Palette className="w-4 h-4 text-gray-300" />
               </div>
               مظهر المنصة
             </Link>
