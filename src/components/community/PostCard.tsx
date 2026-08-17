@@ -132,7 +132,7 @@ export default function PostCard({ post, currentUser, onDeleted }: PostCardProps
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      className="bg-[#111]/80 backdrop-blur-xl border border-white/5 rounded-3xl p-6 shadow-xl relative group hover:border-[var(--color-magma)]/30 transition-all duration-300 overflow-hidden w-full"
+      className="bg-[#111]/80 backdrop-blur-xl border border-white/5 rounded-3xl p-6 shadow-xl relative group hover:border-[var(--color-magma)]/30 transition-all duration-300 overflow-hidden w-full inline-block break-inside-avoid mb-6"
       dir="rtl"
     >
       {/* Background Glow on Hover */}
