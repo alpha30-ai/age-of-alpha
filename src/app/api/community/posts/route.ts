@@ -8,16 +8,19 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const novelId = searchParams.get('novelId');
 
-    if (!novelId) {
-      return NextResponse.json({ error: 'Missing novelId parameter' }, { status: 400 });
-    }
-
     const posts = await prisma.communityPost.findMany({
-      where: { novelId },
+      where: novelId ? { novelId } : undefined, // If novelId is not provided, fetch all posts
       orderBy: { createdAt: 'desc' },
       include: {
         user: {
           select: { name: true, image: true, role: true, rank: true }
+        },
+        novel: {
+          select: { title: true }
+        },
+        likes: true,
+        _count: {
+          select: { comments: true }
         }
       }
     });

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BookOpen, Users, Film, Palette, ArrowRight, ChevronRight, ChevronLeft, Menu, X, Settings, Flame, UserCircle, MessageSquare, Share2, Library } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Users, Film, Palette, ArrowRight, ChevronRight, ChevronLeft, Menu, X, Settings, Flame, UserCircle, MessageSquare, Share2, Library, Video } from 'lucide-react';
 
 export default function AdminSidebar({ user }: { user?: any }) {
   const pathname = usePathname();
@@ -15,11 +15,11 @@ export default function AdminSidebar({ user }: { user?: any }) {
     { href: '/admin/novels', label: 'الروايات', icon: Library, color: 'text-cyan-400' },
     { href: '/admin/chapters', label: 'الفصول', icon: BookOpen, color: 'text-orange-400' },
     { href: '/admin/characters', label: 'الشخصيات', icon: Users, color: 'text-purple-400' },
-    { href: '/admin/videos', label: 'الفيديوهات', icon: Film, color: 'text-emerald-400' },
-    { href: '/admin/community', label: 'مجتمع القراء', icon: Users, color: 'text-yellow-400' },
+    { href: '/admin/videos', label: 'السجلات المرئية', icon: Video, color: 'text-emerald-400' },
+    { href: '/admin/community', label: 'مجتمع القراء', icon: MessageSquare, color: 'text-yellow-400' },
     { href: '/admin/theme', label: 'المظهر', icon: Palette, color: 'text-orange-400' },
     { href: '/admin/users', label: 'المستخدمين', icon: UserCircle, color: 'text-indigo-400' },
-    { href: '/admin/comments', label: 'التعليقات', icon: MessageSquare, color: 'text-pink-400' },
+    { href: '/admin/comments', label: 'التعليقات والمراجعات', icon: MessageSquare, color: 'text-pink-400' },
     { href: '/admin/social', label: 'النشر والتسويق', icon: Share2, color: 'text-rose-400' },
     { href: '/admin/backup', label: 'النسخ الاحتياطي', icon: Settings, color: 'text-gray-400' },
     { href: '/admin/settings', label: 'إعدادات النظام', icon: Flame, color: 'text-red-500' },

@@ -25,6 +25,7 @@ export default function Navbar() {
     { href: '/chapters', label: 'الفصول', icon: BookOpen },
     { href: '/characters', label: 'الأبطال', icon: Users },
     { href: '/videos', label: 'المرئيات', icon: Film },
+    { href: '/community', label: 'المجتمع', icon: Users },
   ];
 
   return (

@@ -34,15 +34,11 @@ export default async function RootLayout({
 
     if (theme) {
       themeStyles = `
-        .dark {
-          --theme-bg-dark: ${theme.backgroundColor || '#050505'};
-          --theme-primary-dark: ${theme.primaryColor || '#E64A19'};
-          --theme-secondary-dark: ${theme.secondaryColor || '#A9C4EB'};
-          --theme-text-dark: ${theme.textColor || '#F8FAFC'};
-          --theme-heading-color: ${theme.headingColor || '#FFFFFF'};
-          --theme-border-color: ${theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
-          --theme-card-opacity: ${theme.cardOpacity ?? 0.8};
-          --theme-button-opacity: ${theme.buttonOpacity ?? 1.0};
+        :root {
+          --theme-bg: ${theme.backgroundColor || '#050505'};
+          --theme-primary: ${theme.primaryColor || '#E64A19'};
+          --theme-secondary: ${theme.secondaryColor || '#A9C4EB'};
+          --theme-text: ${theme.textColor || '#F8FAFC'};
         }
       `;
     }
@@ -51,7 +47,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning className="dark">
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

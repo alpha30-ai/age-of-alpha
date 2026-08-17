@@ -57,6 +57,8 @@ model User {
   comments      Comment[]
   videoComments VideoComment[]
   communityPosts CommunityPost[]
+  communityPostLikes CommunityPostLike[]
+  communityPostComments CommunityPostComment[]
 }
 
 model VerificationToken {
@@ -90,10 +92,6 @@ model SiteTheme {
   secondaryColor  String @default("#A9C4EB") // milky-blue
   backgroundColor String @default("#050505") // abyss
   textColor       String @default("#B0BEC5") // silver-ash
-  headingColor    String @default("#FFFFFF") // white
-  borderColor     String @default("rgba(255,255,255,0.1)") // standard border
-  cardOpacity     Float  @default(0.8) // For glassmorphism control
-  buttonOpacity   Float  @default(1.0) // For button opacity control
   
   // Epic Banner Fields
   bannerTitle       String @default("عهد ألفا")
@@ -165,6 +163,31 @@ model CommunityPost {
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  
+  likes       CommunityPostLike[]
+  comments    CommunityPostComment[]
+}
+
+model CommunityPostLike {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String
+  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+}
+
+model CommunityPostComment {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String
+  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model VideoMedia {
