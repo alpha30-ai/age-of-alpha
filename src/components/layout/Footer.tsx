@@ -90,11 +90,16 @@ export default function Footer() {
               روابط سريعة
             </h3>
             <ul className="space-y-4">
-              {['الرئيسية', 'دليل الفصول', 'أبطال الملحمة', 'السجلات المرئية'].map((item, idx) => (
+              {[
+                { name: 'الرئيسية', path: '/' }, 
+                { name: 'دليل الفصول', path: '/chapters' }, 
+                { name: 'أبطال الملحمة', path: '/characters' }, 
+                { name: 'السجلات المرئية', path: '/videos' }
+              ].map((item, idx) => (
                 <li key={idx}>
-                  <Link href="#" className="group flex items-center gap-2 text-sm text-gray-400 hover:text-silver-ash transition-colors w-fit">
+                  <Link href={item.path} className="group flex items-center gap-2 text-sm text-gray-400 hover:text-silver-ash transition-colors w-fit">
                     <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[var(--theme-primary)] transition-colors" />
-                    {item}
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -146,7 +151,7 @@ export default function Footer() {
         ======================================== 
       */}
       <a 
-        href="https://workspace-mh.vercel.app/" 
+        href="https://workspace-mh.vercel.app/?page=home" 
         target="_blank" 
         rel="noopener noreferrer"
         className="block relative w-full overflow-hidden border-t border-silver-ash/5 bg-abyss group cursor-pointer"
@@ -160,7 +165,7 @@ export default function Footer() {
         {/* Ambient Glow from bottom */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[300px] h-[50px] bg-[var(--theme-primary)]/20 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
-        <div className="max-w-7xl mx-auto px-6 py-6 md:py-8 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 py-6 md:py-8 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 relative z-10">
           
           {/* Icon and Prefix */}
           <div className="flex items-center gap-3">
@@ -175,7 +180,7 @@ export default function Footer() {
 
           {/* Developer Name */}
           <div className="flex items-center gap-3">
-            <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-silver-ash to-gray-500 group-hover:from-silver-ash group-hover:to-white transition-all tracking-[0.3em] text-xl sm:text-2xl drop-shadow-lg">
+            <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-silver-ash via-white to-gray-500 group-hover:from-white group-hover:via-silver-ash group-hover:to-[var(--theme-primary)] transition-all duration-500 tracking-[0.3em] text-xl sm:text-2xl drop-shadow-lg">
               MOHAMED HASHISH
             </span>
             <Sparkles className="w-6 h-6 text-yellow-500 opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity duration-300 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />

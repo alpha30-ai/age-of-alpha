@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Send, Bot, User, Loader2, Sparkles, ChevronDown, Check, Book, Sword, ScrollText, Eye, Plus, MessageSquare, Menu, X } from 'lucide-react';
+import { Send, Bot, User, Loader2, Sparkles, ChevronDown, Check, Book, Sword, ScrollText, Eye, Plus, MessageSquare, Menu, X, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -136,6 +136,36 @@ export default function ChatClient() {
     localStorage.setItem(`chat_history_${selectedNovel.id}`, JSON.stringify(updatedSessions));
     setCurrentSessionId(newSessionId);
     if (window.innerWidth < 1024) setIsSidebarOpen(false);
+  };
+
+  const handleDeleteSession = async (e: React.MouseEvent, sessionId: string) => {
+    e.stopPropagation();
+    if (!selectedNovel) return;
+    
+    const updatedSessions = sessions.filter(s => s.id !== sessionId);
+    setSessions(updatedSessions);
+    localStorage.setItem(`chat_history_${selectedNovel.id}`, JSON.stringify(updatedSessions));
+    
+    if (currentSessionId === sessionId) {
+      if (updatedSessions.length > 0) {
+        setCurrentSessionId(updatedSessions[0].id);
+      } else {
+        // Create a new session automatically if we deleted the last one
+        const newSessionId = 'session_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+        const newSession: ChatSessionMeta = { id: newSessionId, title: 'محادثة جديدة', date: Date.now() };
+        setSessions([newSession]);
+        localStorage.setItem(`chat_history_${selectedNovel.id}`, JSON.stringify([newSession]));
+        setCurrentSessionId(newSessionId);
+      }
+    }
+
+    try {
+      await fetch(`/api/chat/session?sessionId=${sessionId}`, { method: 'DELETE' });
+      toast.success('تم حذف المحادثة');
+    } catch (err) {
+      console.error(err);
+      toast.error('فشل الحذف');
+    }
   };
 
   // Scroll to bottom
@@ -321,21 +351,29 @@ export default function ChatClient() {
         {/* Sessions List */}
         <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-2 custom-scrollbar z-10">
           {sessions.map(session => (
-            <button
-              key={session.id}
-              onClick={() => { setCurrentSessionId(session.id); if(window.innerWidth < 1024) setIsSidebarOpen(false); }}
-              className={`w-full text-right p-3 rounded-xl border flex items-start gap-3 transition-all ${
-                currentSessionId === session.id 
-                  ? 'bg-white/10 border-white/20' 
-                  : 'bg-transparent border-transparent hover:bg-white/5'
-              }`}
-            >
-              <MessageSquare className={`w-5 h-5 shrink-0 mt-0.5 ${currentSessionId === session.id ? 'text-[var(--theme-primary)]' : 'text-gray-500'}`} />
-              <div className="overflow-hidden">
-                <p className="text-sm text-white font-bold truncate">{session.title}</p>
-                <p className="text-xs text-gray-500 mt-1">{new Date(session.date).toLocaleDateString('ar-SA')}</p>
-              </div>
-            </button>
+            <div key={session.id} className="relative group flex items-center w-full">
+              <button
+                onClick={() => { setCurrentSessionId(session.id); if(window.innerWidth < 1024) setIsSidebarOpen(false); }}
+                className={`w-full text-right p-3 pl-10 rounded-xl border flex items-start gap-3 transition-all ${
+                  currentSessionId === session.id 
+                    ? 'bg-white/10 border-white/20' 
+                    : 'bg-transparent border-transparent hover:bg-white/5'
+                }`}
+              >
+                <MessageSquare className={`w-5 h-5 shrink-0 mt-0.5 ${currentSessionId === session.id ? 'text-[var(--theme-primary)]' : 'text-gray-500'}`} />
+                <div className="overflow-hidden w-full">
+                  <p className="text-sm text-white font-bold truncate pr-1">{session.title}</p>
+                  <p className="text-xs text-gray-500 mt-1">{new Date(session.date).toLocaleDateString('ar-SA')}</p>
+                </div>
+              </button>
+              <button
+                onClick={(e) => handleDeleteSession(e, session.id)}
+                className="absolute left-2 p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                title="حذف المحادثة"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
           ))}
         </div>
       </motion.aside>

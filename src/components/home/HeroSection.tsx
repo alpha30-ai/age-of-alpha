@@ -144,7 +144,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
           {/* Epic Title */}
           <motion.h1 
             variants={itemVariants} 
-            className="font-cairo font-black text-6xl sm:text-7xl md:text-8xl lg:text-[10rem] text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 mb-2 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] leading-none"
+            className="font-cairo font-black text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 mb-2 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] leading-tight"
           >
             {title}
           </motion.h1>
@@ -152,7 +152,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
           {/* Subtitle */}
           <motion.h2 
             variants={itemVariants} 
-            className="font-amiri font-bold text-3xl md:text-5xl lg:text-6xl text-[var(--theme-primary)] mb-8 drop-shadow-[0_0_15px_var(--theme-primary)]"
+            className="font-amiri font-bold text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-[var(--theme-primary)] mb-8 drop-shadow-[0_0_15px_var(--theme-primary)] leading-snug"
           >
             {subtitle}
           </motion.h2>
@@ -160,7 +160,7 @@ export default function HeroSection({ theme }: { theme?: any }) {
           {/* Logline */}
           <motion.p 
             variants={itemVariants} 
-            className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-16 leading-loose font-tajawal font-medium drop-shadow-xl backdrop-blur-sm bg-black/20 p-6 rounded-3xl border border-white/5"
+            className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-16 leading-relaxed font-tajawal font-medium drop-shadow-xl backdrop-blur-sm bg-black/20 p-4 sm:p-6 rounded-3xl border border-white/5"
           >
             {theme?.bannerDescription || "من بين أنقاض الألم، وُلدت إمبراطورية لا تعرف الرحمة... عهدٌ تُكتب قوانينه بالدم، وتُدفع ضرائبه بالولاء المطلق."}
           </motion.p>
