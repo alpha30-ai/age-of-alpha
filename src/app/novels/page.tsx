@@ -31,14 +31,25 @@ export default async function PublicNovelsPage({ searchParams }: { searchParams:
         
         <div className="flex-1 pt-32 pb-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div className="text-center mb-12 animate-slide-up">
-              <h1 className="text-4xl md:text-5xl font-bold font-cairo text-white mb-4 tracking-wide">
-                مكتبة <span className="text-[var(--theme-primary)]">العوالم</span>
-              </h1>
-              <p className="text-xl text-gray-400 max-w-2xl mx-auto font-tajawal">
-                اكتشف عوالمنا الملحمية، اقرأ الفصول، وتعرف على الشخصيات، أو تحدث مع الذكاء الاصطناعي الخاص بكل رواية.
-              </p>
+            {/* Cinematic Banner */}
+            <div className="relative w-full h-[300px] sm:h-[400px] rounded-3xl overflow-hidden mb-16 shadow-[0_0_40px_rgba(0,0,0,0.8)] border border-[var(--theme-primary)]/20 animate-slide-up group">
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center filter brightness-50 group-hover:brightness-75 group-hover:scale-105 transition-all duration-1000" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[var(--theme-primary)]/20 to-transparent mix-blend-overlay" />
+              
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 z-10">
+                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-black/40 backdrop-blur-md border border-[var(--theme-primary)]/30 mb-6">
+                  <BookOpen className="w-4 h-4 text-[var(--theme-primary)]" />
+                  <span className="text-[var(--theme-primary)] font-bold text-sm tracking-widest uppercase">الروايات المتاحة</span>
+                  <BookOpen className="w-4 h-4 text-[var(--theme-primary)]" />
+                </div>
+                <h1 className="text-5xl md:text-7xl font-black font-cairo text-white mb-4 drop-shadow-[0_0_20px_var(--theme-primary)]">
+                  مكتبة <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-[var(--theme-primary)]">العوالم</span>
+                </h1>
+                <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto font-tajawal drop-shadow-lg font-medium">
+                  اكتشف عوالمنا الملحمية، اقرأ الفصول، وتعرف على الشخصيات، أو تحدث مع الذكاء الاصطناعي الخاص بكل رواية لتغوص في عمق القصة.
+                </p>
+              </div>
             </div>
 
             {/* Search Bar */}

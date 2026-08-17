@@ -43,20 +43,53 @@ export default function HeroSection({ theme }: { theme?: any }) {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 2, ease: "easeOut" }}
           className="absolute inset-0"
-          style={{ backgroundImage: `url(${backgroundUrl})`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(0.6) contrast(1.2)' }}
+          style={{ backgroundImage: `url(${backgroundUrl})`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(0.85) contrast(1.1)' }}
         />
         
-        {/* Fog & Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-transparent to-[#050505]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050505]/90 via-[#050505]/40 to-[#050505]/90" />
+        {/* Fog & Gradient Overlays - Reduced Opacity for Better Image Visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/20 to-[#050505]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050505]/70 via-transparent to-[#050505]/70" />
         
         {/* Dynamic Glows */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] max-w-[1200px] max-h-[1200px] bg-[var(--theme-primary)]/10 blur-[150px] rounded-full mix-blend-screen animate-pulse pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] max-w-[1200px] max-h-[1200px] bg-[var(--theme-primary)]/15 blur-[150px] rounded-full mix-blend-screen animate-pulse pointer-events-none" />
         <div className="absolute bottom-0 left-1/4 w-[60vw] h-[60vw] bg-black blur-[120px] rounded-full mix-blend-multiply pointer-events-none" />
 
-        {/* Floating Particles (Embers / Magic Dust) */}
+        {/* Floating Icons */}
         {isMounted && (
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
+            <motion.div
+              animate={{ y: [-20, 20, -20], rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute top-[20%] left-[15%] opacity-30 text-[var(--theme-primary)] blur-[1px]"
+            >
+              <Shield className="w-24 h-24" />
+            </motion.div>
+            
+            <motion.div
+              animate={{ y: [20, -20, 20], rotate: [0, -15, 15, 0] }}
+              transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+              className="absolute bottom-[30%] right-[10%] opacity-20 text-[var(--theme-primary)] blur-[2px]"
+            >
+              <BookOpen className="w-32 h-32" />
+            </motion.div>
+            
+            <motion.div
+              animate={{ y: [-15, 15, -15], rotate: [0, 5, -5, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+              className="absolute top-[40%] right-[20%] opacity-40 text-[var(--theme-primary)]"
+            >
+              <Flame className="w-16 h-16" />
+            </motion.div>
+            
+            <motion.div
+              animate={{ y: [15, -15, 15], rotate: [0, -20, 20, 0], scale: [1, 1.1, 1] }}
+              transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+              className="absolute bottom-[20%] left-[25%] opacity-20 text-white blur-[1px]"
+            >
+              <Sparkles className="w-20 h-20" />
+            </motion.div>
+
+            {/* Floating Particles (Embers / Magic Dust) */}
             {[...Array(40)].map((_, i) => (
               <motion.div
                 key={i}
