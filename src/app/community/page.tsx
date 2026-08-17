@@ -16,8 +16,9 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-export default async function CommunityPage({ searchParams }: { searchParams: { novelId?: string } }) {
-  const novelId = searchParams?.novelId;
+export default async function CommunityPage({ searchParams }: { searchParams: Promise<{ novelId?: string }> }) {
+  const resolvedParams = await searchParams;
+  const novelId = resolvedParams?.novelId;
   const session = await getServerSession(authOptions);
 
   let novel = null;

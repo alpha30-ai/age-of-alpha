@@ -14,12 +14,13 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-export default async function ChaptersPage({ searchParams }: { searchParams: { q?: string; novelId?: string } }) {
+export default async function ChaptersPage({ searchParams }: { searchParams: Promise<{ q?: string; novelId?: string }> }) {
+  const resolvedParams = await searchParams;
+  const query = resolvedParams?.q || '';
+  const novelId = resolvedParams?.novelId || undefined;
   let chapters: any[] = [];
   let novels: any[] = [];
   let theme: any = null;
-  const query = searchParams?.q || '';
-  const novelId = searchParams?.novelId || undefined;
 
   try {
     const [fetchedChapters, fetchedTheme, fetchedNovels] = await Promise.all([

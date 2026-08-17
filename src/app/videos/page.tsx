@@ -11,12 +11,14 @@ export const metadata: Metadata = {
   description: 'شاهد الفيديوهات الترويجية والموسيقى الملحمية لرواية عهد ألفا.',
 };
 
-export default async function VideosPage({ searchParams }: { searchParams: { q?: string; novelId?: string } }) {
+export default async function VideosPage({ searchParams }: { searchParams: Promise<{ q?: string; novelId?: string }> }) {
+  const resolvedParams = await searchParams;
+  const query = resolvedParams?.q || '';
+  const novelId = resolvedParams?.novelId || undefined;
+  
   let videos: any[] = [];
   let novels: any[] = [];
   let theme: any = null;
-  const query = searchParams?.q || '';
-  const novelId = searchParams?.novelId || undefined;
 
   try {
     const [fetchedVideos, fetchedTheme, fetchedNovels] = await Promise.all([

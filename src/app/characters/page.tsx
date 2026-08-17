@@ -11,9 +11,10 @@ export const metadata: Metadata = {
   description: "استعرض شخصيات ملحمة الدول المائة",
 };
 
-export default async function CharactersPage({ searchParams }: { searchParams: { q?: string; novelId?: string } }) {
-  const query = searchParams?.q || '';
-  const novelId = searchParams?.novelId || undefined;
+export default async function CharactersPage({ searchParams }: { searchParams: Promise<{ q?: string; novelId?: string }> }) {
+  const resolvedParams = await searchParams;
+  const query = resolvedParams?.q || '';
+  const novelId = resolvedParams?.novelId || undefined;
   
   let characters: any[] = [];
   let novels: any[] = [];

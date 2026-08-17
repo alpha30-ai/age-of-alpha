@@ -8,8 +8,9 @@ import PageBanner from '@/components/ui/PageBanner';
 
 export const dynamic = 'force-dynamic';
 
-export default async function PublicNovelsPage({ searchParams }: { searchParams: { q?: string } }) {
-  const query = searchParams.q || '';
+export default async function PublicNovelsPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+  const resolvedParams = await searchParams;
+  const query = resolvedParams?.q || '';
   
   const novels = await prisma.novel.findMany({
     where: {
