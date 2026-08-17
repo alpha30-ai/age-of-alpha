@@ -16,19 +16,16 @@ export const dynamic = 'force-dynamic';
 
 export default async function ChaptersPage({ searchParams }: { searchParams: { q?: string; novelId?: string } }) {
   let chapters: any[] = [];
+  let novels: any[] = [];
   let theme: any = null;
   const query = searchParams?.q || '';
   const novelId = searchParams?.novelId || undefined;
 
-  if (!novelId && !query) {
-    import('next/navigation').then((mod) => mod.redirect('/novels'));
-  }
-
   try {
-    const [fetchedChapters, fetchedTheme] = await Promise.all([
+    const [fetchedChapters, fetchedTheme, fetchedNovels] = await Promise.all([
       prisma.chapter.findMany({
         where: {
-          ...(novelId ? { novelId } : {}),
+          ...(novelId && novelId !== 'all' ? { novelId } : {}),
           ...(query ? {
             OR: [
               { title: { contains: query, mode: 'insensitive' } },
@@ -41,12 +38,17 @@ export default async function ChaptersPage({ searchParams }: { searchParams: { q
       }),
       prisma.siteTheme.findUnique({
         where: { id: "default" }
+      }),
+      prisma.novel.findMany({
+        orderBy: { createdAt: 'desc' }
       })
     ]);
     chapters = fetchedChapters;
     theme = fetchedTheme;
+    novels = fetchedNovels;
   } catch (error) {
     chapters = [];
+    novels = [];
   }
 
   const bgImage = theme?.bannerImageUrl || 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?q=80&w=2000&auto=format&fit=crop';
@@ -68,7 +70,7 @@ export default async function ChaptersPage({ searchParams }: { searchParams: { q
           <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-blue-900/10 rounded-full blur-[150px] pointer-events-none" />
           
           <div className="max-w-7xl mx-auto relative z-10 w-full">
-            <ChaptersClient initialChapters={chapters} initialQuery={query} novelId={novelId} />
+            <ChaptersClient initialChapters={chapters} initialQuery={query} initialNovelId={novelId} novels={novels} />
           </div>
         </div>
         <Footer />

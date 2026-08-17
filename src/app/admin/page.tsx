@@ -27,20 +27,20 @@ export default async function AdminDashboard() {
 
   return (
     <div className="space-y-8" dir="rtl">
-      <div className="bg-gradient-to-r from-[var(--theme-primary)]/20 to-transparent p-8 rounded-3xl border border-[var(--theme-primary)]/30 relative overflow-hidden">
-        <div className="absolute -left-10 -top-10 opacity-10">
+      <div className="bg-white/5 p-8 rounded-xl border border-[var(--theme-primary)]/30 relative overflow-hidden shadow-lg">
+        <div className="absolute -left-10 -top-10 opacity-5">
           <Flame className="w-64 h-64 text-[var(--theme-primary)]" />
         </div>
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="text-center md:text-right">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--color-theme-heading)] mb-3 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
-              <Flame className="w-8 h-8 sm:w-10 sm:h-10 text-[var(--theme-primary)] animate-pulse" />
+              <Flame className="w-8 h-8 sm:w-10 sm:h-10 text-[var(--theme-primary)]" />
               لوحة القيادة الملكية
             </h1>
-            <p className="text-gray-300 text-sm sm:text-base md:text-lg">مرحباً بك في مركز التحكم بملحمة الدول المائة. كل شيء رهن إشارتك.</p>
+            <p className="text-gray-400 text-sm sm:text-base md:text-lg">مرحباً بك في مركز التحكم بملحمة الدول المائة. كل شيء رهن إشارتك.</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto mt-4 md:mt-0">
-            <Link href="/admin/chapters/new" className="w-full sm:w-auto justify-center bg-[var(--theme-primary)] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-[0_0_15px_var(--theme-primary)]/30 hover:shadow-[0_0_25px_var(--theme-primary)]/50 transition-all hover:scale-105 active:scale-95">
+            <Link href="/admin/chapters/new" className="w-full sm:w-auto justify-center bg-[var(--theme-primary)] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-[var(--theme-primary-dark)] transition-colors shadow-md">
               <Plus className="w-5 h-5" />
               مخطوطة جديدة
             </Link>
@@ -58,18 +58,16 @@ export default async function AdminDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, i) => (
-          <div key={i} className="relative overflow-hidden rounded-2xl bg-white/5 border border-white/5 p-6 backdrop-blur-xl shadow-lg hover:shadow-2xl hover:border-[var(--theme-primary)]/30 transition-all duration-300 group">
+          <div key={i} className="relative overflow-hidden rounded-xl bg-white/5 border border-white/5 p-6 shadow-md hover:border-[var(--theme-primary)]/30 transition-all duration-300 group">
             <div className="flex items-center justify-between relative z-10">
               <div>
                 <p className="text-gray-400 text-sm font-medium mb-1">{stat.label}</p>
                 <p className="text-4xl font-bold text-white group-hover:text-[var(--theme-primary)] transition-colors">{stat.count}</p>
               </div>
-              <div className={`p-4 rounded-xl ${stat.bg} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-inner group-hover:bg-[var(--theme-primary)]/20`}>
-                <stat.icon className={`w-8 h-8 ${stat.color} group-hover:text-[var(--theme-primary)] transition-colors drop-shadow-md`} />
+              <div className={`p-4 rounded-xl ${stat.bg} transition-colors duration-300 shadow-inner group-hover:bg-[var(--theme-primary)]/20`}>
+                <stat.icon className={`w-8 h-8 ${stat.color} group-hover:text-[var(--theme-primary)] transition-colors drop-shadow-sm`} />
               </div>
             </div>
-            {/* Soft ambient glow effect instead of a sharp line */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[var(--theme-primary)]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
           </div>
         ))}
       </div>

@@ -29,46 +29,38 @@ export default function AboutSection({ characters = [] }: { characters?: any[] }
   ];
 
   return (
-    <section className="py-32 bg-abyss relative overflow-hidden border-t border-silver-ash/5">
-      {/* Background Ornaments */}
-      <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-[var(--theme-primary)]/5 rounded-full blur-[180px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[1000px] h-[1000px] bg-[var(--theme-secondary)]/5 rounded-full blur-[180px] translate-y-1/2 -translate-x-1/3 pointer-events-none" />
-
+    <section className="py-24 bg-abyss border-t border-[var(--color-theme-border)] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Story Cinematic Panel */}
         <motion.div 
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="relative bg-stone-dark/80 backdrop-blur-2xl border border-[var(--color-theme-border)] rounded-[2.5rem] p-8 md:p-16 mb-24 overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+          transition={{ duration: 0.6 }}
+          className="relative bg-stone-dark border border-[var(--color-theme-border)] rounded-xl p-8 md:p-12 mb-20 shadow-lg"
         >
-          {/* Ambient inner glow */}
-          <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-[var(--theme-primary)]/10 to-transparent pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-1000" />
-          
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             <div className="lg:col-span-5 relative">
-              <div className="absolute -inset-10 bg-gradient-to-r from-[var(--theme-primary)]/20 to-transparent blur-3xl opacity-40 rounded-full" />
-              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-[var(--theme-primary)]/30 mb-8 shadow-[0_0_20px_color-mix(in_srgb,var(--theme-primary)_30%,transparent)] relative z-10">
-                <span className="w-2.5 h-2.5 rounded-full bg-[var(--theme-primary)] animate-pulse shadow-[0_0_10px_var(--theme-primary)]" />
-                <span className="text-gray-200 font-bold text-sm tracking-widest uppercase">عن الملحمة</span>
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded bg-white/5 border border-white/10 mb-6">
+                <span className="w-2 h-2 rounded-full bg-[var(--theme-primary)]" />
+                <span className="text-gray-300 font-bold text-sm tracking-widest uppercase">عن الملحمة</span>
               </div>
-              <h2 className="font-amiri font-black text-6xl sm:text-7xl lg:text-8xl text-[var(--color-theme-heading)] mb-6 leading-[1.1] drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] relative z-10">
+              <h2 className="font-amiri font-bold text-5xl sm:text-6xl text-[var(--color-theme-heading)] mb-6 leading-tight">
                 ما وراء <br/>
-                <span className="text-[var(--color-theme-heading)] bg-clip-text drop-shadow-2xl">
+                <span className="text-[var(--theme-primary)]">
                   الدماء والرماد
                 </span>
               </h2>
-              <div className="w-40 h-2 bg-gradient-to-l from-[var(--theme-primary)] to-transparent rounded-full shadow-[0_0_20px_var(--theme-primary)] relative z-10" />
+              <div className="w-32 h-1 bg-[var(--theme-primary)] rounded-full" />
             </div>
 
-            <div className="lg:col-span-7 font-tajawal text-xl sm:text-2xl text-gray-300 leading-[2.2] space-y-6 text-justify relative z-10">
-               <p className="border-r-4 border-[var(--theme-primary)]/50 pr-6">
-                لم يُولد القائد الأعلى <span className="text-silver-ash font-black drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] tracking-wide text-3xl mx-2">"ألفا"</span> وفي فمه ملعقة من ذهب، بل نُحتت أسطورته في زنازين الجحيم. طفلٌ سُلب من طفولته ليقع بين براثن منظمة "إيبكس" المظلمة؛ كيان سري لا يرحم، اتخذه حقلاً لتجارب قاسية لصناعة السلاح البشري المثالي.
+            <div className="lg:col-span-7 font-tajawal text-lg sm:text-xl text-gray-300 leading-loose space-y-6 text-justify">
+               <p className="border-r-4 border-[var(--theme-primary)] pr-6">
+                لم يُولد القائد الأعلى <span className="text-white font-bold mx-1">"ألفا"</span> وفي فمه ملعقة من ذهب، بل نُحتت أسطورته في زنازين الجحيم. طفلٌ سُلب من طفولته ليقع بين براثن منظمة "إيبكس" المظلمة؛ كيان سري لا يرحم، اتخذه حقلاً لتجارب قاسية لصناعة السلاح البشري المثالي.
                </p>
-               <p className="text-lg sm:text-xl text-gray-400 font-medium leading-relaxed pr-6 mt-8">
+               <p className="text-gray-400 font-medium pr-6">
                 لكنهم لم يدركوا أنهم، وبكل ندبة حفروها في جسده، كانوا يصقلون نصل فنائهم. عاد ألفا ليحصد أرواح جلاديه في انتقام بارد ومحسوب، ليؤسس على أنقاضهم إمبراطوريته التي لن تتوقف حتى يخضع العالم بأسره لقانونه.
                </p>
             </div>
@@ -76,29 +68,24 @@ export default function AboutSection({ characters = [] }: { characters?: any[] }
           </div>
         </motion.div>
 
-        {/* Bento Grid Features */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-32">
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-24">
           {features.map((feature, index) => (
             <motion.div 
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
               key={index}
-              className={`relative bg-stone-dark border border-[var(--color-theme-border)] rounded-[2rem] p-8 hover:bg-stone hover:border-[var(--theme-primary)]/40 transition-all duration-500 group shadow-xl hover:shadow-[0_15px_50px_-15px_color-mix(in_srgb,var(--theme-primary)_40%,transparent)] overflow-hidden ${
-                index === 0 ? 'md:col-span-7' : index === 1 ? 'md:col-span-5' : index === 2 ? 'md:col-span-5' : 'md:col-span-7'
-              }`}
+              className="bg-stone border border-[var(--color-theme-border)] rounded-xl p-8 hover:border-[var(--theme-primary)]/50 transition-colors shadow-md group"
             >
-              {/* Shine effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-silver-ash/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              
-              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500 border border-[var(--color-theme-border)] group-hover:border-[var(--theme-primary)]/30 group-hover:bg-[var(--theme-primary)]/10 shadow-inner">
-                <feature.icon className="w-8 h-8 text-gray-500 group-hover:text-[var(--theme-primary)] transition-colors duration-500 drop-shadow-md" />
+              <div className="w-14 h-14 rounded-lg bg-white/5 flex items-center justify-center mb-6 border border-white/10 group-hover:bg-[var(--theme-primary)]/10 group-hover:border-[var(--theme-primary)]/30 transition-colors">
+                <feature.icon className="w-6 h-6 text-gray-400 group-hover:text-[var(--theme-primary)] transition-colors" />
               </div>
-              <h4 className="font-cairo font-black text-2xl sm:text-3xl text-[var(--color-theme-heading)] mb-4 group-hover:text-[var(--theme-primary)] transition-colors duration-300 tracking-wide">
+              <h4 className="font-bold text-2xl text-[var(--color-theme-heading)] mb-3">
                 {feature.title}
               </h4>
-              <p className="text-gray-400 text-lg leading-relaxed font-tajawal group-hover:text-gray-300 transition-colors">
+              <p className="text-gray-400 text-base leading-relaxed">
                 {feature.description}
               </p>
             </motion.div>

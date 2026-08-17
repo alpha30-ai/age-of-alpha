@@ -15,18 +15,15 @@ export default async function CharactersPage({ searchParams }: { searchParams: {
   const query = searchParams?.q || '';
   const novelId = searchParams?.novelId || undefined;
   
-  if (!novelId && !query) {
-    import('next/navigation').then((mod) => mod.redirect('/novels'));
-  }
-  
   let characters: any[] = [];
+  let novels: any[] = [];
   let theme: any = null;
 
   try {
-    const [fetchedCharacters, fetchedTheme] = await Promise.all([
+    const [fetchedCharacters, fetchedTheme, fetchedNovels] = await Promise.all([
       prisma.character.findMany({
         where: {
-          ...(novelId ? { novelId } : {}),
+          ...(novelId && novelId !== 'all' ? { novelId } : {}),
           ...(query ? {
             OR: [
               { name: { contains: query, mode: 'insensitive' } },
@@ -42,12 +39,17 @@ export default async function CharactersPage({ searchParams }: { searchParams: {
       }),
       prisma.siteTheme.findUnique({
         where: { id: "default" }
+      }),
+      prisma.novel.findMany({
+        orderBy: { createdAt: 'desc' }
       })
     ]);
     characters = fetchedCharacters;
     theme = fetchedTheme;
+    novels = fetchedNovels;
   } catch (error) {
     characters = [];
+    novels = [];
   }
 
   const bgImage = theme?.bannerImageUrl || 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?q=80&w=2000&auto=format&fit=crop';
@@ -68,7 +70,7 @@ export default async function CharactersPage({ searchParams }: { searchParams: {
           <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-red-900/10 rounded-full blur-[150px] pointer-events-none" />
           
           <div className="max-w-7xl mx-auto relative z-10">
-            <CharactersClient characters={characters} initialQuery={query} novelId={novelId} />
+            <CharactersClient characters={characters} initialQuery={query} initialNovelId={novelId} novels={novels} />
           </div>
         </div>
         <Footer />

@@ -12,20 +12,26 @@ import { Shield, Zap, Brain, Users } from "lucide-react";
 interface CharactersClientProps {
   characters: Character[];
   initialQuery?: string;
-  novelId?: string;
+  initialNovelId?: string;
+  novels?: any[];
 }
 
-export default function CharactersClient({ characters, initialQuery, novelId }: CharactersClientProps) {
+export default function CharactersClient({ characters, initialQuery, initialNovelId, novels }: CharactersClientProps) {
   const [activeTab, setActiveTab] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>(initialQuery || '');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const router = useRouter();
 
-  const handleSearch = (value: string) => {
+  const handleSearch = (value: string, selectedNovelId?: string) => {
     setSearchQuery(value);
     const params = new URLSearchParams();
     if (value) params.set('q', value);
-    if (novelId) params.set('novelId', novelId);
+
+    const activeNovelId = selectedNovelId !== undefined ? selectedNovelId : initialNovelId;
+    if (activeNovelId && activeNovelId !== 'all') {
+      params.set('novelId', activeNovelId);
+    }
+
     router.push(`/characters?${params.toString()}`);
   };
 
@@ -79,12 +85,27 @@ export default function CharactersClient({ characters, initialQuery, novelId }: 
       {/* Search & Filters */}
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row items-center gap-4">
-          <div className="flex-1 w-full">
-            <SearchInput 
-              value={searchQuery} 
-              onChange={handleSearch} 
-              placeholder="ابحث عن شخصية بالاسم أو اللقب..." 
-            />
+          <div className="flex-1 w-full flex flex-col sm:flex-row gap-3">
+            <div className="flex-1">
+              <SearchInput 
+                value={searchQuery} 
+                onChange={(val) => handleSearch(val)} 
+                placeholder="ابحث عن شخصية بالاسم أو اللقب..." 
+              />
+            </div>
+            {novels && novels.length > 0 && (
+              <select
+                value={initialNovelId || 'all'}
+                onChange={(e) => handleSearch(searchQuery, e.target.value)}
+                className="bg-black/60 border border-white/10 text-white text-sm rounded-xl px-4 py-3 h-[48px] focus:outline-none focus:border-[var(--theme-primary)]/50 transition-colors w-full sm:w-48 appearance-none"
+                style={{ backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%239CA3AF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'left 1rem center', backgroundSize: '0.65em auto' }}
+              >
+                <option value="all">جميع الروايات</option>
+                {novels.map(novel => (
+                  <option key={novel.id} value={novel.id}>{novel.title}</option>
+                ))}
+              </select>
+            )}
           </div>
           <div className="shrink-0 hidden md:block mb-8">
             <ViewToggle storageKey="characters-view-mode" defaultView="grid" onViewChange={setViewMode} />

@@ -13,19 +13,16 @@ export const metadata: Metadata = {
 
 export default async function VideosPage({ searchParams }: { searchParams: { q?: string; novelId?: string } }) {
   let videos: any[] = [];
+  let novels: any[] = [];
   let theme: any = null;
   const query = searchParams?.q || '';
   const novelId = searchParams?.novelId || undefined;
 
-  if (!novelId && !query) {
-    import('next/navigation').then((mod) => mod.redirect('/novels'));
-  }
-
   try {
-    const [fetchedVideos, fetchedTheme] = await Promise.all([
+    const [fetchedVideos, fetchedTheme, fetchedNovels] = await Promise.all([
       prisma.videoMedia.findMany({
         where: {
-          ...(novelId ? { novelId } : {}),
+          ...(novelId && novelId !== 'all' ? { novelId } : {}),
           ...(query ? {
             OR: [
               { title: { contains: query, mode: 'insensitive' } },
@@ -37,12 +34,17 @@ export default async function VideosPage({ searchParams }: { searchParams: { q?:
       }),
       prisma.siteTheme.findUnique({
         where: { id: "default" }
+      }),
+      prisma.novel.findMany({
+        orderBy: { createdAt: 'desc' }
       })
     ]);
     videos = fetchedVideos;
     theme = fetchedTheme;
+    novels = fetchedNovels;
   } catch (error) {
     videos = [];
+    novels = [];
   }
 
   const bgImage = theme?.bannerImageUrl || 'https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2000&auto=format&fit=crop';
@@ -63,7 +65,7 @@ export default async function VideosPage({ searchParams }: { searchParams: { q?:
           <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-cyan-900/10 rounded-full blur-[150px] pointer-events-none" />
           
           <div className="max-w-7xl mx-auto relative z-10">
-            <VideosClient initialVideos={videos} initialQuery={query} novelId={novelId} />
+            <VideosClient initialVideos={videos} initialQuery={query} initialNovelId={novelId} novels={novels} />
           </div>
         </div>
         <Footer />

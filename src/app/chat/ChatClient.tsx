@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Send, Bot, User, Loader2, Sparkles, ChevronDown, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 
 type Novel = {
@@ -35,6 +35,7 @@ export default function ChatClient() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     fetch('/api/admin/novels')
@@ -54,11 +55,9 @@ export default function ChatClient() {
       .catch(() => toast.error('فشل في جلب الروايات'));
   }, [initialNovelId]);
 
-  // Handle Session and load previous messages when novel changes
   useEffect(() => {
     if (!selectedNovel) return;
     
-    // Get or generate a session ID specific to this novel
     const storageKey = `chat_session_${selectedNovel.id}`;
     let sid = localStorage.getItem(storageKey);
     if (!sid) {
@@ -67,7 +66,6 @@ export default function ChatClient() {
     }
     setSessionId(sid);
 
-    // Fetch previous messages for this session
     fetch(`/api/chat/session?sessionId=${sid}`)
       .then(res => res.json())
       .then(data => {
@@ -86,7 +84,6 @@ export default function ChatClient() {
 
   }, [selectedNovel]);
 
-  // Fix scrolling issue by scrolling only the container, not the window
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTo({
@@ -94,7 +91,7 @@ export default function ChatClient() {
         behavior: 'smooth'
       });
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -124,7 +121,7 @@ export default function ChatClient() {
           novelId: selectedNovel.id,
           message: userMsg,
           sessionId: sessionId,
-          history: messages.slice(1) // exclude welcome message
+          history: messages.slice(1)
         })
       });
 
@@ -141,148 +138,168 @@ export default function ChatClient() {
   };
 
   return (
-    <main className="h-[100dvh] bg-[#050505] flex flex-col relative overflow-hidden" dir="rtl">
-      {/* Navbar with absolute positioning so it doesn't break flex layout */}
-      <div className="absolute top-0 w-full z-50">
-        <Navbar />
-      </div>
+    <main className="h-[100dvh] w-[100dvw] bg-[#050505] flex flex-col overflow-hidden text-gray-200 font-tajawal relative" dir="rtl">
       
-      {/* Dynamic Background Effects */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/4 left-1/4 w-[50vw] h-[50vw] bg-[var(--theme-primary)]/10 blur-[120px] rounded-full mix-blend-screen animate-float" />
-        <div className="absolute bottom-0 right-0 w-[60vw] h-[60vw] bg-[var(--theme-secondary)]/10 blur-[150px] rounded-full mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay" />
+      {/* Immersive Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-full h-[50vh] bg-gradient-to-b from-[#111] to-transparent opacity-80" />
+        <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-indigo-900/10 blur-[150px] rounded-full mix-blend-screen" />
+        <div className="absolute top-1/4 right-1/4 w-[40vw] h-[40vw] bg-purple-900/10 blur-[150px] rounded-full mix-blend-screen" />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-overlay" />
       </div>
 
-      <div className="flex-1 w-full max-w-5xl mx-auto flex flex-col pt-[100px] pb-6 px-4 md:px-8 relative z-10 h-full">
-        
-        {/* Chat Interface Container */}
-        <div className="bg-[#111]/70 backdrop-blur-2xl border border-[var(--color-theme-border)] rounded-3xl shadow-2xl flex flex-col flex-1 overflow-hidden relative">
+      {/* App Header */}
+      <motion.header 
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="relative z-20 h-16 sm:h-20 flex items-center justify-between px-4 sm:px-8 bg-black/40 backdrop-blur-2xl border-b border-white/10 shrink-0 shadow-lg"
+      >
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => router.push('/')}
+            className="p-2 sm:p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/10 flex items-center justify-center group"
+          >
+            <svg className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
+          </button>
           
-          {/* Header & Novel Selector */}
-          <div className="bg-white/5 border-b border-[var(--color-theme-border)] p-4 md:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
-            <div className="flex items-center gap-4 w-full sm:w-auto">
-              <div className="p-3 bg-[var(--theme-primary)]/10 rounded-full border border-[var(--theme-primary)]/20 shadow-[0_0_15px_var(--theme-primary)]/20">
-                <Sparkles className="w-6 h-6 text-[var(--theme-primary)] animate-pulse" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold font-cairo text-[var(--color-theme-heading)] tracking-wide">الرائي العليم</h1>
-                <p className="text-xs text-gray-400 font-tajawal">حارس أسرار الممالك وسجلات الفانتازيا</p>
-              </div>
+          <div className="flex items-center gap-3">
+            <div className="relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-2xl border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400 animate-pulse" />
             </div>
-            
-            <div className="w-full sm:w-64 relative" ref={dropdownRef}>
-              <button
-                type="button"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="w-full bg-[#1a1a1a] border border-[var(--color-theme-border)] hover:border-[var(--theme-primary)]/50 rounded-xl px-4 py-3 flex items-center justify-between text-white transition-all shadow-inner"
-              >
-                {selectedNovel ? (
-                  <div className="flex items-center gap-3">
-                    {selectedNovel.coverImage ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={selectedNovel.coverImage} alt="" className="w-6 h-6 rounded border border-white/10 object-cover" />
-                    ) : (
-                      <div className="w-6 h-6 rounded bg-white/5 border border-white/10" />
-                    )}
-                    <span className="font-bold font-cairo text-sm truncate">{selectedNovel.title}</span>
-                  </div>
-                ) : (
-                  <span className="text-gray-500 text-sm">جاري التحميل...</span>
-                )}
-                <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              <AnimatePresence>
-                {isDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute top-full left-0 right-0 mt-2 bg-[#1a1a1a] border border-[var(--color-theme-border)] rounded-xl shadow-2xl overflow-hidden z-50 max-h-60 overflow-y-auto custom-scrollbar"
-                  >
-                    {novels.map(novel => (
-                      <button
-                        key={novel.id}
-                        onClick={() => { setSelectedNovel(novel); setIsDropdownOpen(false); }}
-                        className={`w-full flex items-center justify-between px-4 py-3 hover:bg-white/5 transition-colors ${selectedNovel?.id === novel.id ? 'bg-[var(--theme-primary)]/10' : ''}`}
-                      >
-                        <div className="flex items-center gap-3">
-                          {novel.coverImage ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={novel.coverImage} alt="" className="w-8 h-8 rounded-md border border-white/10 object-cover" />
-                          ) : (
-                            <div className="w-8 h-8 rounded-md bg-white/5 border border-white/10" />
-                          )}
-                          <span className={`font-bold font-cairo text-sm text-right ${selectedNovel?.id === novel.id ? 'text-[var(--theme-primary)]' : 'text-gray-300'}`}>
-                            {novel.title}
-                          </span>
-                        </div>
-                        {selectedNovel?.id === novel.id && <Check className="w-4 h-4 text-[var(--theme-primary)]" />}
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            <div>
+              <h1 className="font-cairo font-bold text-lg sm:text-xl text-white tracking-wide">الرائي العليم</h1>
+              <p className="text-[10px] sm:text-xs text-indigo-300/80">ذكاء اصطناعي تفاعلي</p>
             </div>
           </div>
+        </div>
 
-          {/* Messages Area */}
-          <div 
-            ref={chatContainerRef}
-            className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar scroll-smooth"
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl px-4 py-2 sm:py-2.5 transition-all"
           >
-            {messages.map((msg) => (
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                key={msg.id} 
-                className={`flex gap-3 md:gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+            {selectedNovel ? (
+              <span className="font-cairo font-bold text-sm sm:text-base text-gray-200 hidden sm:block">{selectedNovel.title}</span>
+            ) : (
+              <span className="font-cairo font-bold text-sm text-gray-500">جاري التحميل...</span>
+            )}
+            <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          <AnimatePresence>
+            {isDropdownOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="absolute top-full left-0 sm:right-0 sm:left-auto mt-3 w-64 bg-[#111] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 p-2"
               >
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-lg ${msg.role === 'user' ? 'bg-[var(--theme-primary)] text-white' : 'bg-black border border-[var(--theme-primary)]/30 text-[var(--theme-primary)] shadow-[0_0_10px_var(--theme-primary)]/20'}`}>
-                  {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
+                {novels.map(novel => (
+                  <button
+                    key={novel.id}
+                    onClick={() => { setSelectedNovel(novel); setIsDropdownOpen(false); }}
+                    className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all ${
+                      selectedNovel?.id === novel.id 
+                        ? 'bg-indigo-500/10 text-indigo-400' 
+                        : 'hover:bg-white/5 text-gray-300'
+                    }`}
+                  >
+                    <span className="font-cairo font-bold text-sm truncate">{novel.title}</span>
+                    {selectedNovel?.id === novel.id && <Check className="w-4 h-4" />}
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.header>
+
+      {/* Main Chat Area */}
+      <div className="flex-1 relative z-10 flex flex-col w-full h-full">
+        
+        {/* Messages List */}
+        <div 
+          ref={chatContainerRef}
+          className="flex-1 overflow-y-auto px-4 sm:px-8 py-8 space-y-8 custom-scrollbar scroll-smooth w-full max-w-5xl mx-auto"
+        >
+          <AnimatePresence initial={false}>
+            {messages.map((msg, idx) => (
+              <motion.div 
+                key={msg.id}
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ type: "spring", stiffness: 260, damping: 20, delay: idx === 0 ? 0 : 0.1 }}
+                className={`flex gap-3 sm:gap-4 w-full ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+              >
+                {/* Avatar */}
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg ${
+                  msg.role === 'user' 
+                    ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white' 
+                    : 'bg-[#111] border border-indigo-500/30 text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)]'
+                }`}>
+                  {msg.role === 'user' ? <User className="w-5 h-5 sm:w-6 sm:h-6" /> : <Bot className="w-5 h-5 sm:w-6 sm:h-6" />}
                 </div>
-                <div className={`max-w-[85%] md:max-w-[75%] rounded-3xl p-4 md:p-5 shadow-sm text-sm md:text-base ${msg.role === 'user' ? 'bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-primary-dark)] border border-white/10 text-white rounded-tr-none' : 'bg-[#1a1a1a]/80 backdrop-blur-sm border border-[var(--color-theme-border)] text-gray-200 rounded-tl-none leading-loose font-tajawal shadow-lg'}`}>
-                  <p className="whitespace-pre-wrap">{msg.content}</p>
+
+                {/* Message Bubble */}
+                <div className={`max-w-[85%] md:max-w-[75%] rounded-3xl p-4 sm:p-5 shadow-sm text-sm sm:text-base leading-relaxed ${
+                  msg.role === 'user' 
+                    ? 'bg-gradient-to-br from-indigo-600/90 to-purple-700/90 border border-white/10 text-white rounded-tr-sm' 
+                    : 'bg-[#111]/80 backdrop-blur-md border border-white/10 text-gray-200 rounded-tl-sm shadow-xl'
+                }`}>
+                  <p className="whitespace-pre-wrap leading-loose">{msg.content}</p>
                 </div>
               </motion.div>
             ))}
-            {isLoading && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-4">
-                <div className="w-10 h-10 rounded-full bg-black border border-[var(--theme-primary)]/30 text-[var(--theme-primary)] flex items-center justify-center shrink-0 shadow-[0_0_10px_var(--theme-primary)]/20">
-                  <Bot className="w-5 h-5" />
-                </div>
-                <div className="rounded-3xl rounded-tl-none p-4 md:p-5 bg-[#1a1a1a]/80 backdrop-blur-sm border border-[var(--color-theme-border)] text-[var(--theme-primary)] flex items-center gap-3">
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span className="font-bold animate-pulse text-sm">الرائي يستحضر السجلات...</span>
-                </div>
-              </motion.div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+          </AnimatePresence>
 
-          {/* Input Area */}
-          <div className="p-4 md:p-6 border-t border-[var(--color-theme-border)] bg-[#0a0a0a]/90 backdrop-blur-xl shrink-0">
-            <form onSubmit={handleSend} className="relative flex items-center gap-4 w-full">
+          {isLoading && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex gap-3 sm:gap-4 w-full"
+            >
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-[#111] border border-indigo-500/30 text-indigo-400 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
+                <Bot className="w-5 h-5 sm:w-6 sm:h-6" />
+              </div>
+              <div className="rounded-3xl rounded-tl-sm p-4 sm:p-5 bg-[#111]/80 backdrop-blur-md border border-white/10 flex items-center gap-3 w-fit">
+                <div className="flex gap-1.5">
+                  <motion.div className="w-2 h-2 rounded-full bg-indigo-400" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }} />
+                  <motion.div className="w-2 h-2 rounded-full bg-purple-400" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
+                  <motion.div className="w-2 h-2 rounded-full bg-indigo-400" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
+                </div>
+              </div>
+            </motion.div>
+          )}
+          <div ref={messagesEndRef} className="h-4" />
+        </div>
+
+        {/* Input Form Area */}
+        <div className="p-4 sm:p-6 bg-gradient-to-t from-[#050505] via-[#050505]/95 to-transparent shrink-0">
+          <div className="w-full max-w-4xl mx-auto relative">
+            <form onSubmit={handleSend} className="relative flex items-center w-full">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="تحدث مع الرائي العليم، اسأله عن أحداث، شخصيات، أو أسرار..."
-                className="w-full bg-[#1a1a1a] hover:bg-[#222] focus:bg-[#222] border border-[var(--color-theme-border)] rounded-full px-6 py-4 text-white focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all shadow-inner pr-16 font-tajawal text-sm md:text-base"
+                placeholder="تحدث مع الرائي، اسأله عن الأسرار والمخطوطات..."
+                className="w-full bg-[#111]/90 backdrop-blur-xl border border-white/10 focus:border-indigo-500/50 rounded-full pl-6 pr-16 py-4 sm:py-5 text-white focus:outline-none transition-all shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] font-tajawal text-sm sm:text-base"
                 disabled={isLoading || !selectedNovel}
               />
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 type="submit"
                 disabled={isLoading || !input.trim() || !selectedNovel}
-                className="absolute right-2 p-3 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-primary-dark)] text-white rounded-full transition-all disabled:opacity-50 hover:scale-105 active:scale-95 shadow-[0_0_15px_var(--theme-primary)]/40"
+                className="absolute right-2 top-2 bottom-2 aspect-square flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-full transition-all disabled:opacity-50 disabled:grayscale shadow-[0_0_15px_rgba(99,102,241,0.4)]"
               >
-                <Send className="w-5 h-5 rtl:-scale-x-100" />
-              </button>
+                <Send className="w-5 h-5 sm:w-6 sm:h-6 rtl:-scale-x-100" />
+              </motion.button>
             </form>
           </div>
-
         </div>
+
       </div>
     </main>
   );
