@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 
 type Novel = {
   id: string;
@@ -34,6 +33,7 @@ export default function ChatClient() {
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch('/api/admin/novels')
@@ -53,8 +53,14 @@ export default function ChatClient() {
       .catch(() => toast.error('فشل في جلب الروايات'));
   }, [initialNovelId]);
 
+  // Fix scrolling issue by scrolling only the container, not the window
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }, [messages]);
 
   useEffect(() => {
@@ -101,38 +107,41 @@ export default function ChatClient() {
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] flex flex-col relative z-0">
-      <Navbar />
+    <main className="h-[100dvh] bg-[#050505] flex flex-col relative overflow-hidden" dir="rtl">
+      {/* Navbar with absolute positioning so it doesn't break flex layout */}
+      <div className="absolute top-0 w-full z-50">
+        <Navbar />
+      </div>
       
       {/* Dynamic Background Effects */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-1]">
-        <div className="absolute top-1/4 left-1/4 w-[50vw] h-[50vw] bg-[var(--theme-primary)]/10 blur-[120px] rounded-full mix-blend-screen animate-float"></div>
-        <div className="absolute bottom-0 right-0 w-[60vw] h-[60vw] bg-[var(--theme-secondary)]/10 blur-[150px] rounded-full mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }}></div>
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay"></div>
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-1/4 left-1/4 w-[50vw] h-[50vw] bg-[var(--theme-primary)]/10 blur-[120px] rounded-full mix-blend-screen animate-float" />
+        <div className="absolute bottom-0 right-0 w-[60vw] h-[60vw] bg-[var(--theme-secondary)]/10 blur-[150px] rounded-full mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay" />
       </div>
 
-      <div className="flex-1 flex flex-col items-center pt-32 pb-24 px-4 w-full">
-        <div className="w-full max-w-4xl space-y-6">
+      <div className="flex-1 w-full max-w-5xl mx-auto flex flex-col pt-[100px] pb-6 px-4 md:px-8 relative z-10 h-full">
+        
+        {/* Chat Interface Container */}
+        <div className="bg-[#111]/70 backdrop-blur-2xl border border-[var(--color-theme-border)] rounded-3xl shadow-2xl flex flex-col flex-1 overflow-hidden relative">
           
-          {/* Header & Custom Novel Selector */}
-          <div className="bg-[#111]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 relative z-20">
-            <div className="flex items-center gap-4 w-full md:w-auto">
-              <div className="p-4 bg-[var(--theme-primary)]/10 rounded-full border border-[var(--theme-primary)]/20 shadow-[0_0_20px_var(--theme-primary)]/20">
-                <Sparkles className="w-8 h-8 text-[var(--theme-primary)] animate-pulse" />
+          {/* Header & Novel Selector */}
+          <div className="bg-white/5 border-b border-[var(--color-theme-border)] p-4 md:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <div className="p-3 bg-[var(--theme-primary)]/10 rounded-full border border-[var(--theme-primary)]/20 shadow-[0_0_15px_var(--theme-primary)]/20">
+                <Sparkles className="w-6 h-6 text-[var(--theme-primary)] animate-pulse" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold font-cairo text-white mb-1 tracking-wide">الرائي العليم</h1>
-                <p className="text-sm text-gray-400 font-tajawal">حارس أسرار الممالك وسجلات الفانتازيا</p>
+                <h1 className="text-xl font-bold font-cairo text-[var(--color-theme-heading)] tracking-wide">الرائي العليم</h1>
+                <p className="text-xs text-gray-400 font-tajawal">حارس أسرار الممالك وسجلات الفانتازيا</p>
               </div>
             </div>
             
-            <div className="w-full md:w-72 relative" ref={dropdownRef}>
-              <label className="block text-xs text-gray-500 mb-2 font-bold uppercase tracking-wider">الرواية المحددة للبحث</label>
-              
+            <div className="w-full sm:w-64 relative" ref={dropdownRef}>
               <button
                 type="button"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="w-full bg-[#1a1a1a] border border-white/10 hover:border-white/20 rounded-xl px-4 py-3 flex items-center justify-between text-white transition-all shadow-inner"
+                className="w-full bg-[#1a1a1a] border border-[var(--color-theme-border)] hover:border-[var(--theme-primary)]/50 rounded-xl px-4 py-3 flex items-center justify-between text-white transition-all shadow-inner"
               >
                 {selectedNovel ? (
                   <div className="flex items-center gap-3">
@@ -140,14 +149,14 @@ export default function ChatClient() {
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={selectedNovel.coverImage} alt="" className="w-6 h-6 rounded border border-white/10 object-cover" />
                     ) : (
-                      <div className="w-6 h-6 rounded bg-white/5 border border-white/10"></div>
+                      <div className="w-6 h-6 rounded bg-white/5 border border-white/10" />
                     )}
-                    <span className="font-bold font-cairo truncate">{selectedNovel.title}</span>
+                    <span className="font-bold font-cairo text-sm truncate">{selectedNovel.title}</span>
                   </div>
                 ) : (
-                  <span className="text-gray-500">جاري التحميل...</span>
+                  <span className="text-gray-500 text-sm">جاري التحميل...</span>
                 )}
-                <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               <AnimatePresence>
@@ -156,7 +165,7 @@ export default function ChatClient() {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="absolute top-full left-0 right-0 mt-2 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50 max-h-64 overflow-y-auto custom-scrollbar"
+                    className="absolute top-full left-0 right-0 mt-2 bg-[#1a1a1a] border border-[var(--color-theme-border)] rounded-xl shadow-2xl overflow-hidden z-50 max-h-60 overflow-y-auto custom-scrollbar"
                   >
                     {novels.map(novel => (
                       <button
@@ -169,13 +178,13 @@ export default function ChatClient() {
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src={novel.coverImage} alt="" className="w-8 h-8 rounded-md border border-white/10 object-cover" />
                           ) : (
-                            <div className="w-8 h-8 rounded-md bg-white/5 border border-white/10"></div>
+                            <div className="w-8 h-8 rounded-md bg-white/5 border border-white/10" />
                           )}
-                          <span className={`font-bold font-cairo text-right ${selectedNovel?.id === novel.id ? 'text-[var(--theme-primary)]' : 'text-gray-300'}`}>
+                          <span className={`font-bold font-cairo text-sm text-right ${selectedNovel?.id === novel.id ? 'text-[var(--theme-primary)]' : 'text-gray-300'}`}>
                             {novel.title}
                           </span>
                         </div>
-                        {selectedNovel?.id === novel.id && <Check className="w-5 h-5 text-[var(--theme-primary)]" />}
+                        {selectedNovel?.id === novel.id && <Check className="w-4 h-4 text-[var(--theme-primary)]" />}
                       </button>
                     ))}
                   </motion.div>
@@ -184,61 +193,63 @@ export default function ChatClient() {
             </div>
           </div>
 
-          {/* Chat Area */}
-          <div className="bg-[#111]/60 backdrop-blur-md border border-white/10 rounded-3xl shadow-2xl flex flex-col h-[600px] overflow-hidden relative z-10">
-            
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar scroll-smooth">
-              {messages.map((msg) => (
-                <div key={msg.id} className={`flex gap-3 md:gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-lg ${msg.role === 'user' ? 'bg-[var(--theme-primary)] text-white' : 'bg-black border border-[var(--theme-primary)]/30 text-[var(--theme-primary)] shadow-[0_0_10px_var(--theme-primary)]/20'}`}>
-                    {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
-                  </div>
-                  <div className={`max-w-[85%] md:max-w-[75%] rounded-2xl p-4 md:p-5 shadow-sm text-sm md:text-base ${msg.role === 'user' ? 'bg-[var(--theme-primary)]/20 border border-[var(--theme-primary)]/30 text-white rounded-tr-none' : 'bg-[#1a1a1a]/80 border border-white/5 text-gray-300 rounded-tl-none leading-loose font-tajawal shadow-lg'}`}>
-                    <p className="whitespace-pre-wrap">{msg.content}</p>
-                  </div>
+          {/* Messages Area */}
+          <div 
+            ref={chatContainerRef}
+            className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar scroll-smooth"
+          >
+            {messages.map((msg) => (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                key={msg.id} 
+                className={`flex gap-3 md:gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+              >
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-lg ${msg.role === 'user' ? 'bg-[var(--theme-primary)] text-white' : 'bg-black border border-[var(--theme-primary)]/30 text-[var(--theme-primary)] shadow-[0_0_10px_var(--theme-primary)]/20'}`}>
+                  {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
                 </div>
-              ))}
-              {isLoading && (
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-black border border-[var(--theme-primary)]/30 text-[var(--theme-primary)] flex items-center justify-center shrink-0 shadow-[0_0_10px_var(--theme-primary)]/20">
-                    <Bot className="w-5 h-5" />
-                  </div>
-                  <div className="rounded-2xl rounded-tl-none p-4 bg-[#1a1a1a]/80 border border-white/5 text-gray-400 flex items-center gap-3">
-                    <Loader2 className="w-5 h-5 animate-spin text-[var(--theme-primary)]" />
-                    <span className="animate-pulse">الرائي يستحضر السجلات...</span>
-                  </div>
+                <div className={`max-w-[85%] md:max-w-[75%] rounded-3xl p-4 md:p-5 shadow-sm text-sm md:text-base ${msg.role === 'user' ? 'bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-primary-dark)] border border-white/10 text-white rounded-tr-none' : 'bg-[#1a1a1a]/80 backdrop-blur-sm border border-[var(--color-theme-border)] text-gray-200 rounded-tl-none leading-loose font-tajawal shadow-lg'}`}>
+                  <p className="whitespace-pre-wrap">{msg.content}</p>
                 </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
+              </motion.div>
+            ))}
+            {isLoading && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-4">
+                <div className="w-10 h-10 rounded-full bg-black border border-[var(--theme-primary)]/30 text-[var(--theme-primary)] flex items-center justify-center shrink-0 shadow-[0_0_10px_var(--theme-primary)]/20">
+                  <Bot className="w-5 h-5" />
+                </div>
+                <div className="rounded-3xl rounded-tl-none p-4 md:p-5 bg-[#1a1a1a]/80 backdrop-blur-sm border border-[var(--color-theme-border)] text-[var(--theme-primary)] flex items-center gap-3">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span className="font-bold animate-pulse text-sm">الرائي يستحضر السجلات...</span>
+                </div>
+              </motion.div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
 
-            {/* Input Area */}
-            <div className="p-4 border-t border-white/10 bg-[#0a0a0a]/80 backdrop-blur-xl">
-              <form onSubmit={handleSend} className="relative flex items-center gap-4 max-w-4xl mx-auto">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="تحدث مع الرائي العليم، اسأله عن أحداث، شخصيات، أو أسرار..."
-                  className="w-full bg-[#1a1a1a] border border-white/10 focus:bg-[#222] rounded-full px-6 py-4 text-white focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all shadow-inner pr-16 font-tajawal text-lg"
-                  disabled={isLoading || !selectedNovel}
-                />
-                <button
-                  type="submit"
-                  disabled={isLoading || !input.trim() || !selectedNovel}
-                  className="absolute right-2 p-3 bg-[var(--theme-primary)] hover:brightness-110 text-white rounded-full transition-all disabled:opacity-50 hover:scale-105 active:scale-95 shadow-[0_0_15px_var(--theme-primary)]/40"
-                >
-                  <Send className="w-6 h-6 rtl:-scale-x-100" />
-                </button>
-              </form>
-            </div>
-
+          {/* Input Area */}
+          <div className="p-4 md:p-6 border-t border-[var(--color-theme-border)] bg-[#0a0a0a]/90 backdrop-blur-xl shrink-0">
+            <form onSubmit={handleSend} className="relative flex items-center gap-4 w-full">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="تحدث مع الرائي العليم، اسأله عن أحداث، شخصيات، أو أسرار..."
+                className="w-full bg-[#1a1a1a] hover:bg-[#222] focus:bg-[#222] border border-[var(--color-theme-border)] rounded-full px-6 py-4 text-white focus:outline-none focus:border-[var(--theme-primary)]/50 transition-all shadow-inner pr-16 font-tajawal text-sm md:text-base"
+                disabled={isLoading || !selectedNovel}
+              />
+              <button
+                type="submit"
+                disabled={isLoading || !input.trim() || !selectedNovel}
+                className="absolute right-2 p-3 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-primary-dark)] text-white rounded-full transition-all disabled:opacity-50 hover:scale-105 active:scale-95 shadow-[0_0_15px_var(--theme-primary)]/40"
+              >
+                <Send className="w-5 h-5 rtl:-scale-x-100" />
+              </button>
+            </form>
           </div>
 
         </div>
       </div>
-      <Footer />
     </main>
   );
 }
